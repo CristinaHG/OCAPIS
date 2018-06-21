@@ -1,0 +1,13 @@
+Package: OCAPIS
+Type: Package
+Title: Ordinal Clasification and Preprocessing in Scala
+Version: 0.1.0
+Authors@R: person("M. Cristina", "Heredia Gómez", email = "mrcrstnheredia@gmail.com",role = c("aut", "cre"))
+Maintainer: mrcrstnheredia@gmail.com
+Description: Package for regression and preprocessing
+    over ordinal data.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+SystemRequirements: Scala
+BugReports: 
