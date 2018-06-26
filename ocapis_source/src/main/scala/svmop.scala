@@ -11,6 +11,6 @@ private class svmop(val cost:Double=0.1,val gamma:Double=0.1, var weights:Boolea
 }
 object svmop{
 
-//  def givenumber:Int=
-//  return 12
+  //  def givenumber:Int=
+  //  return 12
 }

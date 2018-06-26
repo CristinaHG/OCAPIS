@@ -1,4 +1,4 @@
-name := "alvin2"
+name := "ocapis_source"
 
 version := "0.1"
 
