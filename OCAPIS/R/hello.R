@@ -28,3 +28,14 @@ hello <- function() {
 add <- function(x, y) {
   x + y
 }
+
+#' check brain.
+#'
+#' @return a number.
+#' @examples
+#' add(1, 1)
+#' add(10, 1)
+
+brain<-function(){
+   print(s$.foo.bar.baz.Foo$givenumber())
+}
