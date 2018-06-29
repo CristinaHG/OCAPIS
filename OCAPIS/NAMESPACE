@@ -1,2 +1,5 @@
 import(rscala)
 exportPattern("^[[:alpha:]]+")
+importFrom("e1071",read.matrix.csr)
+importFrom("personalized",weighted.ksvm)
+import(SparseM)
