@@ -30,7 +30,7 @@ computeWeights<-function(p, tags)
 #' add(1, 1)
 #' add(10, 1)
 #'
-svmopfit<-function(train,trainLabels,weights=TRUE){
+svmofit<-function(train,trainLabels,weights=TRUE){
   classes<-unique(trainLabels)
   nOfClasses = length(classes)
   models<-matrix(list(), 1, nOfClasses -1)
@@ -44,16 +44,17 @@ svmopfit<-function(train,trainLabels,weights=TRUE){
         weightsTrain=computeWeights(i-1,trainLabels)
       }else weightsTrain=rep(1,length(trainLabels))
       # train
-      models[[1,i]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot")
-      if(is.empty.model(models[[1,i]])){
+      models[[1,i-1]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot")
+      if(is.atomic(models[[1,i-1]])){
           warning("Empty model. Please check the training patterns.")
       }
   }
   models
 }
 
-svmtrain<-function(x){
+svmopredict<-function(models,test){
 
 }
-
+#0.9555077 0.9768768 0.9792856 0.9876574 0.9853661
+#dattrain<-read.csv("train_balance-scale.0", sep=" ")
 #modelstrain<-svmopfit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE)
