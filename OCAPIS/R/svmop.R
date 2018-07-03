@@ -10,7 +10,7 @@
 #' computeWeights(1,c(1,2,3,1,2,1))
 #'
 
-computeWeights<-function(p, tags)
+computeWeights<-function(p,tags)
   s %!% '
     def computeWeights(p:Double,targets:Array[Int]):Array[Double]={
     val weightscomputed=targets.map(i=>
@@ -30,7 +30,8 @@ computeWeights<-function(p, tags)
 #' add(1, 1)
 #' add(10, 1)
 #'
-svmofit<-function(train,trainLabels,weights=TRUE){
+svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
+  mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   classes<-unique(trainLabels)
   nOfClasses = length(classes)
   models<-matrix(list(), 1, nOfClasses -1)
@@ -44,7 +45,12 @@ svmofit<-function(train,trainLabels,weights=TRUE){
         weightsTrain=computeWeights(i-1,trainLabels)
       }else weightsTrain=rep(1,length(trainLabels))
       # train
-      models[[1,i-1]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot",prob.model=TRUE)
+      #models[[1,i-1]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot",prob.model=TRUE)
+      parameters<-paste0('-b 1',' ','-t 2',' ',paste0('-c ',cost),' ', paste0('-g ',gamma),' -q')
+      param<-mysvm$svm_parameter(r_to_py(parameters))
+      # remeber to remove the class from dattrain
+      problem<-mysvm$svm_problem(r_to_py(weightsTrain),r_to_py(train_labels),r_to_py(dattrain)$values$tolist())
+      models[[1,i-1]]<-mysvm$svm_train(problem,param)
       if(is.atomic(models[[1,i-1]])){
           warning("Empty model. Please check the training patterns.")
       }
