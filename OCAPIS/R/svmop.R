@@ -21,14 +21,18 @@ computeWeights<-function(p,tags)
   computeWeights(p,tags)
   '
 
-#' trains the model for the SVMOP method with trainning data and given parameters
-#' train data must be in svmlib format
-#' @param x A number.
-#' @param y A vector of tags.
-#' @return The sum of \code{x} and \code{y}.
+#' Trains n-1 SVM models for ordinal data with given parameters
+#'
+#' train data must be the data without labels. Labels should be provided in trainLabels
+#' @param x Trainning data of numeric type without labels.
+#' @param y A vector of numeric tags for each instance of trainning data.
+#' @param weights A boolean indicating whether weights per instance are used.
+#' @param cost numeric value indicating the cost parameter to train the SVM.
+#' @param gamma numeric value indicating the gamma parameter to train the SVM.
+#' @return A matrix of 1xn svm trained with weights models.
 #' @examples
-#' add(1, 1)
-#' add(10, 1)
+#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #'
 svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
@@ -70,7 +74,7 @@ svmopredict<-function(models,test){
 }
 #0.9555077 0.9768768 0.9792856 0.9876574 0.9853661
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
-#modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE)
+#modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #dattest<-read.csv("test_balance-scale.0", sep=" ")
 
 
