@@ -39,3 +39,4 @@ add <- function(x, y) {
 brain<-function(){
    print(s$.foo.bar.baz.Foo$givenumber())
 }
+

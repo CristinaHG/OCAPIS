@@ -44,7 +44,7 @@ svmofit<-function(train,trainLabels,weights=TRUE){
         weightsTrain=computeWeights(i-1,trainLabels)
       }else weightsTrain=rep(1,length(trainLabels))
       # train
-      models[[1,i-1]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot")
+      models[[1,i-1]]<-weighted.ksvm(y=train_labels, x=train,weights=weightsTrain,kernel = "rbfdot",prob.model=TRUE)
       if(is.atomic(models[[1,i-1]])){
           warning("Empty model. Please check the training patterns.")
       }
@@ -53,8 +53,18 @@ svmofit<-function(train,trainLabels,weights=TRUE){
 }
 
 svmopredict<-function(models,test){
+  projected<-matrix(0,length(models)+1,nrow(test))
+  for(i in 2:(length(models)+1)){
+    probs<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
+
+  }
+
+
 
 }
 #0.9555077 0.9768768 0.9792856 0.9876574 0.9853661
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
-#modelstrain<-svmopfit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE)
+#modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE)
+#dattest<-read.csv("test_balance-scale.0", sep=" ")
+
+
