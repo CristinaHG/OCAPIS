@@ -81,7 +81,7 @@ svmopredict<-function(models,test){
   probts[length(models)+1,]<-projected[length(models),]
   predicted<-apply(probts,2,max)
 
-  c(projected,predicted)
+  list(projected,predicted)
 }
 
 
@@ -90,4 +90,4 @@ svmopredict<-function(models,test){
 #modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #dattest<-read.csv("test_balance-scale.0", sep=" ")
 #pred<-mysvm$svm_predict(r_to_py(dattest$X1),r_to_py(dattest[,-ncol(dattest)])$values$tolist(),modelstrain[[1,1]],r_to_py('-b 1')
-
+#predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])
