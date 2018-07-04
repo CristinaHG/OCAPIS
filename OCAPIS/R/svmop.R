@@ -67,14 +67,24 @@ svmopredict<-function(models,test){
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   projected<-matrix(0,length(models)+1,nrow(test))
   for(i in 2:(length(models)+1)){
-    #probs<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
-    probs<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1'))
-    projected[i-1,]<-unlist(pred[[3]][seq(2,length(pred[[3]]), by=2)])
-      }
+    #pred<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
+    pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1'))
+    predprob<-pred[[3]]
+    projected[i-1,]<-unlist(predprob[seq(2,length(predprob), by=2)])
+    #projected[i-1,]<-matrix(unlist(pred[[3]]),ncol=2)[,2]
+  }
+  probts<-matrix(0,length(models)+1,nrow(test))
+  probts[1,]<-rep(1,length(projected[1,]))-projected[1,]
+  for(i in 2:(length(models)+1)){
+    probts[i,]<-projected[i-1,]-projected[i,]
+  }
+  probts[length(models)+1,]<-projected[length(models),]
+  predicted<-apply(probts,2,max)
 
-
-
+  c(projected,predicted)
 }
+
+
 #0.9555077 0.9768768 0.9792856 0.9876574 0.9853661
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
 #modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
