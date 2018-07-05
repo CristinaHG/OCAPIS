@@ -21,11 +21,11 @@ computeWeights<-function(p,tags)
   computeWeights(p,tags)
   '
 
-#' Trains n-1 SVM models for ordinal data with given parameters
+#' Train n-1 SVM models for ordinal data with given parameters
 #'
 #' train data must be the data without labels. Labels should be provided in trainLabels
-#' @param x Trainning data of numeric type without labels.
-#' @param y A vector of numeric tags for each instance of trainning data.
+#' @param x Training data of numeric type without labels.
+#' @param y A vector of numeric tags for each instance of training data.
 #' @param weights A boolean indicating whether weights per instance are used.
 #' @param cost numeric value indicating the cost parameter to train the SVM.
 #' @param gamma numeric value indicating the gamma parameter to train the SVM.
@@ -62,7 +62,17 @@ svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
   models
 }
 
-#test without labels
+#' Predict over the new data instances using the trained models
+#'
+#' @param models A matrix of 1xN trained SVM models. Where N denotes the number of classes of the problem minus one.
+#' @param test Numeric test data without labels.
+#' @return A list containing the projected values per instance per class and the predicted values (the maximum probability for each data instance).
+#' @examples
+#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
+#' dattest<-read.csv("test_balance-scale.0", sep=" ")
+#' predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])
+#'
 svmopredict<-function(models,test){
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   projected<-matrix(0,length(models)+1,nrow(test))
@@ -85,7 +95,6 @@ svmopredict<-function(models,test){
 }
 
 
-#0.9555077 0.9768768 0.9792856 0.9876574 0.9853661
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
 #modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #dattest<-read.csv("test_balance-scale.0", sep=" ")
