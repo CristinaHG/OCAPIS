@@ -78,7 +78,7 @@ svmopredict<-function(models,test){
   projected<-matrix(0,length(models)+1,nrow(test))
   for(i in 2:(length(models)+1)){
     #pred<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
-    pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1'))
+    pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
     predprob<-pred[[3]]
     projected[i-1,]<-unlist(predprob[seq(2,length(predprob), by=2)])
     #projected[i-1,]<-matrix(unlist(pred[[3]]),ncol=2)[,2]
@@ -89,7 +89,7 @@ svmopredict<-function(models,test){
     probts[i,]<-projected[i-1,]-projected[i,]
   }
   probts[length(models)+1,]<-projected[length(models),]
-  predicted<-apply(probts,2,max)
+  predicted<-apply(probts,2,which.max)
 
   list(projected,predicted)
 }
