@@ -2,7 +2,7 @@
 #'
 #'compute weights for each instance in the data set
 #'train data must be in svmlib format
-#' @param p A int number.
+#' @param p An int number.
 #' @param tags A vector of tags.
 #' @return The weights array for data instances given a value of p.
 #'

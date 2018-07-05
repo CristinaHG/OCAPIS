@@ -1,7 +1,5 @@
 import(rscala)
 import(reticulate)
 exportPattern("^[[:alpha:]]+")
-importFrom("e1071",read.matrix.csr)
-importFrom("personalized",weighted.ksvm)
-#importFrom("kernlab",predict.ksvm)
-import(SparseM)
+importFrom("MASS",polr)
+
