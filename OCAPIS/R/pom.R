@@ -20,7 +20,7 @@ pompredict<-function(model,test){
   names(test)<-names(model$coefficients)
   preds<-predict(model,test,type="probs")
   predicted<-as.numeric(apply(model$fitted.values,1,which.max))
-  projected<-fit$coefficients*test
+  projected<-model$coefficients*test
   c(projected,predicted)
 }
 
