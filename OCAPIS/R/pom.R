@@ -14,3 +14,10 @@ pomfit<-function(train,trainLabels,linkfunction="logistic"){
 
 # fit<-polr(as.factor(dattrain[,ncol(dattrain)])~.,data=dattrain[,-ncol(dattrain)],Hess = TRUE,method ="logistic")
 #myfit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
+
+pompredict<-function(model,test){
+  predicted<-as.numeric(apply(model$fitted.values,1,which.max))
+  projected<-fit$coefficients*test
+  c(projected,predicted)
+}
+fit$coefficients*dattest[,-ncol(dattest)]
