@@ -20,15 +20,24 @@ pomfit<-function(train,trainLabels,linkfunction="logistic"){
   fit
 }
 
-# fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
-
+#' Predict over the new data instances using the trained model.
+#'
+#' @param model A trained POM model.
+#' @param test Numeric test data without labels.
+#' @return A list containing at the first position the projected values per instance per class and at the second position the predicted label for the values.
+#' @examples
+#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
+#' dattest<-read.csv("test_balance-scale.0", sep=" ")
+#' predictions<-pompredict(fit,dattest[,-ncol(dattest)])
+#' projections<-predictions[[1]]
+#' predictedLabels<-predictions[[2]]
+#'
 pompredict<-function(model,test){
   names(test)<-names(model$coefficients)
   preds<-predict(model,test,type="probs")
-  predicted<-as.numeric(apply(model$fitted.values,1,which.max))
+  predicted<-as.numeric(apply(preds,1,which.max))
   projected<-model$coefficients*test
-  c(projected,predicted)
+  list(projected,predicted)
 }
 
-#fit$coefficients*dattest[,-ncol(dattest)]
-#identical(predict(fit,dattrain[,-ncol(dattrain)],type="probs"),fit$fitted.values)
