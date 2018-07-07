@@ -7,7 +7,7 @@
 computeWeights(p, tags)
 }
 \arguments{
-\item{p}{A int number.}
+\item{p}{An int number.}
 
 \item{tags}{A vector of tags.}
 }
@@ -16,7 +16,6 @@ The weights array for data instances given a value of p.
 }
 \description{
 compute weights for each instance in the data set
-train data must be in svmlib format
 }
 \examples{
 computeWeights(1,c(1,2,3,1,2,1))
