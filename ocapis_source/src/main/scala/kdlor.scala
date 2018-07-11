@@ -13,12 +13,11 @@ private class kdlor {
       case "GAUSS" | "GAUSSIAN"| "RBF" => (1 to Nf2).foreach(i=> KM(::, i) := exp(-kParam*
         sum(
           ((patterns1-patterns2(::,i)*DenseMatrix.ones[Double](1,Nf1)) *:* (patterns1-patterns2(::,i)*DenseMatrix.ones[Double](1,Nf1))).t,Axis._0)))
-      case "LINEAR" => {
-                    val kParam = 1
-                    val bias=0
-                    KM=(patterns1.t * patterns2)/patterns1.rows
-                    }
-        
+      case "LINEAR" => KM=(patterns1.t * patterns2)/patterns1.rows
+
+      case "POLYNOMIAL" | "POLY" => KM=((patterns1.t * patterns2 +1)/patterns1.rows)
+        KM.map()
+
     }
   }
 }
