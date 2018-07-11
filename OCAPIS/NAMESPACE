@@ -2,4 +2,6 @@ import(rscala)
 import(reticulate)
 exportPattern("^[[:alpha:]]+")
 importFrom("MASS",polr)
+useDynLib(OCAPIS,add_)
+export(add_)
 
