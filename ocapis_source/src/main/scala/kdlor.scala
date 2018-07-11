@@ -3,6 +3,7 @@ import breeze.linalg._
 import breeze.numerics._
 private class kdlor {
 
+  // TODO: implement QUICKRBF
   def computeKernelMatrix(patterns1: DenseMatrix[Double], patterns2:DenseMatrix[Double],kType:String,kParam:Double)={
     val Nf1=patterns1.cols
     val Nf2=patterns2.cols
@@ -12,7 +13,12 @@ private class kdlor {
       case "GAUSS" | "GAUSSIAN"| "RBF" => (1 to Nf2).foreach(i=> KM(::, i) := exp(-kParam*
         sum(
           ((patterns1-patterns2(::,i)*DenseMatrix.ones[Double](1,Nf1)) *:* (patterns1-patterns2(::,i)*DenseMatrix.ones[Double](1,Nf1))).t,Axis._0)))
-      
+      case "LINEAR" => {
+                    val kParam = 1
+                    val bias=0
+                    KM=(patterns1.t * patterns2)/patterns1.rows
+                    }
+        
     }
   }
 }
