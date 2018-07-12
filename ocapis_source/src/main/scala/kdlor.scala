@@ -20,7 +20,9 @@ private class kdlor {
                                       KM= (multplusbias/:/patterns1.rows)
                                       KM:^=kParam(1)
       }
-      case
+      case "SIGMOID" => if (kParam.length <2) {
+        throw error("Sigmoid kernel needs two parameters")
+      }else (1 to Nf2).foreach(i=> KM(::, i):= tanh(patterns1.t * patterns2(::,i)*kParam(1)*kParam(2)))
       }
     }
   }
