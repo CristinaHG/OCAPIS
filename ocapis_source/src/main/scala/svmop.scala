@@ -1,6 +1,6 @@
 package cristinahg.ocapis
 
-private class svmop(val cost:Double=1.0,val gamma:Double=0.1, var weights:Boolean=true){
+class svmop(val cost:Double=1.0,val gamma:Double=0.1, var weights:Boolean=true){
   var svmweights=Array[Double]()
 
   def computeWeights(p:Int,targets:Array[Int]):Array[Double]={
@@ -11,15 +11,6 @@ private class svmop(val cost:Double=1.0,val gamma:Double=0.1, var weights:Boolea
   }
 
 }
-object svmop{
 
-  def main(args: Array[String]): Unit = {
-    var svm=new svmop()
-    var labels=Array(1,1,2,1,3)
-    //labels.foreach(i=>print(i+"\n"))
-    val weightsnuevos=svm.computeWeights(1,labels)
-    //weightsnuevos.foreach(i=>print(i+", "))
-  }
   //  def givenumber:Int=
   //  return 12
-}

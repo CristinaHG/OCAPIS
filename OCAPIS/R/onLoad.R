@@ -1,4 +1,6 @@
 .onLoad <- function(libname, pkgname) {
+#  callback <-'
+#import breeze.linalg._'
  # op <- options()
  # op.devtools <- list(
  #   devtools.path = "~/R-dev",
