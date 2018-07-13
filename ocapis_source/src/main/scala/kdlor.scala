@@ -6,7 +6,7 @@ private class kdlor {
 
   // TODO: implement QUICKRBF
 def computeKernelMatrix(patterns1:  Array[Array[Double]], patterns2:  Array[Array[Double]],kType:String,kParam:Array[Double]) ={
-  //pase data from R format to Breeze DenseMatrix
+  //parse data from R format to Breeze DenseMatrix
 val ncol1=patterns1.length
   val nrow1=patterns1.map(a=>a.length).max
   val ncol2=patterns2.length
