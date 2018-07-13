@@ -32,11 +32,15 @@ class kdlor {
         var multplusbias=(data1.t * data2):+=1.0
         KM= (multplusbias/:/nrow1.toDouble)^:^kParam(1)
       }
-      //      case "SIGMOID" => {
-      //          if (kParam.length <2) {
-      //          throw sys.error("Sigmoid kernel needs two parameters")
-      //          }else (1 to Nf2).foreach(i=> KM(::, i):= tanh(patterns1.t * patterns2(::,i)*kParam(1)*kParam(2)))
-      //      }
+      case "SIGMOID" => {
+        if (kParam.length <2) {
+          throw sys.error("Sigmoid kernel needs two parameters")
+        }else (0 to Nf2-1).foreach(i=> {
+          var mult=data1.t * data2(::,1)*kParam(0)+kParam(1)
+          KM(::, i):= tanh(mult)
+        })
+        var j=5
+      }
       //      case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
       //      }
       //}
@@ -47,7 +51,7 @@ object kdlor extends App {
   var m1=Array(Array(1.0,2.0),Array(3.0,4.0))
   var m2=Array(Array(3.0,4.0),Array(5.0,6.0))
   val kd=new kdlor()
-  var computedkernel=kd.computeKernelMatrix(m1,m2,"poly", Array(1.0,2.0))
+  var computedkernel=kd.computeKernelMatrix(m1,m2,"sigmoid", Array(1.0,2.0))
 
 }
 
