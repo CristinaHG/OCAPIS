@@ -27,12 +27,11 @@ class kdlor {
         KM(::, i) :=exp(-kParam(0)*sum(diff(::, *)).t)})
 
       case "LINEAR" => KM = (data1.t * data2) /:/ nrow1.toDouble
-      //
-      //      case "POLYNOMIAL" | "POLY" => { var multplusbias=(patterns1.t * patterns2)
-      //                                      multplusbias:+=1
-      //                                      KM= (multplusbias/:/patterns1.rows)
-      //                                      KM:^=kParam(1)
-      //      }
+
+      case "POLYNOMIAL" | "POLY" => {
+        var multplusbias=(data1.t * data2):+=1.0
+        KM= (multplusbias/:/nrow1.toDouble)^:^kParam(1)
+      }
       //      case "SIGMOID" => {
       //          if (kParam.length <2) {
       //          throw sys.error("Sigmoid kernel needs two parameters")
@@ -48,7 +47,7 @@ object kdlor extends App {
   var m1=Array(Array(1.0,2.0),Array(3.0,4.0))
   var m2=Array(Array(3.0,4.0),Array(5.0,6.0))
   val kd=new kdlor()
-  var computedkernel=kd.computeKernelMatrix(m1,m2,"linear", Array(1.0,2.0))
+  var computedkernel=kd.computeKernelMatrix(m1,m2,"poly", Array(1.0,2.0))
 
 }
 
