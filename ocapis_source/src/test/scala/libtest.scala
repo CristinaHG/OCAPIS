@@ -40,4 +40,12 @@ class libtest extends FunSuite{
   test("Array from kernel matrix of type polynomial should equal polynomialK"){5
     assert(kdlor.computeKernelMatrix(m1, m2, "poly", Array(1.0)).toArray===polynomialK)
   }
+
+  test("Check elements order in polynomial kernel matrix are correct"){
+    val matrix=kdlor.computeKernelMatrix(m1, m2, "poly", Array(1.0))
+    assert(matrix(0,0)==9.5)
+    assert(matrix(0,1)==11.5)
+    assert(matrix(1,0)==13.5)
+    assert(matrix(1,1)==16.5)
+  }
 }
