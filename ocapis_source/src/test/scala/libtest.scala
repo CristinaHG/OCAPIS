@@ -10,6 +10,7 @@ class libtest extends FunSuite{
   val linearK=Array(9.0,13.0,11.0,16.0)
   val polynomialK=Array(9.5, 13.5,11.5,16.5)
   val sigmoidK=Array(1,1,1,1)
+
   test("length of computed weights should equal labels size"){
     assert(svmop.computeWeights(1,labels).length==labels.length)
   }

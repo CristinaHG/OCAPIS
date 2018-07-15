@@ -13,10 +13,10 @@ case object kdlor {
     val ncol2 = patterns2.length
     val nrow2 = patterns2.take(10).map(a => a.length).max
 
-    var data1 = new DenseMatrix(nrow1, ncol1, patterns1.flatten)
-    data1 = data1.t
-    var data2 = new DenseMatrix(nrow2, ncol2, patterns2.flatten)
-    data2 = data2.t
+    val dat1 = new DenseMatrix(nrow1, ncol1, patterns1.flatten)
+    val data1 = dat1.t
+    val dat2 = new DenseMatrix(nrow2, ncol2, patterns2.flatten)
+    val data2 = dat2.t
 
     val Nf1 = data1.cols
     val Nf2 = data2.cols
@@ -31,7 +31,7 @@ case object kdlor {
       case "LINEAR" => KM = (data1.t * data2) /:/ nrow1.toDouble
         KM
       case "POLYNOMIAL" | "POLY" => {
-        var multplusbias=(data1.t * data2):+=1.0
+        val multplusbias=(data1.t * data2):+=1.0
         KM= (multplusbias/:/nrow1.toDouble)^:^kParam(0)
         KM
       }
