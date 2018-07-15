@@ -50,8 +50,7 @@ case object kdlor {
 
 object MainApp extends App {
 
-  var m1=Array(Array(1.0,2.0),Array(3.0,4.0))
-  var m2=Array(Array(3.0,4.0),Array(5.0,6.0))
+
   var computedkernel=kdlor.computeKernelMatrix(m1,m2,"sigmoid", Array(1.0,2.0))
 //  override def main(args: Array[Any]): Unit = args(0) match {
 //    case "kdlor"=> kdlor.computeKernelMatrix(args(1), args(2), args(3), args(4))
