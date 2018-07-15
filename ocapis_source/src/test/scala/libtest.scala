@@ -18,7 +18,7 @@ class libtest extends FunSuite{
     assert(kdlor.computeKernelMatrix(m1, m2, "gaussian", Array(1.0)).toArray===gaussianK)
   }
 
-  test("Check elements order in gaussian kernel matrix are correct"){
+  test("Check if elements order in gaussian kernel matrix are correct"){
     val matrix=kdlor.computeKernelMatrix(m1, m2, "gaussian", Array(1.0))
     assert(matrix(0,0)==3.3546262790251185E-4)
     assert(matrix(0,1)==1.522997974471263E-8)
@@ -30,7 +30,7 @@ class libtest extends FunSuite{
     assert(kdlor.computeKernelMatrix(m1, m2, "linear", Array(1.0)).toArray===linearK)
   }
 
-  test("Check elements order in linear kernel matrix are correct"){
+  test("Check if elements order in linear kernel matrix are correct"){
     val matrix=kdlor.computeKernelMatrix(m1, m2, "linear", Array(1.0))
     assert(matrix(0,0)==9.0)
     assert(matrix(0,1)==11.0)
@@ -42,7 +42,7 @@ class libtest extends FunSuite{
     assert(kdlor.computeKernelMatrix(m1, m2, "poly", Array(1.0)).toArray===polynomialK)
   }
 
-  test("Check elements order in polynomial kernel matrix are correct"){
+  test("Check if elements order in polynomial kernel matrix are correct"){
     val matrix=kdlor.computeKernelMatrix(m1, m2, "poly", Array(1.0))
     assert(matrix(0,0)==9.5)
     assert(matrix(0,1)==11.5)
@@ -53,4 +53,13 @@ class libtest extends FunSuite{
   test("Array from kernel matrix of type sigmoid should equal sigmoidK"){
     assert(kdlor.computeKernelMatrix(m1, m2, "sigmoid", Array(1.0,2.0)).toArray===sigmoidK)
   }
+
+  test("Check if elements order in sigmoidal kernel matrix are correct"){
+    val matrix=kdlor.computeKernelMatrix(m1, m2,"sigmoid", Array(1.0,2.0))
+    assert(matrix(0,0)==1)
+    assert(matrix(0,1)==1)
+    assert(matrix(1,0)==1)
+    assert(matrix(1,1)==1)
+  }
+
 }
