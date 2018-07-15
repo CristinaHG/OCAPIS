@@ -2,7 +2,8 @@ package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
 import Numeric._
-class kdlor {
+
+case object kdlor {
 
   // TODO: implement QUICKRBF
   def computeKernelMatrix(patterns1: Array[Array[Double]], patterns2: Array[Array[Double]], kType: String, kParam: Array[Double]) = {
@@ -36,10 +37,8 @@ class kdlor {
         if (kParam.length <2) {
           throw sys.error("Sigmoid kernel needs two parameters")
         }else (0 to Nf2-1).foreach(i=> {
-          var mult=data1.t * data2(::,1)*kParam(0)+kParam(1)
-          KM(::, i):= tanh(mult)
+          KM(::, i):= tanh(data1.t * data2(::,i)*kParam(0)+kParam(1))
         })
-        var j=5
       }
       //      case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
       //      }
@@ -47,12 +46,17 @@ class kdlor {
     }
   }
 }
-object kdlor extends App {
+
+object MainApp extends App {
+
   var m1=Array(Array(1.0,2.0),Array(3.0,4.0))
   var m2=Array(Array(3.0,4.0),Array(5.0,6.0))
-  val kd=new kdlor()
-  var computedkernel=kd.computeKernelMatrix(m1,m2,"sigmoid", Array(1.0,2.0))
+//  val kd=new kdlor()
+  var computedkernel=kdlor.computeKernelMatrix(m1,m2,"sigmoid", Array(1.0,2.0))
 
+//  override def main(args: Array[Any]): Unit = args(0) match {
+//    case "kdlor"=> kdlor.computeKernelMatrix(args(1), args(2), args(3), args(4))
+//  }
 }
 
 
