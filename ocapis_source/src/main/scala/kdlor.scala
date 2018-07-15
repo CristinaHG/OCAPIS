@@ -26,19 +26,21 @@ case object kdlor {
       case "GAUSS" | "GAUSSIAN" | "RBF" => (0 to Nf2 - 1).foreach(i => {
         val diff= (data1(::, *) - data2(::, i)*DenseVector.ones[Double](Nf1))^:^2.0
         KM(::, i) :=exp(-kParam(0)*sum(diff(::, *)).t)})
+        KM
 
       case "LINEAR" => KM = (data1.t * data2) /:/ nrow1.toDouble
-
+        KM
       case "POLYNOMIAL" | "POLY" => {
         var multplusbias=(data1.t * data2):+=1.0
         KM= (multplusbias/:/nrow1.toDouble)^:^kParam(1)
+        KM
       }
       case "SIGMOID" => {
         if (kParam.length <2) {
           throw sys.error("Sigmoid kernel needs two parameters")
         }else (0 to Nf2-1).foreach(i=> {
-          KM(::, i):= tanh(data1.t * data2(::,i)*kParam(0)+kParam(1))
-        })
+          KM(::, i):= tanh(data1.t * data2(::,i)*kParam(0)+kParam(1))})
+        KM
       }
       case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
     }
@@ -50,9 +52,7 @@ object MainApp extends App {
 
   var m1=Array(Array(1.0,2.0),Array(3.0,4.0))
   var m2=Array(Array(3.0,4.0),Array(5.0,6.0))
-//  val kd=new kdlor()
   var computedkernel=kdlor.computeKernelMatrix(m1,m2,"sigmoid", Array(1.0,2.0))
-
 //  override def main(args: Array[Any]): Unit = args(0) match {
 //    case "kdlor"=> kdlor.computeKernelMatrix(args(1), args(2), args(3), args(4))
 //  }
