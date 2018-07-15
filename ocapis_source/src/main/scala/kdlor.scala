@@ -32,7 +32,7 @@ case object kdlor {
         KM
       case "POLYNOMIAL" | "POLY" => {
         var multplusbias=(data1.t * data2):+=1.0
-        KM= (multplusbias/:/nrow1.toDouble)^:^kParam(1)
+        KM= (multplusbias/:/nrow1.toDouble)^:^kParam(0)
         KM
       }
       case "SIGMOID" => {
