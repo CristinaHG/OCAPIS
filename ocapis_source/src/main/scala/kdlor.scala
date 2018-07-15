@@ -9,9 +9,9 @@ case object kdlor {
   def computeKernelMatrix(patterns1: Array[Array[Double]], patterns2: Array[Array[Double]], kType: String, kParam: Array[Double]) = {
     //parse data from R format to Breeze DenseMatrix
     val ncol1 = patterns1.length
-    val nrow1 = patterns1.map(a => a.length).max
+    val nrow1 = patterns1.take(10).map(a => a.length).max
     val ncol2 = patterns2.length
-    val nrow2 = patterns2.map(a => a.length).max
+    val nrow2 = patterns2.take(10).map(a => a.length).max
 
     var data1 = new DenseMatrix(nrow1, ncol1, patterns1.flatten)
     data1 = data1.t
@@ -40,12 +40,11 @@ case object kdlor {
           KM(::, i):= tanh(data1.t * data2(::,i)*kParam(0)+kParam(1))
         })
       }
-      //      case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
-      //      }
-      //}
+      case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
     }
   }
 }
+
 
 object MainApp extends App {
 
