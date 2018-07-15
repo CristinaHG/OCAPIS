@@ -3,7 +3,7 @@ import breeze.linalg._
 import breeze.numerics._
 import Numeric._
 
-case object kdlor {
+class kdlor {
 
   // TODO: implement QUICKRBF
   def computeKernelMatrix(patterns1: Array[Array[Double]], patterns2: Array[Array[Double]], kType: String, kParam: Array[Double]) = {
@@ -47,7 +47,13 @@ case object kdlor {
   }
 }
 
+object kdlor{
 
+  def apply(p1: Array[Array[Double]], p2: Array[Array[Double]], kType: String, kParam: Array[Double]): Unit = {
+    val kd=new kdlor()
+    kd.computeKernelMatrix(p1,p2,kType,kParam)
+  }
+}
 //  override def main(args: Array[Any]): Unit = args(0) match {
 //    case "kdlor"=> kdlor.computeKernelMatrix(args(1), args(2), args(3), args(4))
 //  }
