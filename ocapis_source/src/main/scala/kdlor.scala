@@ -27,14 +27,14 @@ object kdlor {
         val diff = (data1(::, *) - data2(::, i)) ^:^ 2.0
         KM(::, i) := exp(-kParam(0) * sum(diff(::, *)).t)
       })
-        KM.toArray
+        KM
 
       case "LINEAR" => KM = (data1.t * data2) /:/ nrow1.toDouble
-        KM.toArray
+        KM
       case "POLYNOMIAL" | "POLY" => {
         val multplusbias = (data1.t * data2) :+= 1.0
         KM = (multplusbias /:/ nrow1.toDouble) ^:^ kParam(0)
-        KM.toArray
+        KM
       }
       case "SIGMOID" => {
         if (kParam.length < 2) {
@@ -42,7 +42,7 @@ object kdlor {
         } else (0 to Nf2 - 1).foreach(i => {
           KM(::, i) := tanh(data1.t * data2(::, i) * kParam(0) + kParam(1))
         })
-        KM.toArray
+        KM
       }
       case _ => throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
     }
