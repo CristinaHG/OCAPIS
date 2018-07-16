@@ -45,13 +45,33 @@ class kdlor {
       case _ =>  throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
     }
   }
+
+  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseMatrix[Double])={
+    val numClasses=thresholds.cols+1
+    var project2 =tile(projected, 1,numClasses-1)
+    project2=project2 - thresholds.t * DenseMatrix.ones[Double](1,project2.cols)
+    val mapped=project2.mapValues(a=>if(a>0) NaN else a)
+    val maximum=max(mapped(::,*))
+    val rows = mapped(::,*)
+    val indices = maximum.t.map { x =>
+       rows map (a => a.data.indexWhere(_ == x))
+    }
+    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
+  }
 }
 
 object kdlor{
 
-  def apply(p1: Array[Array[Double]], p2: Array[Array[Double]], kType: String, kParam: Array[Double]): Unit = {
+//  def apply(p1: Array[Array[Double]], p2: Array[Array[Double]], kType: String, kParam: Array[Double]): Unit = {
+//    val kd=new kdlor()
+//    kd.computeKernelMatrix(p1,p2,kType,kParam)
+//  }
+
+  def main(args: Array[String]): Unit = {
     val kd=new kdlor()
-    kd.computeKernelMatrix(p1,p2,kType,kParam)
+    val d1=DenseMatrix((1.0,2.0), (3.0,4.0))
+    val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
+    kd.assignLabels(d1,d2)
   }
 }
 //  override def main(args: Array[Any]): Unit = args(0) match {
