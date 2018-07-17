@@ -1,6 +1,7 @@
 package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
+import breeze.stats.hist
 import Numeric._
 
 class kdlor {
@@ -90,8 +91,19 @@ class kdlor {
 
     // Compute the Kernel matrix
     val kernelMatrix = computeKernelMatrix(dat1,dat1,kerneltype, kernelParam)
+    val dim2 = numTrain
+    val numClasses = trainLabels.distinct.length
+    val meanClasses = DenseMatrix.zeros[Double](numClasses,dim2)
+    val Q=DenseMatrix.zeros[Double](numClasses-1, numClasses-1)
+    val c = DenseMatrix.zeros[Double](numClasses - 1, 1)
+    var A=DenseMatrix.ones[Double](numClasses-1,numClasses-1)
+    A=(-A)
+    val b=DenseMatrix.zeros(numClasses - 1, 1)
+    val E=DenseMatrix.ones(1,numClasses-1)
+    val aux=DenseMatrix.zeros(1,dim2)
+    val N=hist(trainLabels,(1 to numClasses).toArray)
+    val H=CSCMatrix(dim2,dim2)
     
-
   }
 }
 
