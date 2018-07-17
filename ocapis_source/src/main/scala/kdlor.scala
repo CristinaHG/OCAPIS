@@ -89,8 +89,8 @@ class kdlor {
     }
 
     // Compute the Kernel matrix
-    val kernelMatrix = computeKernelMatrix(traindat,traindat, kerneltype, kernelParam)
-
+    val kernelMatrix = computeKernelMatrix(dat1,dat1,kerneltype, kernelParam)
+    
 
   }
 }
