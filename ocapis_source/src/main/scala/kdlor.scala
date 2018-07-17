@@ -102,13 +102,17 @@ class kdlor {
     val E=DenseMatrix.ones(1,numClasses-1)
     val aux=DenseMatrix.zeros(1,dim2)
     val N=hist(trainLabels,(1 to numClasses).toArray)
-    val H=CSCMatrix(dim2,dim2)
+    var H=CSCMatrix(dim2,dim2)
 
     //Calculate the mean of the classes and the H matrix
     (1 to numClasses).foreach(i=>{
       var currentClass=i
       val selections=kernelMatrix(::,(trainLabels.indexWhere(p=>p==currentClass)))
       meanClasses(currentClass,::):=mean(selections(::,*))
+      val identity=DenseMatrix.eye(N(1,currentClass))
+      val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum
+      val denom=targetsseqclasses*kernelMatrix(::,trainLabels.indexWhere(p=>p==currentClass)).t
+      H=H+selections*identity-DenseMatrix.ones(N(1,currentClass),N(1,currentClass))/denom
     })
   }
 }
