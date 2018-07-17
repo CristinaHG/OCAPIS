@@ -132,7 +132,7 @@ object kdlor{
 ////
 def main(args: Array[String]): Unit = {
 val kd=new kdlor()
-val d1=Array(Array(1.0,2.0), Array(3.0,4.0))
+val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
 val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
 val labels=Array(2,1)
     kd.train(d1,labels,"rbf",Array(1,2))
