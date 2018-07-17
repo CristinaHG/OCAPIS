@@ -6,8 +6,9 @@ import Numeric._
 class kdlor {
  private var projection=DenseMatrix.zeros[Double]
  private var thresholds=DenseMatrix.zeros[Double]
- private var parameters=Array()
+ private var parameters=Map("c"->0.1,"k"->0.1,"u"->0.01)
  private var kerneltype:String="linear"
+ private var optimizationMethod="quadprog"
   
   // TODO: implement QUICKRBF
   def computeKernelMatrix(patterns1: Array[Array[Double]], patterns2: Array[Array[Double]], kType: String, kParam: Array[Double]) = {
@@ -64,6 +65,10 @@ class kdlor {
 ////       rows map (a => a.data.indexWhere(_ == x))
 ////    }
 ////    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
+  }
+
+  def train(traindat: Array[Array[Double]]): Unit ={
+
   }
 }
 
