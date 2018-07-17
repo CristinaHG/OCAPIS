@@ -75,21 +75,21 @@ class kdlor {
     val data1 = dat1.t
     val dim= data1.rows
     val numTrain=data1.cols
-
+    var kernelParam=Array(1.0)
     if(params.length==3){
       parameters("d")=params(0)
       parameters("u")=params(1)
-      val kernelParam=params(2)
+      kernelParam=Array(params(2))
     }else{
       kerneltype.toLowerCase match {
-        case "rbf" |"gauss" | "gaussian" => val kernelParam = 1
-        case "sigmoid" => val kernelParam=Array(1,2)
-        case "linear" => val kernelParam = 1
+        case "rbf" |"gauss" | "gaussian" => kernelParam = Array(1.0)
+        case "sigmoid" =>  kernelParam=Array(1.0,2.0)
+        case "linear" => kernelParam = Array(1.0)
       }
     }
 
-
-
+    // Compute the Kernel matrix
+    val kernelMatrix = computeKernelMatrix(traindat,traindat, kerneltype, kernelParam)
 
 
   }
