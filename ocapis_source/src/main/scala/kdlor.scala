@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
-import breeze.stats.hist
+import breeze.stats.{hist,mean}
 import Numeric._
 
 class kdlor {
@@ -68,7 +68,7 @@ class kdlor {
 ////    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
   }
 
-  def train(traindat: Array[Array[Double]],trainLabels: Array[Double],kerneltype:String,params:Array[Double]): Unit ={
+  def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double]): Unit ={
     //parse data from R to scala format
     val ncol1 = traindat.length
     val nrow1 = traindat.take(2).map(a => a.length).max
@@ -103,7 +103,13 @@ class kdlor {
     val aux=DenseMatrix.zeros(1,dim2)
     val N=hist(trainLabels,(1 to numClasses).toArray)
     val H=CSCMatrix(dim2,dim2)
-    
+
+    //Calculate the mean of the classes and the H matrix
+    (1 to numClasses).foreach(i=>{
+      var currentClass=i
+      val selections=kernelMatrix(::,(trainLabels.indexWhere(p=>p==currentClass)))
+      meanClasses(currentClass,::):=mean(selections(::,*))
+    })
   }
 }
 
