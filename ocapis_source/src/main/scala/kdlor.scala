@@ -5,9 +5,9 @@ import breeze.stats.{hist,mean}
 import Numeric._
 
 class kdlor {
- private var projection=DenseMatrix.zeros[Double]
- private var thresholds=DenseMatrix.zeros[Double]
- private var parameters=Map("u"->0.001,"d"->10)
+ // var projection:DenseMatrix[Double]
+ // var thresholds:DenseMatrix[Double]
+ private var parameters=collection.mutable.Map("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
  private var optimizationMethod="quadprog"
 
@@ -76,9 +76,9 @@ class kdlor {
     val ncol1 = traindat.length
     val nrow1 = traindat.take(2).map(a => a.length).max
     val dat1 = new DenseMatrix(nrow1, ncol1, traindat.flatten)
-    val data1 = dat1.t
-    val dim= data1.rows
-    val numTrain=data1.cols
+    //val data1 = dat1.t
+    val dim= dat1.rows
+    val numTrain=dat1.cols
     var kernelParam=Array(1.0)
     if(params.length==3){
       parameters("d")=params(0)
@@ -101,21 +101,24 @@ class kdlor {
     val c = DenseMatrix.zeros[Double](numClasses - 1, 1)
     var A=DenseMatrix.ones[Double](numClasses-1,numClasses-1)
     A=(-A)
-    val b=DenseMatrix.zeros(numClasses - 1, 1)
-    val E=DenseMatrix.ones(1,numClasses-1)
-    val aux=DenseMatrix.zeros(1,dim2)
-    val N=hist(trainLabels,(1 to numClasses).toArray)
+    val b=DenseMatrix.zeros[Double](numClasses - 1, 1)
+    val E=DenseMatrix.ones[Double](1,numClasses-1)
+    val aux=DenseMatrix.zeros[Double](1,dim2)
+    val N=hist(DenseVector(trainLabels),DenseVector((1 to numClasses).toArray))
     var H=CSCMatrix(dim2,dim2)
 
     //Calculate the mean of the classes and the H matrix
     (1 to numClasses).foreach(i=>{
       var currentClass=i
-      val selections=kernelMatrix(::,(trainLabels.indexWhere(p=>p==currentClass)))
+      val range=trainLabels.zipWithIndex.filter(p=>p._1==currentClass).map(a=>a._2).toSeq
+      val selections=kernelMatrix(::,range).toDenseMatrix
       meanClasses(currentClass,::):=mean(selections(::,*))
-      val identity=DenseMatrix.eye(N(1,currentClass))
-      val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum
-      val denom=targetsseqclasses*kernelMatrix(::,trainLabels.indexWhere(p=>p==currentClass)).t
-      H=H+selections*identity-DenseMatrix.ones(N(1,currentClass),N(1,currentClass))/denom
+      val identity=DenseMatrix.eye[Double](N.hist.asDenseMatrix(1,currentClass))
+      val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum.toDouble
+      var km=kernelMatrix(::,range).toDenseMatrix.t
+      km*=targetsseqclasses
+
+      //H=H+selections*identity - DenseMatrix.ones(N(1,currentClass),N(1,currentClass))/denom
     })
   }
 }
@@ -127,13 +130,13 @@ object kdlor{
 //    kd.computeKernelMatrix(p1,p2,kType,kParam)
 //  }
 ////
-////  //def main(args: Array[String]): Unit = {
-//  def assignlabels(projected: DenseMatrix[Double],thresholds:DenseMatrix[Double])={
-//    val kd=new kdlor()
-//    //val d1=DenseMatrix((1.0,2.0), (3.0,4.0))
-//    //val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
-//    kd.assignLabels(projected,thresholds)
-//  }
+def main(args: Array[String]): Unit = {
+val kd=new kdlor()
+val d1=Array(Array(1.0,2.0), Array(3.0,4.0))
+val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
+val labels=Array(2,1)
+    kd.train(d1,labels,"rbf",Array(1,2))
+  }
 }
 //  override def main(args: Array[Any]): Unit = args(0) match {
 //    case "kdlor"=> kdlor.computeKernelMatrix(args(1), args(2), args(3), args(4))
