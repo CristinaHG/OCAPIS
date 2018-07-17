@@ -6,17 +6,17 @@ import Numeric._
 class kdlor {
  private var projection=DenseMatrix.zeros[Double]
  private var thresholds=DenseMatrix.zeros[Double]
- private var parameters=Map("c"->0.1,"k"->0.1,"u"->0.01)
+ private var parameters=Map("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
  private var optimizationMethod="quadprog"
-  
+
   // TODO: implement QUICKRBF
   def computeKernelMatrix(patterns1: Array[Array[Double]], patterns2: Array[Array[Double]], kType: String, kParam: Array[Double]) = {
     //parse data from R format to Breeze DenseMatrix
     val ncol1 = patterns1.length
-    val nrow1 = patterns1.take(10).map(a => a.length).max
+    val nrow1 = patterns1.take(2).map(a => a.length).max
     val ncol2 = patterns2.length
-    val nrow2 = patterns2.take(10).map(a => a.length).max
+    val nrow2 = patterns2.take(2).map(a => a.length).max
 
     val dat1 = new DenseMatrix(nrow1, ncol1, patterns1.flatten)
     val data1 = dat1.t
@@ -67,7 +67,30 @@ class kdlor {
 ////    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
   }
 
-  def train(traindat: Array[Array[Double]]): Unit ={
+  def train(traindat: Array[Array[Double]],trainLabels: Array[Double],kerneltype:String,params:Array[Double]): Unit ={
+    //parse data from R to scala format
+    val ncol1 = traindat.length
+    val nrow1 = traindat.take(2).map(a => a.length).max
+    val dat1 = new DenseMatrix(nrow1, ncol1, traindat.flatten)
+    val data1 = dat1.t
+    val dim= data1.rows
+    val numTrain=data1.cols
+
+    if(params.length==3){
+      parameters("d")=params(0)
+      parameters("u")=params(1)
+      val kernelParam=params(2)
+    }else{
+      kerneltype.toLowerCase match {
+        case "rbf" |"gauss" | "gaussian" => val kernelParam = 1
+        case "sigmoid" => val kernelParam=Array(1,2)
+        case "linear" => val kernelParam = 1
+      }
+    }
+
+
+
+
 
   }
 }
