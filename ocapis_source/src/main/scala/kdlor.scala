@@ -104,7 +104,8 @@ class kdlor {
     val b=DenseMatrix.zeros[Double](numClasses - 1, 1)
     val E=DenseMatrix.ones[Double](1,numClasses-1)
     val aux=DenseMatrix.zeros[Double](1,dim2)
-    val N=hist(DenseVector(trainLabels),DenseVector((1 to numClasses).toArray))
+    //val N=hist(DenseVector(trainLabels),DenseVector((1 to numClasses).toArray))
+    val N=trainLabels.groupBy(a=>a).map(x=>x._2.size).toArray
     var H=CSCMatrix(dim2,dim2)
 
     //Calculate the mean of the classes and the H matrix
@@ -113,7 +114,7 @@ class kdlor {
       val range=trainLabels.zipWithIndex.filter(p=>p._1==currentClass).map(a=>a._2).toSeq
       val selections=kernelMatrix(::,range).toDenseMatrix
       meanClasses(currentClass,::):=mean(selections(::,*))
-      val identity=DenseMatrix.eye[Double](N.hist.asDenseMatrix(1,currentClass))
+      val identity=DenseMatrix.eye[Double](N(currentClass))
       val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum.toDouble
       var km=kernelMatrix(::,range).toDenseMatrix.t
       km*=targetsseqclasses
@@ -134,7 +135,7 @@ def main(args: Array[String]): Unit = {
 val kd=new kdlor()
 val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
 val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
-val labels=Array(2,1)
+val labels=Array(1,2,1,1)
     kd.train(d1,labels,"rbf",Array(1,2))
   }
 }
