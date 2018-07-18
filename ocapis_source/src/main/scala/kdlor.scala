@@ -116,7 +116,7 @@ class kdlor {
       val selections=kernelMatrix(::,range).toDenseMatrix
       val mean1=mean(selections(*,::))
       meanClasses((currentClass-1),::):=mean1.t
-      val identity=DenseMatrix.eye[Double](N(currentClass-1))
+      val identity=DenseMatrix.eye[Double](N.getOrElse(currentClass,0))
       val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum.toDouble
       var km=kernelMatrix(::,range).toDenseMatrix.t
       km*=targetsseqclasses
