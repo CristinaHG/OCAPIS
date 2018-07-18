@@ -1,8 +1,9 @@
 package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
-import breeze.stats.{hist,mean}
-import breeze.optimize.proximal.QuadraticMinimizer
+import breeze.stats.{hist, mean}
+import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
+
 import Numeric._
 
 class kdlor {
@@ -10,7 +11,7 @@ class kdlor {
  // var thresholds:DenseMatrix[Double]
  private var parameters=collection.mutable.Map("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
- private var optimizationMethod="quadprog"
+ private var optimizationMethod="qp"
 
   // TODO: implement QUICKRBF
   def computeKernelMatrix(data1: DenseMatrix[Double], data2: DenseMatrix[Double], kType: String, kParam: Array[Double]):DenseMatrix[Double] = {
@@ -72,7 +73,7 @@ class kdlor {
 ////    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
   }
 
-  def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double]): Unit ={
+  def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double],optimmethod:String): Unit ={
     //parse data from R to scala format
     val ncol1 = traindat.length
     val nrow1 = traindat.take(2).map(a => a.length).max
@@ -134,10 +135,15 @@ class kdlor {
         Q(j,i)=Q(i,j)
       })
     })
-    val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1) //alphas & betas >=0
-    val vub = Inf*DenseMatrix.ones[Double](numClasses-1,1) //alphas & betas <=Inf
-    
+    val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1).toDenseVector //alphas & betas >=0
+    val vub = Inf*DenseMatrix.ones[Double](numClasses-1,1).toDenseVector //alphas & betas <=Inf
 
+    optimmethod.toLowerCase match {
+      case "qp"=>
+        val mrank=rank(Q)
+        val qpSolverBounds = new QuadraticMinimizer(mrank, ProjectBox(vlb, vub))
+        val alpha = qpSolverBounds.minimize(Q,c.toDenseVector)
+    }
   }
 }
 
@@ -153,7 +159,7 @@ val kd=new kdlor()
 val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
 val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
 val labels=Array(1,2,1,1)
-    kd.train(d1,labels,"rbf",Array(1,2))
+    kd.train(d1,labels,"rbf",Array(1,2),"qp")
   }
 }
 //  override def main(args: Array[Any]): Unit = args(0) match {
