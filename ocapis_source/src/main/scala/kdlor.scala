@@ -105,7 +105,7 @@ class kdlor {
     val E=DenseMatrix.ones[Double](1,numClasses-1)
     val aux=DenseMatrix.zeros[Double](1,dim2)
     //val N=hist(DenseVector(trainLabels),DenseVector((1 to numClasses).toArray))
-    val N=trainLabels.groupBy(a=>a).map(x=>x._2.size).toArray
+    val N=trainLabels.groupBy(a=>a).map(x=>(x._1,x._2.size))
     var H=CSCMatrix(dim2,dim2)
 
     //Calculate the mean of the classes and the H matrix
