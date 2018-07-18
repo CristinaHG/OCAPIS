@@ -96,7 +96,7 @@ class kdlor {
     val kernelMatrix = computeKernelMatrix(dat1,dat1,kerneltype, kernelParam)
     val dim2 = numTrain
     val numClasses = trainLabels.distinct.length
-    val meanClasses = DenseMatrix.zeros[Double](numClasses,dim2)
+    var meanClasses = DenseMatrix.zeros[Double](numClasses,dim2)
     val Q=DenseMatrix.zeros[Double](numClasses-1, numClasses-1)
     val c = DenseMatrix.zeros[Double](numClasses - 1, 1)
     var A=DenseMatrix.ones[Double](numClasses-1,numClasses-1)
@@ -110,12 +110,13 @@ class kdlor {
     var H=CSCMatrix.zeros[Double](dim2,dim2)
 
     //Calculate the mean of the classes and the H matrix
-    (0 to numClasses-1).foreach(i=>{
+    (1 to numClasses).foreach(i=>{
       var currentClass=i
       val range=trainLabels.zipWithIndex.filter(p=>p._1==currentClass).map(a=>a._2).toSeq
       val selections=kernelMatrix(::,range).toDenseMatrix
-      meanClasses(currentClass,::):=mean(selections(::,*))
-      val identity=DenseMatrix.eye[Double](N(currentClass))
+      val mean1=mean(selections(*,::))
+      meanClasses((currentClass-1),::):=mean1.t
+      val identity=DenseMatrix.eye[Double](N(currentClass-1))
       val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum.toDouble
       var km=kernelMatrix(::,range).toDenseMatrix.t
       km*=targetsseqclasses
