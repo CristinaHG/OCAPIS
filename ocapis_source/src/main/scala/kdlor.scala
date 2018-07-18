@@ -2,6 +2,7 @@ package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
 import breeze.stats.{hist,mean}
+import breeze.optimize.proximal.QuadraticMinimizer
 import Numeric._
 
 class kdlor {
@@ -121,6 +122,11 @@ class kdlor {
       val ones=DenseMatrix.ones[Double](N.getOrElse(currentClass,0),N.getOrElse(currentClass,0))
       H=H+selections*(identity - ones/targetsseqclasses)*(selections.t)
     })
+
+    // Avoid ill-posed matrixes
+      H = H +  parameters("u")*DenseMatrix.eye[Double](dim2)
+      val Hinv = inv(H)
+    
   }
 }
 
