@@ -134,7 +134,10 @@ class kdlor {
         Q(j,i)=Q(i,j)
       })
     })
+    val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1) //alphas & betas >=0
+    val vub = Inf*DenseMatrix.ones[Double](numClasses-1,1) //alphas & betas <=Inf
     
+
   }
 }
 
