@@ -107,8 +107,8 @@ class kdlor {
     //val N=hist(DenseVector(trainLabels),DenseVector((1 to numClasses).toArray))
     val N=trainLabels.groupBy(a=>a).map(x=>(x._1->x._2.size))
 
-    var H=CSCMatrix.zeros[Double](dim2,dim2)
-
+    //var H=CSCMatrix.zeros[Double](dim2,dim2)
+    var H=DenseMatrix.zeros[Double](dim2,dim2)
     //Calculate the mean of the classes and the H matrix
     (1 to numClasses).foreach(i=>{
       var currentClass=i
@@ -118,10 +118,8 @@ class kdlor {
       meanClasses((currentClass-1),::):=mean1.t
       val identity=DenseMatrix.eye[Double](N.getOrElse(currentClass,0))
       val targetsseqclasses=trainLabels.filter(p=>p==currentClass).sum.toDouble
-      var km=kernelMatrix(::,range).toDenseMatrix.t
-      km*=targetsseqclasses
-
-      //H=H+selections*identity - DenseMatrix.ones(N(1,currentClass),N(1,currentClass))/denom
+      val ones=DenseMatrix.ones[Double](N.getOrElse(currentClass,0),N.getOrElse(currentClass,0))
+      H=H+selections*(identity - ones/targetsseqclasses)*(selections.t)
     })
   }
 }
