@@ -111,7 +111,7 @@ class kdlor {
     //var H=CSCMatrix.zeros[Double](dim2,dim2)
     var H=DenseMatrix.zeros[Double](dim2,dim2)
     //Calculate the mean of the classes and the H matrix
-    (1 to numClasses -1).foreach(i=>{
+    (1 until numClasses).foreach(i=>{
       var currentClass=i
       val range=trainLabels.zipWithIndex.filter(p=>p._1==currentClass).map(a=>a._2).toSeq
       val selections=kernelMatrix(::,range).toDenseMatrix
@@ -128,6 +128,12 @@ class kdlor {
       val Hinv = inv(H)
 
     //Calculate the Q matrix for the optimization problem
+    (1 until numClasses).foreach(i=>{
+      (1 until numClasses).foreach(j=>{
+        Q(i,j)=(meanClasses(i+1,::)-meanClasses(i,::))*Hinv*(meanClasses(j+1,::)-meanClasses(j,::)).t
+        Q(j,i)=Q(i,j)
+      })
+    })
     
   }
 }
