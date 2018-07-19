@@ -9,7 +9,7 @@ import Numeric._
 class kdlor {
  // var projection:DenseMatrix[Double]
  // var thresholds:DenseMatrix[Double]
- private var parameters=collection.mutable.Map("u"->0.001,"d"->10)
+ private var parameters=collection.mutable.Map[String,Double]("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
  private var optimizationMethod="qp"
 
@@ -125,8 +125,11 @@ class kdlor {
     })
 
     // Avoid ill-posed matrixes
-      H = H +  parameters("u")*DenseMatrix.eye[Double](dim2)
-      val Hinv = inv(H)
+    var mult=DenseMatrix.eye[Double](dim2)
+    val scalar:Double=parameters getOrElse("u", 0.1)
+    mult:*=scalar
+    H = H +  mult
+    val Hinv = inv(H)
 
     //Calculate the Q matrix for the optimization problem
     (1 until numClasses).foreach(i=>{
