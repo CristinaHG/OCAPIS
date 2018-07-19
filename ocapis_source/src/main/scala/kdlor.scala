@@ -132,8 +132,8 @@ class kdlor {
     val Hinv = inv(H)
 
     //Calculate the Q matrix for the optimization problem
-    (1 until numClasses).foreach(i=>{
-      (1 until numClasses).foreach(j=>{
+    (1 to numClasses).foreach(i=>{
+      (1 to numClasses).foreach(j=>{
         Q(i,j)=(meanClasses(i+1,::)-meanClasses(i,::))*Hinv*(meanClasses(j+1,::)-meanClasses(j,::)).t
         Q(j,i)=Q(i,j)
       })
