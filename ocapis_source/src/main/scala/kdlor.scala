@@ -132,10 +132,10 @@ class kdlor {
     val Hinv = inv(H)
 
     //Calculate the Q matrix for the optimization problem
-    (1 to numClasses).foreach(i=>{
-      (1 to numClasses).foreach(j=>{
-        Q(i,j)=(meanClasses(i+1,::)-meanClasses(i,::))*Hinv*(meanClasses(j+1,::)-meanClasses(j,::)).t
-        Q(j,i)=Q(i,j)
+    (1 until numClasses).foreach(i=>{
+      (i to numClasses-1).foreach(j=>{
+        Q(i-1,j-1)=(meanClasses(i,::)-meanClasses(i-1,::))*Hinv*(meanClasses(j,::)-meanClasses(j-1,::)).t
+        Q(j-1,i-1)=Q(i-1,j-1)
       })
     })
     val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1).toDenseVector //alphas & betas >=0
