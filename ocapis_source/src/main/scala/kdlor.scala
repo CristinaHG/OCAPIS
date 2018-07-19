@@ -1,10 +1,12 @@
 package cristinahg.ocapis
+import breeze.linalg
 import breeze.linalg._
 import breeze.numerics._
 import breeze.stats.{hist, mean}
 import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
 
 import Numeric._
+import scala.collection.immutable.Range
 
 class kdlor {
  // var projection:DenseMatrix[Double]
@@ -140,12 +142,15 @@ class kdlor {
     })
     val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1).toDenseVector //alphas & betas >=0
     val vub = Inf*DenseMatrix.ones[Double](numClasses-1,1).toDenseVector //alphas & betas <=Inf
+//    val sparseq=new linalg.CSCMatrix.Builder[Double](Q.rows,Q.cols)
+//    sparseq.add(0,0,Q(0,0))
 
     optimmethod.toLowerCase match {
       case "qp"=>
         val mrank=rank(Q)
-        val qpSolverBounds = new QuadraticMinimizer(mrank, ProjectBox(vlb, vub))
-        val alpha = qpSolverBounds.minimize(Q,c.toDenseVector)
+        val qpSolverBounds = new QuadraticMinimizer(mrank, ProjectBox(vlb, vub),E,DenseVector(parameters("d")),2,1e-8)
+        val st = qpSolverBounds.initialize
+        val alhpa=qpSolverBounds.minimize(Q,c.toDenseVector,st)
     }
   }
 }
