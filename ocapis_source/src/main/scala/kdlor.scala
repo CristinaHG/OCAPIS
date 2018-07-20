@@ -1,12 +1,9 @@
 package cristinahg.ocapis
-import breeze.linalg
 import breeze.linalg._
 import breeze.numerics._
 import breeze.stats.{hist, mean}
 import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
-
 import Numeric._
-import scala.collection.immutable.Range
 
 class kdlor {
  // var projection:DenseMatrix[Double]
@@ -145,12 +142,25 @@ class kdlor {
 //    val sparseq=new linalg.CSCMatrix.Builder[Double](Q.rows,Q.cols)
 //    sparseq.add(0,0,Q(0,0))
 
+    val QtoRmatix=Q(*,::).map(u=>u.data).toArray
+
     optimmethod.toLowerCase match {
       case "qp"=>
         val mrank=rank(Q)
         val qpSolverBounds = new QuadraticMinimizer(mrank, ProjectBox(vlb, vub),E,DenseVector(parameters("d")),2,1e-8)
         val st = qpSolverBounds.initialize
         val alhpa=qpSolverBounds.minimize(Q,c.toDenseVector,st)
+      case "cvx"=>
+        val R = org.ddahl.rscala.RClient()
+        R.invokeD0(
+          """
+            require("CVXR")
+            alpha<-Variable(numClasses-1)
+            objective <- Minimize(0.5 %*% t(alpha) %*% QtoRmatrix %*% alpha)
+            problem<-Problem(objective,list((rep(1,numClasses-1) %*% alpha==0),alpha>=0)
+            result<-solve(problem)
+
+          """)
     }
   }
 }
@@ -167,7 +177,7 @@ val kd=new kdlor()
 val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
 val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
 val labels=Array(1,2,1,1)
-    kd.train(d1,labels,"rbf",Array(1,2),"qp")
+    kd.train(d1,labels,"rbf",Array(1,2),"cvx")
   }
 }
 //  override def main(args: Array[Any]): Unit = args(0) match {
