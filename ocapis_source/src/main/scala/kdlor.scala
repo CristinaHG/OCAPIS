@@ -73,7 +73,7 @@ class kdlor {
   }
 
   def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double],optimmethod:String): Unit ={
-    //parse data from R to scala format
+    //parse data from R to scala Breeze densematrix format
     val ncol1 = traindat.length
     val nrow1 = traindat.take(2).map(a => a.length).max
     val dat1 = new DenseMatrix(nrow1, ncol1, traindat.flatten)
@@ -152,15 +152,20 @@ class kdlor {
         val alhpa=qpSolverBounds.minimize(Q,c.toDenseVector,st)
       case "cvx"=>
         val R = org.ddahl.rscala.RClient()
-        R.invokeD0(
-          """
-            require("CVXR")
-            alpha<-Variable(numClasses-1)
-            objective <- Minimize(0.5 %*% t(alpha) %*% QtoRmatrix %*% alpha)
-            problem<-Problem(objective,list((rep(1,numClasses-1) %*% alpha==0),alpha>=0)
-            result<-solve(problem)
-
-          """)
+//        R.set("numC",numClasses-1)
+        val alpha=R.eval(
+          """ require("CVXR")
+              alpha<-Variable(1)
+              objective <- Minimize(0.5 %*% (alpha) %*% 1332.43 %*% alpha)
+              problem<-Problem(objective,list((rep(1,1) %*% alpha==0),alpha>=0))
+              res<-solve(problem)
+              res
+              """
+        )
+//
+//    objective <- Minimize(0.5 %*% t(alpha) %*% QtoRmatrix %*% alpha)
+//    problem<-Problem(objective,list((rep(1,numClasses-1) %*% alpha==0),alpha>=0)
+//    res<-solve(problem)
     }
   }
 }
