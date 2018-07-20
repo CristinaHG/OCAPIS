@@ -139,34 +139,36 @@ class kdlor {
     })
     val vlb = DenseMatrix.zeros[Double](numClasses - 1, 1).toDenseVector //alphas & betas >=0
     val vub = Inf*DenseMatrix.ones[Double](numClasses-1,1).toDenseVector //alphas & betas <=Inf
-//    val sparseq=new linalg.CSCMatrix.Builder[Double](Q.rows,Q.cols)
-//    sparseq.add(0,0,Q(0,0))
 
-    val QtoRmatix=Q(*,::).map(u=>u.data).toArray
-
-    optimmethod.toLowerCase match {
-      case "qp"=>
+    //val QtoRmatix=Q(*,::).map(u=>u.data).toArray
+//    optimmethod.toLowerCase match {
+//      case "qp"=>
         val mrank=rank(Q)
         val qpSolverBounds = new QuadraticMinimizer(mrank, ProjectBox(vlb, vub),E,DenseVector(parameters("d")),2,1e-8)
         val st = qpSolverBounds.initialize
-        val alhpa=qpSolverBounds.minimize(Q,c.toDenseVector,st)
-      case "cvx"=>
-        val R = org.ddahl.rscala.RClient()
+        val alpha=qpSolverBounds.minimize(Q,c.toDenseVector,st)
+
+//      case "cvx"=>
+//        val R = org.ddahl.rscala.RClient()
 //        R.set("numC",numClasses-1)
-        val alpha=R.eval(
-          """ require("CVXR")
-              alpha<-Variable(1)
-              objective <- Minimize(0.5 %*% (alpha) %*% 1332.43 %*% alpha)
-              problem<-Problem(objective,list((rep(1,1) %*% alpha==0),alpha>=0))
-              res<-solve(problem)
-              res
-              """
-        )
-//
-//    objective <- Minimize(0.5 %*% t(alpha) %*% QtoRmatrix %*% alpha)
-//    problem<-Problem(objective,list((rep(1,numClasses-1) %*% alpha==0),alpha>=0)
-//    res<-solve(problem)
-    }
+//        R.set("Qmatrix",QtoRmatix)
+//        val alpha=R.eval(
+//          """ require("CVXR")
+//              alpha<-Variable(numC)
+//              objective <- Minimize(0.5 %*% t(alpha) %*% Qmatrix %*% alpha)
+//              problem<-Problem(objective,list((rep(1,numC) %*% alpha==0),alpha>=0))
+//              res<-solve(problem)
+//              res$getValue(alpha)
+//              """
+//        )
+//    }
+    (1 to numClasses -1).foreach(i=>{
+      val currentClass=i
+      var auxUpdated=aux
+      auxUpdated=auxUpdated+alpha(currentClass-1)*(meanClasses(currentClass,::)-meanClasses(currentClass-1,::))
+    })
+
+
   }
 }
 
