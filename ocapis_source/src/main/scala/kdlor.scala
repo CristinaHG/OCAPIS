@@ -190,6 +190,7 @@ class kdlor {
 
     val projectedTrain = (projection.t * kernelMatrix).t
     val predictedTrain = assignLabels(projectedTrain,thresholds)
+    List(projectedTrain,predictedTrain,kerneltype,kernelParam,projection,thresholds)
   }
 }
 
