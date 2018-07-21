@@ -59,17 +59,28 @@ class kdlor {
   }
 
 
-  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseMatrix[Double])={
-    val numClasses=thresholds.cols+1
+  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):DenseVector[Int]={
+    val numClasses=thresholds.length+1
     var project2 =tile(projected, 1,numClasses-1)
-////    project2=project2 - thresholds.t * DenseMatrix.ones[Double](1,project2.cols)
-////    val mapped=project2.mapValues(a=>if(a>0) NaN else a)
-////    val maximum=max(mapped(::,*))
-////    val rows = mapped(::,*)
-////    val indices = maximum.t.map { x =>
-////       rows map (a => a.data.indexWhere(_ == x))
-////    }
-////    var predicted=mapped(::,*).map(a => a.data.indexWhere(_ == maximum))
+    project2=project2 - thresholds.t * DenseVector.ones[Double](project2.cols)
+    //asignation of the class
+    val mapped=project2.mapValues(a=>if(a>0) NaN else a)
+    //choose the biggest
+    val maximum=max(mapped(::,*)).t
+//    val rows = mapped(::,*)
+//    var predicted = maximum.map { x =>
+//       rows map (a => a.data.indexWhere(_ == x))
+//    }
+//
+    var predicted=mapped(::,*).map(f=>{
+      maximum.map(a=>f.toArray.indexWhere(_==a))
+    }).toDenseVector
+
+    //max equals NaN is because Wx-bk for all k is >0, so this
+    //pattern belongs to the last class
+    val nanindexes=maximum.findAll(p=>p.isNaN)
+    predicted(nanindexes)=numClasses
+    predicted
   }
 
   def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double],optimmethod:String): Unit ={
@@ -177,7 +188,8 @@ class kdlor {
       thresholds(currentclass-1)=((projection.t * sumel)/2)
     })
 
-    
+    val projectedTrain = (projection.t * kernelMatrix).t
+    val predictedTrain = assignLabels(projectedTrain,thresholds)
   }
 }
 
