@@ -168,7 +168,16 @@ class kdlor {
       auxUpdated=auxUpdated+alpha(currentClass-1)*(meanClasses(currentClass,::)-meanClasses(currentClass-1,::))
     })
 
+    //projections and thresholds
+    val projection = 0.5 * Hinv * aux.t
+    var thresholds = DenseVector.zeros[Double](numClasses -1)
+    // thrershold for each pair of classes
+    (1 to numClasses -1).foreach(currentclass=>{
+      val sumel=(meanClasses(currentclass,::)+meanClasses(currentclass-1,::)).t
+      thresholds(currentclass-1)=((projection.t * sumel)/2)
+    })
 
+    
   }
 }
 
