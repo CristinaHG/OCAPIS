@@ -1,13 +1,13 @@
 package cristinahg.ocapis
 import breeze.linalg._
 import breeze.numerics._
-import breeze.stats.{hist, mean}
+import breeze.stats.mean
 import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
 import Numeric._
 
 class kdlor {
- // var projection:DenseMatrix[Double]
- // var thresholds:DenseMatrix[Double]
+  //var projection:DenseMatrix[Double]
+  // var thresholds:DenseVector[Double]
  private var parameters=collection.mutable.Map[String,Double]("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
  private var optimizationMethod="qp"
@@ -59,7 +59,7 @@ class kdlor {
   }
 
 
-  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):DenseVector[Int]={
+  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Array[Int]={
     val numClasses=thresholds.length+1
     var project2 =tile(projected, 1,numClasses-1)
     project2=project2 - thresholds.t * DenseVector.ones[Double](project2.cols)
@@ -74,11 +74,11 @@ class kdlor {
 //
     var predicted=mapped(::,*).map(f=>{
       maximum.map(a=>f.toArray.indexWhere(_==a))
-    }).toDenseVector
+    }).data
 
     //max equals NaN is because Wx-bk for all k is >0, so this
     //pattern belongs to the last class
-    val nanindexes=maximum.findAll(p=>p.isNaN)
+    val nanindexes=maximum.toArray.indexWhere(p=>p.isNaN)
     predicted(nanindexes)=numClasses
     predicted
   }
@@ -173,25 +173,33 @@ class kdlor {
 //              """
 //        )
 //    }
+    var auxUpdated=aux
     (1 to numClasses -1).foreach(i=>{
       val currentClass=i
-      var auxUpdated=aux
       auxUpdated=auxUpdated+alpha(currentClass-1)*(meanClasses(currentClass,::)-meanClasses(currentClass-1,::))
     })
 
     //projections and thresholds
-    val projection = 0.5 * Hinv * aux.t
-    var thresholds = DenseVector.zeros[Double](numClasses -1)
+    val projection = 0.5 * Hinv * auxUpdated.t
+
+    var thresholds = DenseMatrix.zeros[Double](1,numClasses -1)
     // thrershold for each pair of classes
     (1 to numClasses -1).foreach(currentclass=>{
       val sumel=(meanClasses(currentclass,::)+meanClasses(currentclass-1,::)).t
-      thresholds(currentclass-1)=((projection.t * sumel)/2)
+      var prod=(projection.t * sumel)
+      prod =prod / 2.0
+      thresholds(0,currentclass-1)=prod.data(0)
     })
 
-    val projectedTrain = (projection.t * kernelMatrix).t
-    val predictedTrain = assignLabels(projectedTrain,thresholds)
-    List(projectedTrain,predictedTrain,kerneltype,kernelParam,projection,thresholds)
+//    val projectedTrain = (projection.t * kernelMatrix).t
+//    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
+//    val predictedTrain = assignLabels(projectedTrain,thresholds)
+//    List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projection,thresholds)
   }
+
+//  def predict(Array[Array[Double]]):Array[Double]={
+//
+//  }
 }
 
 object kdlor{
