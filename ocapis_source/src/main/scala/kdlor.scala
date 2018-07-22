@@ -182,19 +182,19 @@ class kdlor {
     //projections and thresholds
     val projection = 0.5 * Hinv * auxUpdated.t
 
-    var thresholds = DenseMatrix.zeros[Double](1,numClasses -1)
+    var thresholds = DenseVector.zeros[Double](numClasses -1)
     // thrershold for each pair of classes
     (1 to numClasses -1).foreach(currentclass=>{
       val sumel=(meanClasses(currentclass,::)+meanClasses(currentclass-1,::)).t
       var prod=(projection.t * sumel)
       prod =prod / 2.0
-      thresholds(0,currentclass-1)=prod.data(0)
+      thresholds(currentclass-1)=prod.data(0)
     })
 
-//    val projectedTrain = (projection.t * kernelMatrix).t
-//    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
-//    val predictedTrain = assignLabels(projectedTrain,thresholds)
-//    List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projection,thresholds)
+    val projectedTrain = (projection.t * kernelMatrix).t
+    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
+    val predictedTrain = assignLabels(projectedTrain,thresholds)
+    List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projection,thresholds)
   }
 
 //  def predict(Array[Array[Double]]):Array[Double]={
