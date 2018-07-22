@@ -205,7 +205,8 @@ class kdlor {
     val nrowtest = testPatterns.take(2).map(a => a.length).max
     val datTest = new DenseMatrix(ncoltest, nrowtest, testPatterns.flatten)
 
-    val kernelMat=computeKernelMatrix()
+    val kernelMat=computeKernelMatrix(datTrain,datTest,kernelType,kernelP)
+    
   }
 }
 
