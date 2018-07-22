@@ -73,7 +73,7 @@ class kdlor {
     var predicted=mapped(::,*).map(c=> {
       c.toArray.indexOf(c.toArray.max)+1
     }).inner
-    
+
     //max equals NaN is because Wx-bk for all k is >0, so this
     //pattern belongs to the last class
     val nanindexes=maximum.toArray.indexWhere(p=>p.isNaN)
@@ -196,9 +196,17 @@ class kdlor {
     List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projection,thresholds)
   }
 
-//  def predict(Array[Array[Double]]):Array[Double]={
-//
-//  }
+  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double])={
+    val ncoltrain = trainPatterns.length
+    val nrowtrain = trainPatterns.take(2).map(a => a.length).max
+    val datTrain = new DenseMatrix(ncoltrain, nrowtrain, trainPatterns.flatten)
+
+    val ncoltest = testPatterns.length
+    val nrowtest = testPatterns.take(2).map(a => a.length).max
+    val datTest = new DenseMatrix(ncoltest, nrowtest, testPatterns.flatten)
+
+    val kernelMat=computeKernelMatrix()
+  }
 }
 
 object kdlor{
