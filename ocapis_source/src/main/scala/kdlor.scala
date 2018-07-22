@@ -59,7 +59,7 @@ class kdlor {
   }
 
 
-  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Unit={
+  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Array[Int]={
     val numClasses=thresholds.length+1
     var project2 =tile(projected, 1,numClasses-1)
     val ones=DenseMatrix.ones[Double](1,project2.cols)
@@ -179,7 +179,6 @@ class kdlor {
 
     //projections and thresholds
     val projection = 0.5 * Hinv * auxUpdated.t
-
     var thresholds = DenseVector.zeros[Double](numClasses -1)
     // thrershold for each pair of classes
     (1 to numClasses -1).foreach(currentclass=>{
@@ -188,15 +187,16 @@ class kdlor {
       prod =prod / 2.0
       thresholds(currentclass-1)=prod.data(0)
     })
-
     var projectedTrain = projection.t * kernelMatrix
     val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
+    val projectionToMatrix=projection(::,*).map(u=>u.toArray).inner.toArray
+    val thresholdsToArray=thresholds.toArray
     val predictedTrain = assignLabels(projectedTrain,thresholds)
     projectedTrain=projectedTrain.t
-    List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projection,thresholds)
+    return List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projectionToMatrix,thresholdsToArray)
   }
 
-  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double])={
+  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Array[Double]],thres:Array[Double]): Seq[Array[_ >: Int with Array[Double]]] ={
     val ncoltrain = trainPatterns.length
     val nrowtrain = trainPatterns.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(ncoltrain, nrowtrain, trainPatterns.flatten)
@@ -205,8 +205,19 @@ class kdlor {
     val nrowtest = testPatterns.take(2).map(a => a.length).max
     val datTest = new DenseMatrix(ncoltest, nrowtest, testPatterns.flatten)
 
+    //projection to breeze densematrix
+    val ncolproj = projection.length
+    val nrowproj = projection.take(2).map(a => a.length).max
+    val datproj = new DenseMatrix(ncolproj, nrowproj, projection.flatten)
+   // thresholds to breeze densevector
+    val threshold=new DenseVector[Double](thres)
     val kernelMat=computeKernelMatrix(datTrain,datTest,kernelType,kernelP)
-    
+    val projected=datproj* kernelMat
+    val predicted=assignLabels(projected,threshold)
+    val projectedt=projected.t
+    val projectedtoMat=projectedt(::,*).map(u=>u.toArray).inner.toArray
+
+    return List(predicted,projectedtoMat)
   }
 }
 
