@@ -59,7 +59,7 @@ class kdlor {
   }
 
 
-  def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Array[Int]={
+  private def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Array[Int]={
     val numClasses=thresholds.length+1
     var project2 =tile(projected, 1,numClasses-1)
     val ones=DenseMatrix.ones[Double](1,project2.cols)
