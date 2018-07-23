@@ -24,7 +24,8 @@ class libtest extends FunSuite{
   }
 
   val casted=rows.toArray
-  val labs=Array(1,2,3,1,1,2)
+  val labs=casted.map(u=>u(u.length-1).toInt)
+  val trainDataMatrix=casted.map(u=>u.take(u.length-1))
   print(casted(0)(0))
 //  test("length of computed weights should equal labels size"){
 //    assert(svmop.computeWeights(1,labels).length==labels.length)
