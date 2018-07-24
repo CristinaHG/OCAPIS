@@ -61,9 +61,9 @@ class kdlor {
 
   private def assignLabels(projected: DenseMatrix[Double],thresholds:DenseVector[Double]):Array[Int]={
     val numClasses=thresholds.length+1
-    var project2 =tile(projected, 1,numClasses-1)
+    var project2 =tile(projected,numClasses-1,1)
     val ones=DenseMatrix.ones[Double](1,project2.cols)
-    val right=thresholds.t*ones
+    val right=thresholds*ones
     project2=project2 - right
     //asignation of the class
     val mapped=project2.mapValues(a=>if(a>0) NaN else a)
@@ -189,11 +189,11 @@ class kdlor {
       thresholds(currentclass-1)=prod.data(0)
     })
     var projectedTrain = projection.t * kernelMatrix
-    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
     val projectionToMatrix=projection(::,*).map(u=>u.toArray).inner.toArray
     val thresholdsToArray=thresholds.toArray
     val predictedTrain = assignLabels(projectedTrain,thresholds)
     projectedTrain=projectedTrain.t
+    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
      List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projectionToMatrix,thresholdsToArray)
   }
 
