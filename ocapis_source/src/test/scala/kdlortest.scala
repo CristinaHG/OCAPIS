@@ -20,7 +20,17 @@ class kdlortest extends FunSuite{
   val kt="rbf"
   val params=Array(1.0,2.0)
   val optim="qp"
-  val fitted=kd.train(trainDataMatrix,labs,kt,params,optim)
+  val fitted=kd.train(trainDataMatrix,labs,kt,params)
+    val project=fitted(4) match {
+      case x:Array[Array[Double]] => x
+      case _ => throw new RuntimeException("Expected projection matrix as Array[Array[Double]]")
+    }
+
+    val thres=fitted(5) match {
+      case x:Array[Double] => x
+      case _ => throw new RuntimeException("Expected thresholds vector as Array[Double]")
+    }
+    val predicted=kd.predict(trainDataMatrix,trainDataMatrix,kt,params,project,thres)
 //  val projectedTrainfile=io.Source.fromFile(getClass.getResource("/projectedTrain").getPath)
 //  var projectedTrainM=ArrayBuffer[Array[Double]]()
 //  for (line <- projectedTrainfile.getLines.filterNot(s=>s.startsWith("#"))) {
@@ -37,8 +47,11 @@ class kdlortest extends FunSuite{
     predictedTrainLabels+=item
       }
       val predsTrainMat=predictedTrainLabels.toArray
-  test("trained method should provide projectedTrainToMatrix data equals to projectedTrainMatrix"){
+  test("train method should provide projectedTrainToMatrix data equals to projectedTrainMatrix"){
   assert(fitted(1)===predsTrainMat)
   }
 
+  test("test method should provide labeled data equal to projectedTrainMatrix"){
+    assert(fitted(1)===predsTrainMat)
+  }
 }
