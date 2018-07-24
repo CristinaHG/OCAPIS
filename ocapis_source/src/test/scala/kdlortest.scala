@@ -21,15 +21,24 @@ class kdlortest extends FunSuite{
   val params=Array(1.0,2.0)
   val optim="qp"
   val fitted=kd.train(trainDataMatrix,labs,kt,params,optim)
-  val projectedTrainfile=io.Source.fromFile(getClass.getResource("/projectedTrain").getPath)
-  var projectedTrainM=ArrayBuffer[Array[Double]]()
-  for (line <- projectedTrainfile.getLines.filterNot(s=>s.startsWith("#"))) {
-    var item=line.split(" ").map(_.trim.toDouble)
-    projectedTrainM+=item
-  }
-  val projectedTrainMatrix=rows.toArray
+//  val projectedTrainfile=io.Source.fromFile(getClass.getResource("/projectedTrain").getPath)
+//  var projectedTrainM=ArrayBuffer[Array[Double]]()
+//  for (line <- projectedTrainfile.getLines.filterNot(s=>s.startsWith("#"))) {
+//    var item=line.split(" ").map(_.trim.toDouble)
+//    projectedTrainM+=item
+//  }
+//  val projectedTrainMatrix=rows.toArray
+
+  val predTrainfile=io.Source.fromFile(getClass.getResource("/predictions").getPath)
+  var predictedTrainLabels=ArrayBuffer[Int]()
+
+  for (line <- predTrainfile.getLines.filterNot(s=>s.startsWith("#"))) {
+        var item=line.trim.toInt
+    predictedTrainLabels+=item
+      }
+      val predsTrainMat=predictedTrainLabels.toArray
   test("trained method should provide projectedTrainToMatrix data equals to projectedTrainMatrix"){
-  assert(fitted(0)==projectedTrainMatrix)
+  assert(fitted(1)==predsTrainMat)
   }
 
 }
