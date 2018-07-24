@@ -219,6 +219,12 @@ object kdlor {
 
   def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): Unit = {
     val fitted = kd.train(data, datalabels, kernelType, params)
+    fitted
+  }
+
+  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Array[Double]],thres:Array[Double]): Unit = {
+    val predicted=kd.predict(datatr,datatst,kt,params,projected,thres)
+    predicted
   }
 }
 //val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
