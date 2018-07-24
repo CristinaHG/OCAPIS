@@ -6,25 +6,12 @@ import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
 import Numeric._
 
 class kdlor {
-  //var projection:DenseMatrix[Double]
-  // var thresholds:DenseVector[Double]
  private var parameters=collection.mutable.Map[String,Double]("u"->0.001,"d"->10)
  private var kerneltype:String="linear"
  private var optimizationMethod="qp"
 
   // TODO: implement QUICKRBF
   def computeKernelMatrix(data1: DenseMatrix[Double], data2: DenseMatrix[Double], kType: String, kParam: Array[Double]):DenseMatrix[Double] = {
-    //parse data from R format to Breeze DenseMatrix
-//    val ncol1 = patterns1.length
-//    val nrow1 = patterns1.take(2).map(a => a.length).max
-//    val ncol2 = patterns2.length
-//    val nrow2 = patterns2.take(2).map(a => a.length).max
-//
-//    val dat1 = new DenseMatrix(nrow1, ncol1, patterns1.flatten)
-//    val data1 = dat1.t
-//    val dat2 = new DenseMatrix(nrow2, ncol2, patterns2.flatten)
-//    val data2 = dat2.t
-
     val Nf1 = data1.cols
     val Nf2 = data2.cols
     val nrow1 =data1.rows
@@ -54,7 +41,6 @@ class kdlor {
       }
       case _ =>  KM
         // throw sys.error("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
-
     }
   }
 
@@ -73,11 +59,8 @@ class kdlor {
     val maximum=max(mapped(::,*)).t
 
     val preds=mapped(::,*).map(a=>a.toArray.indexOf(a.toArray.max)+1)
-//    val preds=maximum.foreach(m=>{
-//      mapped.rowColumnFromLinearIndex(mapped.data.indexOf(m))
-//    })
     var predictions=preds.inner
-    //max equals NaN is because Wx-bk for all k is >0, so this
+    //max equals -Inf is because Wx-bk for all k is >0, so this
     //pattern belongs to the last class
     val nanindexes=maximum.findAll(p=>isNonfinite(p))
     nanindexes.foreach(i=> {predictions(i)=numClasses})
