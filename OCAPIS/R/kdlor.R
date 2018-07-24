@@ -14,4 +14,5 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,c,u,k){
   if(!tolower(kerneltype) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
+
 }
