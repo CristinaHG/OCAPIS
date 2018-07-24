@@ -66,19 +66,22 @@ class kdlor {
     val right=thresholds*ones
     project2=project2 - right
     //asignation of the class
-    val mapped=project2.mapValues(a=>if(a>0) NaN else a)
+    val mapped=project2(*,::).map(a=>{
+      a.map(b=>if(b>0) -Inf else b)
+    })
     //choose the biggest
     val maximum=max(mapped(::,*)).t
 
-    var predicted=mapped(::,*).map(c=> {
-      c.toArray.indexOf(c.toArray.max)+1
-    }).inner
-
+    val preds=mapped(::,*).map(a=>a.toArray.indexOf(a.toArray.max)+1)
+//    val preds=maximum.foreach(m=>{
+//      mapped.rowColumnFromLinearIndex(mapped.data.indexOf(m))
+//    })
+    var predictions=preds.inner
     //max equals NaN is because Wx-bk for all k is >0, so this
     //pattern belongs to the last class
-    val nanindexes=maximum.toArray.indexWhere(p=>p.isNaN)
-    predicted(nanindexes)=numClasses
-    predicted.toArray
+    val nanindexes=maximum.findAll(p=>isNonfinite(p))
+    nanindexes.foreach(i=> {predictions(i)=numClasses})
+    predictions.toArray
   }
 
   def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double],optimmethod:String)
