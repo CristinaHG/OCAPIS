@@ -12,7 +12,7 @@ LazyData: true
 SystemRequirements: Scala
 BugReports: https://github.com/CristinaHG/OCAPIS/issues
 Imports: 
-    rscala (>= 2.5.0),
+    rscala (>= 3.1.0),
     reticulate,
     Rcpp
 RoxygenNote: 6.0.1

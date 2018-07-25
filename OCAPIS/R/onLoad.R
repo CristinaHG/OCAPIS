@@ -16,9 +16,9 @@
 
  # invisible()
   packageStartupMessage("This is OCAPIS V.0.1.0")
-  .rscalaPackage(pkgname,heap.maximum="512M")
+   scalaPackage(pkgname,heap.maximum="512M")
 }
 
 .onUnload <- function(libpath) {
-  .rscalaPackageUnload()
+  scalaPackageUnload()
 }
