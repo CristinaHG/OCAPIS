@@ -51,6 +51,6 @@ class kdlortest extends FunSuite {
   }
 
   test("test method should provide labeled data equal to projectedTrainMatrix") {
-    assert(fitted(1) === predsTrainMat)
+    assert(predicted(0) === predsTrainMat)
   }
 }
