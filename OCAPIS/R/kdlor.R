@@ -1,10 +1,3 @@
-computeKernel<-function(){
-  #print(s$.cristinahg.ocapis.kdlor$computeKernelMatrix())
-  s$scala.util.Random$new(123L)
-}
-
-#s$.cristinahg.ocapis.kdlor$computeKernelMatrix(as.matrix(dattrain[,-ncol(dattrain)]),as.matrix(dattrain[,-ncol(dattrain)]),5,c(1.0,2.0))
-
 #' Trains a KDLOR model
 #'
 #'Trains the Kernel Discriminant Learning for Ordinal Regression model with training data
