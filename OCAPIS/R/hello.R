@@ -26,6 +26,6 @@ hello <- function() {
 #' add(10, 1)
 
 brain<-function(){
-   print(s$.foo.bar.baz.Foo$givenumber())
+   print(s$foo.bar.baz.Foo.givenumber())
 }
 
