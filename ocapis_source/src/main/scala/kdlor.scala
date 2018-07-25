@@ -67,7 +67,7 @@ class kdlor {
     predictions.toArray
   }
 
-  def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double]): List[Any] ={
+  def train(traindat: Array[Array[Double]],trainLabels: Array[Int],kerneltype:String,params:Array[Double]): Array[Array[_ >: Array[Double] with Int with Double]] ={
     //parse data from R to scala Breeze densematrix format
     val ncol1 = traindat.length
     val nrow1 = traindat.take(2).map(a => a.length).max
@@ -174,16 +174,18 @@ class kdlor {
       thresholds(currentclass-1)=prod.data(0)
     })
     var projectedTrain = projection.t * kernelMatrix
-    val projectionToMatrix=projection(::,*).map(u=>u.toArray).inner.toArray
+    val projectionToMatrix=projectedTrain.toDenseVector.toArray
+    // val projectionToMatrix=projection(::,*).map(u=>u.toArray).inner.toArray
     val thresholdsToArray=thresholds.toArray
     val predictedTrain = assignLabels(projectedTrain,thresholds)
     projectedTrain=projectedTrain.t
-    val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
+    //val projectedTrainToMatrix=projectedTrain(::,*).map(u=>u.toArray).inner.toArray
+    val projectedTrainToMatrix=projectedTrain.toDenseVector.toArray
 
-     List(projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projectionToMatrix,thresholdsToArray)
+     Array(projectedTrainToMatrix,predictedTrain,kernelParam,projectionToMatrix,thresholdsToArray)
   }
 
-  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Array[Double]],thres:Array[Double]): List[Any] ={
+  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Double],thres:Array[Double]): List[Any] ={
     val ncoltrain = trainPatterns.length
     val nrowtrain = trainPatterns.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainPatterns.flatten)
@@ -194,8 +196,9 @@ class kdlor {
 
     //projection to breeze densematrix
     val ncolproj = projection.length
-    val nrowproj = projection.take(2).map(a => a.length).max
-    val datproj = new DenseMatrix(ncolproj, nrowproj, projection.flatten)
+    //val nrowproj = projection.take(2).map(a => a.length).max
+    //val datproj = new DenseMatrix(ncolproj, nrowproj, projection.flatten)
+    val datproj = new DenseVector(projection)
    // thresholds to breeze densevector
     val threshold=new DenseVector[Double](thres)
     val kernelMat=computeKernelMatrix(datTrain,datTest,kernelType,kernelP)
@@ -217,14 +220,14 @@ object kdlor {
   ////
   val kd = new kdlor()
 
-  def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): List[Any] = {
+  def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): Any = {
     val fitted = kd.train(data, datalabels, kernelType, params)
-    fitted
+    return fitted(3)
   }
 
-  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Array[Double]],thres:Array[Double]): List[Any]= {
+  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Array[Double]],thres:Array[Double]): Array[Any]= {
     val predicted=kd.predict(datatr,datatst,kt,params,projected,thres)
-    predicted
+    return predicted.toArray
   }
 }
 //val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
