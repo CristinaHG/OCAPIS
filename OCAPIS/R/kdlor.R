@@ -34,8 +34,8 @@ computeKernel<-function(){
 #' computeWeights(1,c(1,2,3,1,2,1))
 #'
 #'
-kdlortrain<-function(traindata,trainlabels,kerneltype,c,u,k){
-  if(nargs<2) stop("Data and labels must be provided.\n")
+kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
+  if(nargs()<2) stop("Data and labels must be provided.\n")
 
   if (length(trainlabels)!= nrow(traindata)){
     stop('Number of patterns and targets should be the same.\n');
@@ -43,8 +43,22 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,c,u,k){
   if(!tolower(kerneltype) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
-
+  if(!typeof(d)=="double" || !typeof(u)=="double" || !typeof(k)=="double"){
+    stop("d, u and k params must be of type numeric.")
+  }
   if (!is.matrix(traindata)){traindata=as.matrix(traindata)}
-
-
+  params=c()
+  if (length(c(d,u,k))==3){
+    params<-c(params,d)
+    params<-c(params,u)
+    params<-c(params,k)
+  }
+  fitted<-s$.cristinahg.ocapis.kdlor$kdlorfit(traindata,trainlabels,kerneltype,params)
+  fitted
 }
+
+#dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#traindata=dattrain[,-ncol(dattrain)]
+#trainlabels=dattrain[,ncol(dattrain)]
+#kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
+

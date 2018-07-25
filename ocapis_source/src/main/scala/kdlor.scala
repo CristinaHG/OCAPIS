@@ -217,12 +217,12 @@ object kdlor {
   ////
   val kd = new kdlor()
 
-  def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): Unit = {
+  def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): List[Any] = {
     val fitted = kd.train(data, datalabels, kernelType, params)
     fitted
   }
 
-  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Array[Double]],thres:Array[Double]): Unit = {
+  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Array[Double]],thres:Array[Double]): List[Any]= {
     val predicted=kd.predict(datatr,datatst,kt,params,projected,thres)
     predicted
   }
