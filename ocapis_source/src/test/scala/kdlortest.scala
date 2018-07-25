@@ -47,7 +47,7 @@ class kdlortest extends FunSuite {
   }
   val predsTrainMat = predictedTrainLabels.toArray
   test("train method should provide projectedTrainToMatrix data equals to projectedTrainMatrix") {
-    assert(fitted(1) === predsTrainMat)
+    assert(fitted(1).map(t=>t.toInt) === predsTrainMat)
   }
 
   test("test method should provide labeled data equal to projectedTrainMatrix") {
