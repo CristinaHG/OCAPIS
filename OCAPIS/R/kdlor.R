@@ -46,8 +46,7 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
     params<-c(params,u)
     params<-c(params,k)
   }
-  fitted<-s$.cristinahg.ocapis.kdlor$kdlorfit(traindata,trainlabels,kerneltype,params)
-  fitted
+  s$kdlorfit(traindata,trainlabels,kerneltype,params)
 }
 
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
