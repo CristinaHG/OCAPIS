@@ -6,7 +6,7 @@ scalaVersion := "2.11.11"
 
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.5" % "test"
 libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.1"
-libraryDependencies += "org.ddahl" %% "rscala" % "2.5.0"
+//libraryDependencies += "org.ddahl" %% "rscala" % "3.1.0"
 libraryDependencies  ++= Seq(
   // Last stable release
   "org.scalanlp" %% "breeze" % "0.13.2",
