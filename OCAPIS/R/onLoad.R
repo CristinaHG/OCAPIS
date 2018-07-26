@@ -22,7 +22,7 @@
       import cristinahg.ocapis.kdlor._
     '
   }
-  scalaPackage(pkgname,heap.maximum="512M",assign.callback=assign.callback)
+  scalaPackage(pkgname,assign.callback=assign.callback)
 }
 
 .onUnload <- function(libpath) {
