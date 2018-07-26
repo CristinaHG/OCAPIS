@@ -16,7 +16,13 @@
 
  # invisible()
   packageStartupMessage("This is OCAPIS V.0.1.0")
-   scalaPackage(pkgname,heap.maximum="512M")
+  assign.callback <- function(s) {
+    s + '
+      import cristinahg.ocapis.svmop._
+      import cristinahg.ocapis.kdlor._
+    '
+  }
+  scalaPackage(pkgname,heap.maximum="512M",assign.callback=assign.callback)
 }
 
 .onUnload <- function(libpath) {
