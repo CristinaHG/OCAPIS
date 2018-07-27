@@ -7,13 +7,9 @@ setClass(Class="kdlorModel",
            kernelParam="numeric",
            projection="numeric",
            thresholds="numeric"
-         )
-)
-
-setMethod("initialize", "kdlorModel", function(.Object,..., a=numeric()){
-  .Object@a <- data[1]
-  callNextMethod(.Object, ..., a=a)
-})
+         ),
+         prototype(projectedTrain = NA_real_, predictedTrain= NA_real_,kerneltype=NA_character_,
+                   kernelParam=NA_real_,projection=NA_real_,thresholds=NA_real_))
 
 
 #' Trains a KDLOR model
@@ -21,7 +17,7 @@ setMethod("initialize", "kdlorModel", function(.Object,..., a=numeric()){
 #'Trains the Kernel Discriminant Learning for Ordinal Regression model with training data
 #' @param traindata Data in matrix format. Tags should not be provided in traindata.
 #' @param trainlabels Class labels for training data. Must be numeric of type integer.
-#' @param kerneltype Type of kernel to compute the Gram matrix. One of "rbf","gauss","gaussian","sigmoid","linear","poly","polynomial".
+#' @param kernel Type of kernel to compute the Gram matrix. One of "rbf","gauss","gaussian","sigmoid","linear","poly","polynomial".
 #' @param c Numeric parameter for optimization method. Default is 10.
 #' @param u Numeric parameter for H matrix computation. Default is 0.01.
 #' @param k Array of kernel Params. If kernel type is sigmoid, Array of two values should be provided.
@@ -45,13 +41,13 @@ setMethod("initialize", "kdlorModel", function(.Object,..., a=numeric()){
 #' computeWeights(1,c(1,2,3,1,2,1))
 #'
 #'
-kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
+kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
   if(nargs()<2) stop("Data and labels must be provided.\n")
 
   if (length(trainlabels)!= nrow(traindata)){
     stop('Number of patterns and targets should be the same.\n');
   }
-  if(!tolower(kerneltype) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
+  if(!tolower(kernel) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
   if(!typeof(d)=="double" || !typeof(u)=="double" || !typeof(k)=="double"){
@@ -64,21 +60,20 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
     params<-c(params,u)
     params<-c(params,k)
   }
-  myfit<-s$kdlorfit(traindata,trainlabels,kerneltype,params)
+  myfit<-s$kdlorfit(traindata,trainlabels,kernel,params)
   #create R object - kdlor Model
-  return (new ("kdlorModel",
-               projectedTrain=myfit(0L),
-               predictedTrain=myfit(1L),
-               kerneltype=kerneltype,
-               kernelParam=,myfit(2L),
-               projection=myfit(3L),
-               thresholds=myfit(4L)
-               ))
-  list(myfit(0L),myfit(1L),myfit(2L),myfit(3L),myfit(4L))
+  (new ("kdlorModel",
+         projectedTrain=myfit(0L),
+         predictedTrain=myfit(1L),
+         kerneltype=kernel,
+         kernelParam=myfit(2L),
+         projection=myfit(3L),
+         thresholds=myfit(4L)
+  ))
 }
 
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
 #traindata=dattrain[,-ncol(dattrain)]
 #trainlabels=dattrain[,ncol(dattrain)]
-#kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
+#myfit<-kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
 
