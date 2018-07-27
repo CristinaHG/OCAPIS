@@ -2,10 +2,10 @@ name := "ocapis_source"
 
 version := "0.1"
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.12.4"
 
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.5" % "test"
-libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.1"
+libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.5" % "test"
+//libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.1"
 //libraryDependencies += "org.ddahl" %% "rscala" % "3.1.0"
 libraryDependencies  ++= Seq(
   // Last stable release

@@ -46,7 +46,13 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
     params<-c(params,u)
     params<-c(params,k)
   }
-  s$kdlorfit(traindata,trainlabels,kerneltype,params)
+  myfit<-s$kdlorfit(traindata,trainlabels,kerneltype,params)
+  x1 <- c(1,2,3)
+#  x2 <- c(11,12,13)
+#  x3 <- 34
+#  x4 <- c(100,110,120)
+#  x5 <- c(50,51)
+ # myfit<-s$kdlorfit2(x1,x2,I(x3),x4,x5)
 }
 
 #dattrain<-read.csv("train_balance-scale.0", sep=" ")
