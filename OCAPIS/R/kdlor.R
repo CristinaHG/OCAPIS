@@ -1,3 +1,21 @@
+
+setClass(Class="kdlorModel",
+         representation(
+           projectedTrain="numeric",
+           predictedTrain="numeric",
+           kerneltype="character",
+           kernelParam="numeric",
+           projection="numeric",
+           thresholds="numeric"
+         )
+)
+
+setMethod("initialize", "kdlorModel", function(.Object,..., a=numeric()){
+  .Object@a <- data[1]
+  callNextMethod(.Object, ..., a=a)
+})
+
+
 #' Trains a KDLOR model
 #'
 #'Trains the Kernel Discriminant Learning for Ordinal Regression model with training data
@@ -47,7 +65,15 @@ kdlortrain<-function(traindata,trainlabels,kerneltype,d,u,k){
     params<-c(params,k)
   }
   myfit<-s$kdlorfit(traindata,trainlabels,kerneltype,params)
-  #create R object
+  #create R object - kdlor Model
+  return (new ("kdlorModel",
+               projectedTrain=myfit(0L),
+               predictedTrain=myfit(1L),
+               kerneltype=kerneltype,
+               kernelParam=,myfit(2L),
+               projection=myfit(3L),
+               thresholds=myfit(4L)
+               ))
   list(myfit(0L),myfit(1L),myfit(2L),myfit(3L),myfit(4L))
 }
 
