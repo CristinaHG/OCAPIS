@@ -193,7 +193,7 @@ class kdlor {
     Array(projectedTrainToMatrix,predictedTrainDouble,kernelParam,projection.toDenseVector.toArray,thresholdsToArray)
   }
 
-  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Double],thres:Array[Double]): List[Any] ={
+  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Double],thres:Array[Double]): Array[Array[Double]] ={
     val ncoltrain = trainPatterns.length
     val nrowtrain = trainPatterns.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainPatterns.flatten)
@@ -215,17 +215,14 @@ class kdlor {
     val projectedt=projected.t
     //val projectedtoMat=projectedt(::,*).map(u=>u.toArray).inner.toArray
     val projectedtoMat=projectedt.toArray
-    return List(predicted,projectedtoMat)
+    val predictedToDouble=predicted.map(p=>p.toDouble)
+
+    Array(predictedToDouble,projectedtoMat)
   }
 }
 
 object kdlor {
 
-  //  def apply(p1: Array[Array[Double]], p2: Array[Array[Double]], kType: String, kParam: Array[Double]): Unit = {
-  //    val kd=new kdlor()
-  //    kd.computeKernelMatrix(p1,p2,kType,kParam)
-  //  }
-  ////
   val kd = new kdlor()
 
   def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): Array[Array[Double]] = {
@@ -233,29 +230,12 @@ object kdlor {
     fitted
   }
 
-  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Double],thres:Array[Double]): Array[Any]= {
+  def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Double],thres:Array[Double]): Array[Array[Double]]= {
     val predicted=kd.predict(datatr,datatst,kt,params,projected,thres)
-    predicted.toArray
+    predicted
   }
 }
-//val d1=Array(Array(1.0,2.0), Array(3.0,4.0),Array(5.0,6.0),Array(7.0,2.0))
-//val d2=DenseMatrix((3.0,4.0), (5.0,6.0))
-//val labels=Array(1,2,1,1)
-//val fitted=kd.train(d1,labels,"rbf",Array(1,2),"cvx")
-//
-//  val ktype=fitted(4) match {
-//    case x:Array[Array[Double]] => x
-//    case _ => throw new RuntimeException("Expected projection matrix as Array[Array[Double]]")
-//  }
-//
-//  val kparam=fitted(5) match {
-//    case x:Array[Double] => x
-//    case _ => throw new RuntimeException("Expected thresholds vector as Array[Double]")
-//  }
-//  //projectedTrainToMatrix,predictedTrain,kerneltype,kernelParam,projectionToMatrix,thresholdsToArray
-//  kd.predict(d1,d1,"rbf",Array(1,2),ktype,kparam)
-//}
-//}
+
 
 
 

@@ -58,6 +58,8 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
   if(!tolower(kernel) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
+  if(tolower(kernel)=="sigmoid" & length(k<2)) stop("Sigmoid kernel needs two parameters")
+
   if(!typeof(d)=="double" || !typeof(u)=="double" || !typeof(k)=="double"){
     stop("d, u and k params must be of type numeric.")
   }
@@ -80,8 +82,27 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
   ))
 }
 
-#dattrain<-read.csv("train_balance-scale.0", sep=" ")
-#traindata=dattrain[,-ncol(dattrain)]
-#trainlabels=dattrain[,ncol(dattrain)]
-#myfit<-kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
+
+kdlorpredict<-function(fittedmodel,trainData,testData){
+  if(!typeof(fittedmodel)=="S4") stop("An instance of kdlorModel was expected. Please fit a model using kdlorfit(...)\n")
+  if(!(class(fittedmodel)=="kdlorModel")) stop("A fitted kdlor model must be provided\n")
+
+  if (ncol(trainData)!= ncol(testData)){
+    stop('Number of columns of train and test sets must be equal\n');
+  }
+  if(fittedmodel@kerneltype=="sigmoid" & length(fittedmodel@kernelParam<2)) stop("Sigmoid kernel needs two parameters")
+
+  if (!is.matrix(trainData)){trainData=as.matrix(trainData)}
+  if (!is.matrix(testData)){testData=as.matrix(testData)}
+
+  if(length(fittedmodel@kernelParam)<2){
+    wrappedKparam=I(fittedmodel@kernelParam)
+  }
+  myprediction<-s$kdlorpredict(trainData,testData,fittedmodel@kerneltype,wrappedKparam,fittedmodel@projection,fittedmodel@thresholds)
+  list(myprediction(0L),myprediction(1L))
+}
+
+#testdata<-read.csv("test_balance-scale.0", sep=" ")
+#testdata<-testdata[,-ncol(testdata)]
+#pred<-kdlorpredict(myfit,traindata,testdata)
 
