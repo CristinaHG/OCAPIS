@@ -83,6 +83,21 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
 }
 
 
+
+#' Predicts KDLOR model outputs for test data
+#'
+#'Predicts the test data labels using a Kernel Discriminant Learning for Ordinal Regression fitted model
+#' @param fittedmodel fitted model of class kdlorModel obtained with kdlortrain(...)
+#' @param trainData Data used to previously train the model. Tags should not be provided in traindata.
+#' @param testData Test data without labels.
+#' @return A list of two elements containing the predicted labels for each instances and the projected values.
+#'
+#' @examples
+#' testdata<-read.csv("test_balance-scale.0", sep=" ")
+#' testdata<-testdata[,-ncol(testdata)]
+#' pred<-kdlorpredict(myfit,traindata,testdata)
+#'
+#'
 kdlorpredict<-function(fittedmodel,trainData,testData){
   if(!typeof(fittedmodel)=="S4") stop("An instance of kdlorModel was expected. Please fit a model using kdlorfit(...)\n")
   if(!(class(fittedmodel)=="kdlorModel")) stop("A fitted kdlor model must be provided\n")
@@ -90,19 +105,14 @@ kdlorpredict<-function(fittedmodel,trainData,testData){
   if (ncol(trainData)!= ncol(testData)){
     stop('Number of columns of train and test sets must be equal\n');
   }
-  if(fittedmodel@kerneltype=="sigmoid" & length(fittedmodel@kernelParam<2)) stop("Sigmoid kernel needs two parameters")
+  # if(fittedmodel@kerneltype=="sigmoid" & length(fittedmodel@kernelParam<2)) stop("Sigmoid kernel needs two parameters")
 
   if (!is.matrix(trainData)){trainData=as.matrix(trainData)}
   if (!is.matrix(testData)){testData=as.matrix(testData)}
 
-  if(length(fittedmodel@kernelParam)<2){
-    wrappedKparam=I(fittedmodel@kernelParam)
-  }
-  myprediction<-s$kdlorpredict(trainData,testData,fittedmodel@kerneltype,wrappedKparam,fittedmodel@projection,fittedmodel@thresholds)
-  list(myprediction(0L),myprediction(1L))
+  mypred<-s$kdlorpredict(trainData,testData,fittedmodel@kerneltype,I(fittedmodel@kernelParam),fittedmodel@projection,fittedmodel@thresholds)
+  list(mypred[1,],mypred[2,])
+  #list(mypred(0L),mypred(1L))
 }
 
-#testdata<-read.csv("test_balance-scale.0", sep=" ")
-#testdata<-testdata[,-ncol(testdata)]
-#pred<-kdlorpredict(myfit,traindata,testdata)
 

@@ -226,13 +226,11 @@ object kdlor {
   val kd = new kdlor()
 
   def kdlorfit(data: Array[Array[Double]], datalabels: Array[Int], kernelType: String, params: Array[Double]): Array[Array[Double]] = {
-    val fitted = kd.train(data, datalabels, kernelType, params)
-    fitted
+    kd.train(data, datalabels, kernelType, params)
   }
 
   def kdlorpredict(datatr: Array[Array[Double]],datatst: Array[Array[Double]], kt: String, params: Array[Double],projected:Array[Double],thres:Array[Double]): Array[Array[Double]]= {
-    val predicted=kd.predict(datatr,datatst,kt,params,projected,thres)
-    predicted
+    kd.predict(datatr,datatst,kt,params,projected,thres)
   }
 }
 
