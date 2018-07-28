@@ -10,7 +10,7 @@
 #'
 
 computeWeights<-function(p,tags) {
-  s$computeWeights(p,tags)
+  s$computeWeights(as.integer(p),as.integer(tags))
 }
 
 #' Train n-1 SVM models for ordinal data with given parameters
