@@ -1,5 +1,0 @@
-import(rscala)
-import(reticulate)
-exportPattern("^[[:alpha:]]+")
-importFrom("MASS",polr)
-
