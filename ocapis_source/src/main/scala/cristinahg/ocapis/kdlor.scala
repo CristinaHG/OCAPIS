@@ -193,7 +193,8 @@ class kdlor {
     Array(projectedTrainToMatrix,predictedTrainDouble,kernelParam,projection.toDenseVector.toArray,thresholdsToArray)
   }
 
-  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,kernelP:Array[Double],projection:Array[Double],thres:Array[Double]): Array[Array[Double]] ={
+  def predict(trainPatterns:Array[Array[Double]],testPatterns:Array[Array[Double]],kernelType:String,
+              kernelP:Array[Double],projection:Array[Double],thres:Array[Double]): Array[Array[Double]] ={
     val ncoltrain = trainPatterns.length
     val nrowtrain = trainPatterns.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainPatterns.flatten)
