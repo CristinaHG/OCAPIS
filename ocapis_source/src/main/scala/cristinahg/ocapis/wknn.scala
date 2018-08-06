@@ -1,7 +1,8 @@
 package cristinahg.ocapis
 
 import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.{abs, pow}
+import breeze.numerics.{abs, cos, pow}
+import breeze.numerics.constants._
 import breeze.stats.stddev
 
 class wknn {
@@ -33,6 +34,12 @@ class wknn {
           (35/32)*pow((1-(d*d)),3)*1
         }else (35/32)*pow((1-(d*d)),3)*0
       })
+      case "cosine" => distances.map(d=>{
+        if(abs(d)<=1){
+          (Pi /4)*cos((Pi/2)*d)*1
+        }else (Pi /4)*cos((Pi/2)*d)*0
+      })
+
     }
   }
 
