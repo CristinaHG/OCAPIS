@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 
 import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.abs
+import breeze.numerics.{abs, pow}
 import breeze.stats.stddev
 
 class wknn {
@@ -22,6 +22,11 @@ class wknn {
         if(abs(d)<=1){
           (3/4)*(1-(d*d))*1
         }else (3/4)*(1-(d*d))*0
+      })
+      case "biweight" => distances.map(d=>{
+        if(abs(d)<=1){
+          (15/16)*(1-(d*d))*(1-(d*d))*1
+        }else (15/16)*(1-(d*d))*(1-(d*d))*0
       })
     }
   }
