@@ -13,7 +13,12 @@ class wknn {
           (1/2)*1
         }else (1/2)*0
       })
-      case   
+      case "triangular" => distances.map(d=>{
+        if(abs(d)<=1){
+          (1-abs(d))*1
+        }else (1-abs(d))*0
+      })
+        
     }
   }
 
