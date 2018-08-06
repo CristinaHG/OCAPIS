@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 
 import breeze.linalg.functions.minkowskiDistance
-import breeze.linalg.{*, DenseMatrix}
+import breeze.linalg.{*, DenseMatrix, DenseVector}
 import breeze.numerics._
 import breeze.numerics.constants._
 import breeze.stats.stddev
@@ -56,16 +56,22 @@ class wknn {
     val datTest = new DenseMatrix(nrowtest,ncoltest, testData.flatten)
 
     val standarized=stddev(datTrain(::,*))
-    minkowskiDistance()
 
     val distances=datTest(*,::).map(u=>{
       datTrain(*,::).map(t=>minkowskiDistance(t,u,q)).toArray
     })
 
-    val neightbors=distances.data.map(f=>f.zipWithIndex.sorted.take(k+1))
-    val posteriorneightboor=neightbors.map(f=>f.last._1)
+    val neightborszipped=distances.data.map(f=>f.zipWithIndex.sorted.take(k+1))
+    val neightborsindexes=neightborszipped.map(t=>t.map(f=>f._2).toSeq)
     
+    val neightbors=datTrain(*,::).map(f=>f()
 
+//    val posteriorneightboorDV= new DenseVector[Double](posteriorneightboor)
+//    val distanceTestToposterior=datTest(*,::).map(u=> minkowskiDistance(u,posteriorneightboorDV,q))
+//
+//
+//    val standarizedDist=neightbors.map(t=>t.map(f=>f._1/distanceTestToposterior))
+//
 
 
 
