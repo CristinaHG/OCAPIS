@@ -41,6 +41,7 @@ class wknn {
       })
       case "gauss" => distances.map(d=> (1/sqrt(2*Pi))*exp(-((d*d)/2)))
       case "inversion" => distances.map(d=> 1/abs(d))
+      case _ => Array(0)
     }
   }
 
