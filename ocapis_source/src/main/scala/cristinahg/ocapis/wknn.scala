@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 
 import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.{abs, cos, pow}
+import breeze.numerics._
 import breeze.numerics.constants._
 import breeze.stats.stddev
 
@@ -39,7 +39,7 @@ class wknn {
           (Pi /4)*cos((Pi/2)*d)*1
         }else (Pi /4)*cos((Pi/2)*d)*0
       })
-
+      case "gauss" => distances.map(d=> (1/sqrt(2*Pi))*exp(-((d*d)/2)))
     }
   }
 
