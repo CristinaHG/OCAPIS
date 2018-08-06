@@ -63,7 +63,8 @@ class wknn {
     })
 
     val neightbors=distances.data.map(f=>f.zipWithIndex.sorted.take(k+1))
-
+    val posteriorneightboor=neightbors.map(f=>f.last._1)
+    
 
 
 
