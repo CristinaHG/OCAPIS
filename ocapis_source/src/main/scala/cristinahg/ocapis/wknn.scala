@@ -18,7 +18,11 @@ class wknn {
           (1-abs(d))*1
         }else (1-abs(d))*0
       })
-        
+      case "epanechnikov" => distances.map(d=>{
+        if(abs(d)<=1){
+          (3/4)*(1-(d*d))*1
+        }else (3/4)*(1-(d*d))*0
+      })
     }
   }
 
