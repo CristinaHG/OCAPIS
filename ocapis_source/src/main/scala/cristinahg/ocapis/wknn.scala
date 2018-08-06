@@ -40,6 +40,7 @@ class wknn {
         }else (Pi /4)*cos((Pi/2)*d)*0
       })
       case "gauss" => distances.map(d=> (1/sqrt(2*Pi))*exp(-((d*d)/2)))
+      case "inversion" => distances.map(d=> 1/abs(d))
     }
   }
 
