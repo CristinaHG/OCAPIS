@@ -28,6 +28,11 @@ class wknn {
           (15/16)*(1-(d*d))*(1-(d*d))*1
         }else (15/16)*(1-(d*d))*(1-(d*d))*0
       })
+      case "triweight" => distances.map(d=>{
+        if(abs(d)<=1){
+          (35/32)*pow((1-(d*d)),3)*1
+        }else (35/32)*pow((1-(d*d)),3)*0
+      })
     }
   }
 
