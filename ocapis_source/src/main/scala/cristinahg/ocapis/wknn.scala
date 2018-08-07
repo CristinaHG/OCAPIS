@@ -67,16 +67,15 @@ class wknn {
 
 
     val neightbors= neightborsindexes.map(t=>datTrain(t.toSeq,::).toDenseMatrix)
+    val posteriors=posteriorsindex.map(t=> datTrain(t,::).inner)
 
-//    val neightbors=(1 to nrowtest).map(t=> datTrain(neightborsindexes(t-1).toSeq,::).toDenseMatrix)
-    val posteriors=(1 to nrowtest).map(t=> datTrain(posteriorsindex(t-1),::).inner).toArray
-//
-//    val distancesToPosterior=datTest(*,::).map(u=>{
-//
-//      (1 to nrowtest).map(t=>
-//        minkowskiDistance(u,posteriors(t),q)).toArray
-//    })
-//
+
+    val distancesToPosterior=datTest(*,::).map(u=>{
+
+      (1 to nrowtest).map(t=>
+        minkowskiDistance(u,posteriors(t),q)).toArray
+    })
+
 //
 //    val neightborszippedWithoutPosterior=neightborszipped.map(t=>t.dropRight(1))
 //    val normalizedDistances=neightborszippedWithoutPosterior.map(t=>
