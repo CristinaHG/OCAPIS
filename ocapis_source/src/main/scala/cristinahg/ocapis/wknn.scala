@@ -70,30 +70,17 @@ class wknn {
     val posteriors=posteriorsindex.map(t=> datTrain(t,::).inner)
 
 
-    val probe=minkowskiDistance(datTest(0,::),posteriors(0),2.0)
-
-//    val distancesToPosterior=datTest(*,::).map(u=>{
-//        minkowskiDistance(u,posteriors(u.ind,q))
-//    })
-
-
     val distancesToPosterior=(0 until nrowtest).map(i=>{
       minkowskiDistance(datTest(i,::),posteriors(i),q)
     })
 
+    val neightborszippedWithoutposterior=neightborszipped.map(v=>v.dropRight(1))
+
+    val normalizedDistances=neightborszippedWithoutposterior.map(a=>{
+      a.map(t=>(t._1/neightborszippedWithoutposterior.indexOf(a),t._2))
+    })
+
     
-//    val normalizedDistances=neightborszippedWithoutPosterior.map(t=>
-//      t.map(u=>(u._1/(distancesToPosterior(neightborszippedWithoutPosterior.indexOf(t)).head),u._2))
-//    )
-
-
-
-//    val posteriorneightboorDV= new DenseVector[Double](posteriorneightboor)
-//    val distanceTestToposterior=datTest(*,::).map(u=> minkowskiDistance(u,posteriorneightboorDV,q))
-//
-//
-//    val standarizedDist=neightbors.map(t=>t.map(f=>f._1/distanceTestToposterior))
-//
   }
 }
 
