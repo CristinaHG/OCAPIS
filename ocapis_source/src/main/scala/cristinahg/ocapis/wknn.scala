@@ -80,7 +80,12 @@ class wknn {
       a.map(t=>(t._1/neightborszippedWithoutposterior.indexOf(a),t._2))
     })
 
+    val normalizedDistanceswithoutIndex=normalizedDistances.map(a=>a.map(t=>t._1))
+    val normalizedDistancesIndexes=normalizedDistances.map(a=>a.map(t=>t._2))
+
+    val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
     
+
   }
 }
 
