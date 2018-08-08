@@ -55,10 +55,10 @@ class wknn {
     val nrowtest = testData.take(2).map(a => a.length).max
     val datTest = new DenseMatrix(nrowtest,ncoltest, testData.flatten)
 
-    val standarized=stddev(datTrain(::,*))
+    val standarized=datTrain(::,*).map(c=>c /:/ stddev(c))
 
     val distances=datTest(*,::).map(u=>{
-      datTrain(*,::).map(t=>minkowskiDistance(u,t,q)).toArray
+      standarized.map(t=>minkowskiDistance(u,t,q)).toArray
     })
 
     val neightborszipped=distances.data.map(f=>f.zipWithIndex.sorted.take(k+1))
