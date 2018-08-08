@@ -85,6 +85,13 @@ class wknn {
 
     val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
 
+    val normalizedIndexesWeights=normalizedDistancesIndexes.map(a=>{
+      val index=normalizedDistancesIndexes.indexOf(a)
+      (index,weights(index))
+    })
+
+    normalizedIndexesWeights
+
     val numClasses = trainLabels.distinct.length
 
 
@@ -92,12 +99,18 @@ class wknn {
       val classesFromIndex=a.map(i=>(i,trainLabels(i)))
       val indexofA=normalizedDistancesIndexes.indexOf(a)
       val probs=(1 to numClasses).map(c=>{
-          classesFromIndex.filter(_._2==c).map(s=>weights(indexofA)(s._1)).sum
+        val filtered=classesFromIndex.filter(_._2==c)
+          filtered.map( s => {
+            val acolumn=s._1
+            weights(indexofA)(acolumn)
+          })
       })
-      val probsvector=new DenseVector[Double](probs.toArray)
-      val medianValue=median(probsvector)
-      probs.indexOf(medianValue)
+
+      //val probsvector=new DenseVector[Double](probs.toArray)
+      //val medianValue=median(probsvector)
+     // probs.indexOf(medianValue)
     })
+    val ant=10
   }
 }
 
