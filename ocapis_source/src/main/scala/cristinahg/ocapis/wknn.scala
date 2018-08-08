@@ -94,7 +94,8 @@ class wknn {
       val probs=(1 to numClasses).map(c=>{
           classesFromIndex.filter(_._2==c).map(s=>weights(indexofA)(s._1)).sum
       })
-      val medianValue=median(probs.toArray)
+      val probsvector=new DenseVector[Double](probs.toArray)
+      val medianValue=median(probsvector)
       probs.indexOf(medianValue)
     })
   }
