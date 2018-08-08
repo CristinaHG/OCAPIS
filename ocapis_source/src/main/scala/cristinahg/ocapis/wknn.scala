@@ -4,7 +4,7 @@ import breeze.linalg.functions.minkowskiDistance
 import breeze.linalg.{*, DenseMatrix, DenseVector}
 import breeze.numerics._
 import breeze.numerics.constants._
-import breeze.stats.stddev
+import breeze.stats.{stddev,median}
 
 class wknn {
 
@@ -84,8 +84,19 @@ class wknn {
     val normalizedDistancesIndexes=normalizedDistances.map(a=>a.map(t=>t._2))
 
     val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
-    
 
+    val numClasses = trainLabels.distinct.length
+
+
+    normalizedDistancesIndexes.map(a=>{
+      val classesFromIndex=a.map(i=>(i,trainLabels(i)))
+      val indexofA=normalizedDistancesIndexes.indexOf(a)
+      val probs=(1 to numClasses).map(c=>{
+          classesFromIndex.filter(_._2==c).map(s=>weights(indexofA)(s._1)).sum
+      })
+      val medianValue=median(probs.toArray)
+      probs.indexOf(medianValue)
+    })
   }
 }
 
