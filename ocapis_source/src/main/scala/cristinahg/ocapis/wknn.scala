@@ -77,7 +77,7 @@ class wknn {
     val neightborszippedWithoutposterior=neightborszipped.map(v=>v.dropRight(1))
 
     val normalizedDistances=neightborszippedWithoutposterior.map(a=>{
-      a.map(t=>(t._1/distancesToPosterior.indexOf(a),t._2))
+      a.map(t=>(t._1/distancesToPosterior(neightborszippedWithoutposterior.indexOf(a)),t._2))
     })
 
     val normalizedDistanceswithoutIndex=normalizedDistances.map(a=>a.map(t=>t._1))
