@@ -47,7 +47,7 @@ class wknn {
   }
 
   def fitwknn(trainData:Array[Array[Double]],trainLabels:Array[Int],testData:Array[Array[Double]],k:Int,q:Double,kernelType:String): Unit ={
-    val sncoltrain = trainData.length
+    val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainData.flatten)
 
@@ -77,7 +77,7 @@ class wknn {
     val neightborszippedWithoutposterior=neightborszipped.map(v=>v.dropRight(1))
 
     val normalizedDistances=neightborszippedWithoutposterior.map(a=>{
-      a.map(t=>(t._1/neightborszippedWithoutposterior.indexOf(a),t._2))
+      a.map(t=>(t._1/distancesToPosterior.indexOf(a),t._2))
     })
 
     val normalizedDistanceswithoutIndex=normalizedDistances.map(a=>a.map(t=>t._1))
