@@ -47,7 +47,7 @@ class wknn {
   }
 
   def fitwknn(trainData:Array[Array[Double]],trainLabels:Array[Int],testData:Array[Array[Double]],k:Int,q:Double,kernelType:String): Unit ={
-    val ncoltrain = trainData.length
+    val sncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainData.flatten)
 
@@ -58,7 +58,7 @@ class wknn {
     val standarized=datTrain(::,*).map(c=>c /:/ stddev(c))
 
     val distances=datTest(*,::).map(u=>{
-      standarized.map(t=>minkowskiDistance(u,t,q)).toArray
+      standarized(*,::).map(t=>minkowskiDistance(u,t,q)).toArray
     })
 
     val neightborszipped=distances.data.map(f=>f.zipWithIndex.sorted.take(k+1))
