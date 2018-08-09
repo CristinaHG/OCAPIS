@@ -9,7 +9,7 @@ import breeze.stats.{stddev,median}
 class wknn {
 
   def computeWeights(kernelType:String, distances:Array[Double]):Array[Double]={
-    kernelType.toUpperCase match {
+    kernelType.toLowerCase match {
       case "rectangular" => distances.map(d=>{
         if(abs(d)<=1){
           (1/2)*1.0
