@@ -49,12 +49,13 @@ class wknn {
   def fitwknn(trainData:Array[Array[Double]],trainLabels:Array[Int],testData:Array[Array[Double]],k:Int,q:Double,kernelType:String): Array[Int] ={
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
-    val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainData.flatten)
+    val datTr = new DenseMatrix(nrowtrain,ncoltrain, trainData.flatten)
+    val datTrain=datTr.t
 
     val ncoltest = testData.length
     val nrowtest = testData.take(2).map(a => a.length).max
-    val datTest = new DenseMatrix(nrowtest,ncoltest, testData.flatten)
-
+    val datTst = new DenseMatrix(nrowtest,ncoltest, testData.flatten)
+    val datTest=datTst.t
     val standarized=datTrain(::,*).map(c=>c /:/ stddev(c))
 
     val distances=datTest(*,::).map(u=>{
@@ -110,16 +111,16 @@ class wknn {
     predictions
   }
 }
-
-object wknn{
-  def main(args: Array[String]): Unit = {
-    val tr=Array(Array(1.0,2.0,3.0),Array(4.0,5.0,2.0))
-    val tst=Array(Array(2.0,3.0,4.0),Array(7.0,9.0,5.0))
-    val trlabs=Array(1,2,3)
-    val k=5
-    val q=2.0
-    val ktype="gauss"
-    val inst=new wknn
-    inst.fitwknn(tr,trlabs,tst,k,q,ktype)
-  }
-}
+//
+//object wknn{
+//  def main(args: Array[String]): Unit = {
+//    val tr=Array(Array(1.0,2.0,3.0),Array(4.0,5.0,2.0))
+//    val tst=Array(Array(2.0,3.0,4.0),Array(7.0,9.0,5.0))
+//    val trlabs=Array(1,2,3)
+//    val k=5
+//    val q=2.0
+//    val ktype="gauss"
+//    val inst=new wknn
+//    inst.fitwknn(tr,trlabs,tst,k,q,ktype)
+//  }
+//}

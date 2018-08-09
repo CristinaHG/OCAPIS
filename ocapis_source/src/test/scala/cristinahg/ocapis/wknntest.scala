@@ -28,5 +28,8 @@ class wknntest extends FunSuite{
   val q=2.0
   val ktype="gauss"
   val fitted = wknn.fitwknn(trainDataMatrix,labs,testDataMatrix,k,q,ktype)
-  
+
+  test("predicted labels for test data should equal labstst"){
+    assert(fitted===labstst)
+  }
 }
