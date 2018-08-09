@@ -8,7 +8,7 @@ import breeze.stats.{stddev,median}
 
 class wknn {
 
-  def computeWeights(kernelType:String, distances:Array[Double]):Array[Double]={
+  private def computeWeights(kernelType:String, distances:Array[Double]):Array[Double]={
     kernelType.toLowerCase match {
       case "rectangular" => distances.map(d=>{
         if(abs(d)<=1){
@@ -95,7 +95,6 @@ class wknn {
     })
 
     val numClasses = trainLabels.distinct.length
-
 
     val predictions=normalizedIndexesWeights.map(a=>{
       val instanceClasses=a._2
