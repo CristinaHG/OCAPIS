@@ -89,7 +89,6 @@ class wknn {
       a.map( b => trainLabels(b))
     })
 
-
     val normalizedIndexesWeights=indexesClass.map(a=>{
       val index=indexesClass.indexOf(a)
       (weights(index),a)
@@ -101,7 +100,6 @@ class wknn {
     val predictions=normalizedIndexesWeights.map(a=>{
       val instanceClasses=a._2
       val instanceWeights=a._1
-      val indexofA=normalizedIndexesWeights.indexOf(a)
       val probs=(1 to numClasses).map(c=>{
         val filtered=instanceClasses.zipWithIndex.filter(p=>p._1==c)
         filtered.map(f=>instanceWeights(f._2)).sum
@@ -110,7 +108,7 @@ class wknn {
       val medianValue=median(probsvector)
       probs.indexOf(medianValue)+1
     })
-    
+
   }
 }
 
