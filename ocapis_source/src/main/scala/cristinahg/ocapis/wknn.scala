@@ -85,36 +85,32 @@ class wknn {
 
     val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
 
-//    val indexesClass=normalizedDistancesIndexes.map(a=>{
-//      a.map( b => trainLabels(b))
-//    })
-//
-//    val normalizedIndexesWeights=indexesClass.map(a=>{
-//      val index=indexesClass.indexOf(a)
-//      (weights(index),a)
-//    })
+    val indexesClass=normalizedDistancesIndexes.map(a=>{
+      a.map( b => trainLabels(b))
+    })
 
-    // normalizedIndexesWeights
+
+    val normalizedIndexesWeights=indexesClass.map(a=>{
+      val index=indexesClass.indexOf(a)
+      (weights(index),a)
+    })
 
     val numClasses = trainLabels.distinct.length
 
 
-    normalizedDistancesIndexes.map(a=>{
-      val classesFromIndex=a.map(i=>(i,trainLabels(i)))
-      val indexofA=normalizedDistancesIndexes.indexOf(a)
+    val predictions=normalizedIndexesWeights.map(a=>{
+      val instanceClasses=a._2
+      val instanceWeights=a._1
+      val indexofA=normalizedIndexesWeights.indexOf(a)
       val probs=(1 to numClasses).map(c=>{
-        val filtered=classesFromIndex.filter(_._2==c)
-          filtered.map( s => {
-            val acolumn=s._1
-            weights(indexofA)(acolumn-1)
-          })
+        val filtered=instanceClasses.zipWithIndex.filter(p=>p._1==c)
+        filtered.map(f=>instanceWeights(f._2)).sum
       })
-
-      //val probsvector=new DenseVector[Double](probs.toArray)
-      //val medianValue=median(probsvector)
-     // probs.indexOf(medianValue)
+      val probsvector=new DenseVector[Double](probs.toArray)
+      val medianValue=median(probsvector)
+      probs.indexOf(medianValue)+1
     })
-    val ant=10
+    
   }
 }
 
@@ -125,7 +121,7 @@ object wknn{
     val trlabs=Array(1,2,3)
     val k=5
     val q=2.0
-    val ktype="rectangular"
+    val ktype="gauss"
     val inst=new wknn
     inst.fitwknn(tr,trlabs,tst,k,q,ktype)
   }
