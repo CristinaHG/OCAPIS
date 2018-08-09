@@ -85,14 +85,14 @@ class wknn {
 
     val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
 
-    val indexesClass=normalizedDistancesIndexes.map(a=>{
-      a.map( b => trainLabels(b))
-    })
-
-    val normalizedIndexesWeights=indexesClass.map(a=>{
-      val index=indexesClass.indexOf(a)
-      (weights(index),a)
-    })
+//    val indexesClass=normalizedDistancesIndexes.map(a=>{
+//      a.map( b => trainLabels(b))
+//    })
+//
+//    val normalizedIndexesWeights=indexesClass.map(a=>{
+//      val index=indexesClass.indexOf(a)
+//      (weights(index),a)
+//    })
 
     // normalizedIndexesWeights
 
@@ -106,7 +106,7 @@ class wknn {
         val filtered=classesFromIndex.filter(_._2==c)
           filtered.map( s => {
             val acolumn=s._1
-            weights(indexofA)(acolumn)
+            weights(indexofA)(acolumn-1)
           })
       })
 
