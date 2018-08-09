@@ -46,7 +46,7 @@ class wknn {
     }
   }
 
-  def fitwknn(trainData:Array[Array[Double]],trainLabels:Array[Int],testData:Array[Array[Double]],k:Int,q:Double,kernelType:String): Unit ={
+  def fitwknn(trainData:Array[Array[Double]],trainLabels:Array[Int],testData:Array[Array[Double]],k:Int,q:Double,kernelType:String): Array[Int] ={
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTrain = new DenseMatrix(nrowtrain,ncoltrain, trainData.flatten)
@@ -107,7 +107,7 @@ class wknn {
       val medianValue=median(probsvector)
       probs.indexOf(medianValue)+1
     })
-
+    predictions
   }
 }
 
