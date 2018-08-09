@@ -77,7 +77,7 @@ class wknn {
     val neightborszippedWithoutposterior=neightborszipped.map(v=>v.dropRight(1))
 
     val normalizedDistances=neightborszippedWithoutposterior.map(a=>{
-      a.map(t=>(t._1/distancesToPosterior(neightborszippedWithoutposterior.indexOf(a)),t._2))
+      a.map(t=>((t._1/distancesToPosterior(neightborszippedWithoutposterior.indexOf(a)))+0.001,t._2))
     })
 
     val normalizedDistanceswithoutIndex=normalizedDistances.map(a=>a.map(t=>t._1))
@@ -85,12 +85,16 @@ class wknn {
 
     val weights=normalizedDistanceswithoutIndex.map(a=>computeWeights(kernelType,a))
 
-    val normalizedIndexesWeights=normalizedDistancesIndexes.map(a=>{
-      val index=normalizedDistancesIndexes.indexOf(a)
-      (index,weights(index))
+    val indexesClass=normalizedDistancesIndexes.map(a=>{
+      a.map( b => trainLabels(b))
     })
 
-    normalizedIndexesWeights
+    val normalizedIndexesWeights=indexesClass.map(a=>{
+      val index=indexesClass.indexOf(a)
+      (weights(index),a)
+    })
+
+    // normalizedIndexesWeights
 
     val numClasses = trainLabels.distinct.length
 
@@ -118,7 +122,7 @@ object wknn{
   def main(args: Array[String]): Unit = {
     val tr=Array(Array(1.0,2.0,3.0),Array(4.0,5.0,2.0))
     val tst=Array(Array(2.0,3.0,4.0),Array(7.0,9.0,5.0))
-    val trlabs=Array(1,2)
+    val trlabs=Array(1,2,3)
     val k=5
     val q=2.0
     val ktype="rectangular"
