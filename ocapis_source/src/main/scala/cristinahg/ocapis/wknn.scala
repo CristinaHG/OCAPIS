@@ -72,8 +72,8 @@ class wknn {
     val posteriorsindex = neightborszipped.map(t => t.last._2)
 
 
-    val neightbors = neightborsindexes.map(t => standarized(t.toSeq, ::).toDenseMatrix)
-    val posteriors = posteriorsindex.map(t => standarized(t, ::).inner)
+    val neightbors = neightborsindexes.map(t => datTrain(t.toSeq, ::).toDenseMatrix)
+    val posteriors = posteriorsindex.map(t => datTrain(t, ::).inner)
 
 
     val distancesToPosterior = (0 until datTest.rows).map(i => {
@@ -109,15 +109,16 @@ class wknn {
         val filtered = instanceClasses.zipWithIndex.filter(p => p._1 == c)
         filtered.map(f => instanceWeights(f._2)).sum
       })
-
-      val probsvector = new DenseVector[Double](probs.toArray)
+      val ponderated=(1 to numClasses).map(u=>probs(u-1)*u)
+      val probsvector = new DenseVector[Double](ponderated.toArray)
+      //val probsvector = new DenseVector[Double](probs.toArray)
       //val medianValue=median(probsvector)
       val meanValue = mean(probsvector)
-      val nearestProb = probs.map(p => abs(p - meanValue)).zipWithIndex.minBy(_._1)
+     // val nearestProb = probs.map(p => abs(p - meanValue)).zipWithIndex.minBy(_._1)
 
-      //floor(meanValue).toInt +1
-      //probs.indexOf(meanValue)+1
-      probs.indexOf(nearestProb._2) + 1
+      floor(meanValue).toInt +1
+      // probs.indexOf(medianValue)+1
+     // probs.indexOf(nearestProb._2) + 1
     })
     predictions
   }

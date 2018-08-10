@@ -26,14 +26,14 @@ class wknntest extends FunSuite{
   val wknn = new wknn
   val k=4
   val q=2.0
-  val ktype="rectangular"
+  val ktype="epanechnikov"
   val fitted = wknn.fitwknn(trainDataMatrix,labs,testDataMatrix,k,q,ktype)
 
   val errors=(0 until fitted.length).map(i=>{
-    if(fitted(i)===labstst(i)) 0 else 1
+    if(fitted(i)==labstst(i)) 0 else 1
   }).sum
 
   test("predicted labels for test data should equal labstst"){
-    assert(fitted===labstst)
+    assert(fitted==labstst)
   }
 }
