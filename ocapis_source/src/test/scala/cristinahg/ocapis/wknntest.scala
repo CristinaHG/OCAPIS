@@ -22,7 +22,7 @@ class wknntest extends FunSuite{
   }
   val castedtst = rows.toArray
   val labstst = castedtst.map(u => u(u.length - 1).toInt)
-  val testDataMatrix = casted.map(u => u.take(u.length - 1))
+  val testDataMatrix = castedtst.map(u => u.take(u.length - 1))
   val wknn = new wknn
   val k=4
   val q=2.0

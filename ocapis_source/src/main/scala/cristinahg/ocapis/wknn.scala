@@ -71,7 +71,7 @@ class wknn {
     val posteriors=posteriorsindex.map(t=> datTrain(t,::).inner)
 
 
-    val distancesToPosterior=(0 until nrowtest).map(i=>{
+    val distancesToPosterior=(0 until datTest.rows).map(i=>{
       minkowskiDistance(datTest(i,::),posteriors(i),q)
     })
 
