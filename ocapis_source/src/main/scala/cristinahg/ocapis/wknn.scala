@@ -97,12 +97,23 @@ class wknn {
 
     val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
 
-    if(monotonicity){
-      val classMaxData=datTest(*, ::).map(u => {
-        datTrain(*, ::).map(x=>u.>:=(x)).toArray
-      }).map(d=>d.zipWithIndex.filter(d=>d._1==true))
+    if(monotonicity) {
+      val classMaxData = datTest(*, ::).map(u => {
+        datTrain(*, ::).map(x => u.>:=(x)).toArray
+      }).map(d => d.zipWithIndex.filter(d => d._1 == true))
 
-      val classMaxIndexes=classMaxData.map(f=>f.map(i=>trainLabels(i._2)).max)
+      val classMaxIndexes = classMaxData.map(f => f.map(i => trainLabels(i._2)).max)
+
+      val classMinData = datTest(*, ::).map(u => {
+        datTrain(*, ::).map(x => u.<:=(x)).toArray
+      }).map(d => d.zipWithIndex.filter(d => d._1 == true))
+
+      val classMinIndexes = classMinData.map(f => f.map(i => trainLabels(i._2)).min)
+
+      val yMinMax=(0 until classMaxIndexes.length).map(i=>Array.range(classMinIndexes(i),classMaxIndexes(i))).toArray
+      
+
+    }
 
 
       val normalizedIndexesWeights = indexesClass.map(a => {
