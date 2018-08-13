@@ -111,8 +111,11 @@ class wknn {
       val classMinIndexes = classMinData.map(f => f.map(i => trainLabels(i._2)).min)
 
       val yMinMax=(0 until classMaxIndexes.length).map(i=>Array.range(classMinIndexes(i),classMaxIndexes(i))).toArray
-      
 
+      val predicted=indexesClass.map(a=>{
+        val indexOfA=indexesClass.indexOf(a)
+        a.groupBy(identity).mapValues(_.sum).filter(p=>yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
+      }).map(_._1)
     }
 
 
