@@ -24,9 +24,9 @@ class wknntest extends FunSuite{
   val labstst = castedtst.map(u => u(u.length - 1).toInt)
   val testDataMatrix = castedtst.map(u => u.take(u.length - 1))
   val wknn = new wknn
-  val k=4
+  val k=15
   val q=2.0
-  val ktype="epanechnikov"
+  val ktype="inversion"
   val fitted = wknn.fitwknn(trainDataMatrix,labs,testDataMatrix,k,q,ktype)
 
   val errors=(0 until fitted.length).map(i=>{

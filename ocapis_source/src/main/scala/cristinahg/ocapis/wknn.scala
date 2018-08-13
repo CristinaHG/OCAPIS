@@ -51,11 +51,13 @@ class wknn {
     }
   }
 
-  def fitwknn(trainData: Array[Array[Double]], trainLabels: Array[Int], testData: Array[Array[Double]], k: Int, q: Double, kernelType: String): Array[Int] = {
+  def fitwknn(trainData: Array[Array[Double]], trainLabels: Array[Int], testData: Array[Array[Double]], k: Int, q: Double, kernelType: String,
+              monotonic: Boolean): Array[Int] = {
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
     val datTrain = datTr.t
+
 
     val ncoltest = testData.length
     val nrowtest = testData.take(2).map(a => a.length).max
