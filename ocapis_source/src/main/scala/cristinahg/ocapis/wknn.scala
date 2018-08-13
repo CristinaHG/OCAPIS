@@ -52,7 +52,8 @@ class wknn {
   }
 
   def fitwknn(trainData: Array[Array[Double]], trainLabels: Array[Int], testData: Array[Array[Double]], k: Int, q: Double, kernelType: String,
-              monotonic: Boolean): Array[Int] = {
+              monotonicity: Boolean): Array[Int] = {
+
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
@@ -73,7 +74,6 @@ class wknn {
     val neightborsindexes = neightborszipped.map(t => t.dropRight(1).map(f => f._2))
     val posteriorsindex = neightborszipped.map(t => t.last._2)
 
-
     val neightbors = neightborsindexes.map(t => datTrain(t.toSeq, ::).toDenseMatrix)
     val posteriors = posteriorsindex.map(t => datTrain(t, ::).inner)
 
@@ -91,13 +91,21 @@ class wknn {
     val normalizedDistanceswithoutIndex = normalizedDistances.map(a => a.map(t => t._1))
     val normalizedDistancesIndexes = normalizedDistances.map(a => a.map(t => t._2))
 
-    val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
-
     val indexesClass = normalizedDistancesIndexes.map(a => {
       a.map(b => trainLabels(b))
     })
 
-    val normalizedIndexesWeights = indexesClass.map(a => {
+    val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
+
+    if(monotonicity){
+      val classMaxData=datTest(*, ::).map(u => {
+        datTrain(*, ::).map(x=>u.>:=(x)).toArray
+      }).map(d=>d.zipWithIndex.filter(d=>d._1==true))
+
+      val classMaxIndexes=classMaxData.map(f=>f.map(i=>trainLabels(i._2)).max)
+
+
+      val normalizedIndexesWeights = indexesClass.map(a => {
       val index = indexesClass.indexOf(a)
       (weights(index), a)
     })
