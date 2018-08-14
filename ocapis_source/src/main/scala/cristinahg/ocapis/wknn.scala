@@ -95,9 +95,8 @@ class wknn {
       a.map(b => trainLabels(b))
     })
 
-    val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
 
-    if(monotonicity) {
+    if (monotonicity) {
       val classMaxData = datTest(*, ::).map(u => {
         datTrain(*, ::).map(x => u.>:=(x)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true))
@@ -110,41 +109,44 @@ class wknn {
 
       val classMinIndexes = classMinData.map(f => f.map(i => trainLabels(i._2)).min)
 
-      val yMinMax=(0 until classMaxIndexes.length).map(i=>Array.range(classMinIndexes(i),classMaxIndexes(i))).toArray
+      val yMinMax = (0 until classMaxData.length).map(i => Array.range(classMinIndexes(i), classMaxIndexes(i))).toArray
 
-      val predicted=indexesClass.map(a=>{
-        val indexOfA=indexesClass.indexOf(a)
-        a.groupBy(identity).mapValues(_.sum).filter(p=>yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
+      val predictions = indexesClass.map(a => {
+        val indexOfA = indexesClass.indexOf(a)
+        a.groupBy(identity).mapValues(_.sum).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
       }).map(_._1)
-    }
 
+      predictions
 
+    } else {
+      val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
       val normalizedIndexesWeights = indexesClass.map(a => {
-      val index = indexesClass.indexOf(a)
-      (weights(index), a)
-    })
-
-    val numClasses = trainLabels.distinct.length
-
-    val predictions = normalizedIndexesWeights.map(a => {
-      val instanceClasses = a._2
-      val instanceWeights = a._1
-      val probs = (1 to numClasses).map(c => {
-        val filtered = instanceClasses.zipWithIndex.filter(p => p._1 == c)
-        filtered.map(f => instanceWeights(f._2)).sum
+        val index = indexesClass.indexOf(a)
+        (weights(index), a)
       })
-      val ponderated=(1 to numClasses).map(u=>probs(u-1)*u)
-      val probsvector = new DenseVector[Double](ponderated.toArray)
-      //val probsvector = new DenseVector[Double](probs.toArray)
-      //val medianValue=median(probsvector)
-      val meanValue = mean(probsvector)
-     // val nearestProb = probs.map(p => abs(p - meanValue)).zipWithIndex.minBy(_._1)
 
-      floor(meanValue).toInt +1
-      // probs.indexOf(medianValue)+1
-     // probs.indexOf(nearestProb._2) + 1
-    })
-    predictions
+      val numClasses = trainLabels.distinct.length
+
+      val predictions = normalizedIndexesWeights.map(a => {
+        val instanceClasses = a._2
+        val instanceWeights = a._1
+        val probs = (1 to numClasses).map(c => {
+          val filtered = instanceClasses.zipWithIndex.filter(p => p._1 == c)
+          filtered.map(f => instanceWeights(f._2)).sum
+        })
+        val ponderated = (1 to numClasses).map(u => probs(u - 1) * u)
+        val probsvector = new DenseVector[Double](ponderated.toArray)
+        //val probsvector = new DenseVector[Double](probs.toArray)
+        //val medianValue=median(probsvector)
+        val meanValue = mean(probsvector)
+        // val nearestProb = probs.map(p => abs(p - meanValue)).zipWithIndex.minBy(_._1)
+
+        floor(meanValue).toInt + 1
+        // probs.indexOf(medianValue)+1
+        // probs.indexOf(nearestProb._2) + 1
+      })
+      predictions
+    }
   }
 }
 
