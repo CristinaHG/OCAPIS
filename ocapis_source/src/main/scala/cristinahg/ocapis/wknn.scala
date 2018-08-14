@@ -103,10 +103,12 @@ class wknn {
 //        val compar=probe.<:=(prob1).forall(p=>p==true)
 
         standarized(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
-      })//.map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
+      }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
 
-      val classMaxIndexes = classMaxData.map(f => f.map(i => trainLabels(0)).max)
+      val classIndexesForMax = classMaxData.map(f => f.map(i => trainLabels(i._2)))
+      val classMaxIndex=classIndexesForMax.map(v=>v.max)
+
 
       val classMinData = datTest(*, ::).map(u => {
         datTrain(*, ::).map(x => u.<:=(x)).toArray
@@ -114,7 +116,7 @@ class wknn {
 
       val classMinIndexes = classMinData.map(f => f.map(i => trainLabels(i._2)).min)
 
-      val yMinMax = (0 until classMaxData.length).map(i => Array.range(classMinIndexes(i), classMaxIndexes(i))).toArray
+      val yMinMax = (0 until classMaxData.length).map(i => Array.range(classMinIndexes(i), classMaxIndex(i))).toArray
 
       val predictions = indexesClass.map(a => {
         val indexOfA = indexesClass.indexOf(a)
