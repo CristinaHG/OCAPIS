@@ -27,7 +27,7 @@ class wknntest extends FunSuite{
   val k=15
   val q=2.0
   val ktype="inversion"
-  val fitted = wknn.fitwknn(trainDataMatrix,labs,testDataMatrix,k,q,ktype)
+  val fitted = wknn.fitwknn(trainDataMatrix,labs,testDataMatrix,k,q,ktype,true)
 
   val errors=(0 until fitted.length).map(i=>{
     if(fitted(i)==labstst(i)) 0 else 1
