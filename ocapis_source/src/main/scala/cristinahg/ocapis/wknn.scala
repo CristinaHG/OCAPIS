@@ -98,32 +98,35 @@ class wknn {
 
     if (monotonicity) {
       val classMaxData = datTest(*, ::).map(u => {
-//        val probe=new DenseVector[Double](Array(1.0,2.0,3.0))
-//        val prob1=new DenseVector[Double](Array(4.0,1.0,2.0))
-//        val compar=probe.<:=(prob1).forall(p=>p==true)
-
         standarized(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
 
       val classIndexesForMax = classMaxData.map(f => f.map(i => trainLabels(i._2)))
-      val classMaxIndex=classIndexesForMax.map(v=>v.max)
+      val classMaxIndex=classIndexesForMax.map(v=>{
+        if(!v.isEmpty)
+          v.groupBy(identity).maxBy(_._1)
+        else 0
+      })
 
 
-      val classMinData = datTest(*, ::).map(u => {
-        datTrain(*, ::).map(x => u.<:=(x)).toArray
-      }).map(d => d.zipWithIndex.filter(d => d._1 == true))
-
-      val classMinIndexes = classMinData.map(f => f.map(i => trainLabels(i._2)).min)
-
-      val yMinMax = (0 until classMaxData.length).map(i => Array.range(classMinIndexes(i), classMaxIndex(i))).toArray
-
-      val predictions = indexesClass.map(a => {
-        val indexOfA = indexesClass.indexOf(a)
-        a.groupBy(identity).mapValues(_.sum).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
-      }).map(_._1)
-
-      predictions
+      Array(0,1,2)
+//      val classMinData = datTest(*, ::).map(u => {
+//        datTrain(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
+//      }).map(d => d.zipWithIndex.filter(d => d._1 == true))
+//
+//      val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
+//
+//      val classMinIndex=classIndexesForMin.map(v=>v.min)
+//
+//      val yMinMax = (0 until classMaxIndex.length).map(i => Array.range(classMinIndex(i), classMaxIndex(i))).toArray
+//
+//      val predictions = indexesClass.map(a => {
+//        val indexOfA = indexesClass.indexOf(a)
+//        a.groupBy(identity).mapValues(_.sum).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
+//      }).map(_._1)
+//
+//      predictions
 
     } else {
       val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
