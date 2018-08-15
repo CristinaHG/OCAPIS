@@ -98,7 +98,7 @@ class wknn {
 
     if (monotonicity) {
       val classMaxData = datTest(*, ::).map(u => {
-        standarized(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
+        datTrain(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
 
@@ -109,12 +109,10 @@ class wknn {
         else 0
       })
 
+      val classMinData = datTest(*, ::).map(u => {
+        datTrain(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
+      }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
-      Array(0,1,2)
-//      val classMinData = datTest(*, ::).map(u => {
-//        datTrain(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
-//      }).map(d => d.zipWithIndex.filter(d => d._1 == true))
-//
 //      val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
 //
 //      val classMinIndex=classIndexesForMin.map(v=>v.min)
