@@ -105,7 +105,7 @@ class wknn {
       val classIndexesForMax = classMaxData.map(f => f.map(i => trainLabels(i._2)))
       val classMaxIndex=classIndexesForMax.map(v=>{
         if(!v.isEmpty)
-          v.groupBy(identity).maxBy(_._1)
+          v.groupBy(identity).maxBy(_._1)._1
         else 0
       })
 
@@ -115,13 +115,15 @@ class wknn {
 
       val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
 
+
       val classMinIndex=classIndexesForMin.map(v=>{
         if(!v.isEmpty)
-          v.groupBy(identity).minBy(_._1)
+          v.groupBy(identity).minBy(_._1)._1
         else 0
       })
-//
-//      val yMinMax = (0 until classMaxIndex.length).map(i => Array.range(classMinIndex(i), classMaxIndex(i))).toArray
+
+
+      val yMinMax = (0 until classMaxIndex.length).map(i => Array.range(classMinIndex(i), classMaxIndex(i))).toArray
 //
 //      val predictions = indexesClass.map(a => {
 //        val indexOfA = indexesClass.indexOf(a)
@@ -129,7 +131,7 @@ class wknn {
 //      }).map(_._1)
 //
 //      predictions
-
+Array(0)
     } else {
       val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
       val normalizedIndexesWeights = indexesClass.map(a => {
