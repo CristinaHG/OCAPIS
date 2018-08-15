@@ -113,9 +113,13 @@ class wknn {
         datTrain(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
-//      val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
-//
-//      val classMinIndex=classIndexesForMin.map(v=>v.min)
+      val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
+
+      val classMinIndex=classIndexesForMin.map(v=>{
+        if(!v.isEmpty)
+          v.groupBy(identity).minBy(_._1)
+        else 0
+      })
 //
 //      val yMinMax = (0 until classMaxIndex.length).map(i => Array.range(classMinIndex(i), classMaxIndex(i))).toArray
 //
