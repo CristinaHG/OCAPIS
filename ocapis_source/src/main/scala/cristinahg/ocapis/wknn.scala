@@ -126,14 +126,14 @@ class wknn {
 
 
       val yMinMax = (0 until classMaxIndex.length).map(i => (classMinIndex(i) to classMaxIndex(i)).toArray)
-//
-//      val predictions = indexesClass.map(a => {
-//        val indexOfA = indexesClass.indexOf(a)
-//        a.groupBy(identity).mapValues(_.sum).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)
-//      }).map(_._1)
-//
-//      predictions
-Array(0)
+
+      val predictions = indexesClass.map(a => {
+        val indexOfA = indexesClass.indexOf(a)
+        a.groupBy(identity).mapValues(_.length).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)._1
+      })
+
+      predictions
+
     } else {
       val weights = normalizedDistanceswithoutIndex.map(a => computeWeights(kernelType, a))
       val normalizedIndexesWeights = indexesClass.map(a => {
