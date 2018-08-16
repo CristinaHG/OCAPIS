@@ -105,9 +105,10 @@ class wknn {
       val classIndexesForMax = classMaxData.map(f => f.map(i => trainLabels(i._2)))
       val classMaxIndex=classIndexesForMax.map(v=>{
         if(!v.isEmpty) {
-          val gruped = v.groupBy(identity)
-          v.groupBy(identity).mapValues(_.length).maxBy(_._2)._1
-        } else 0
+          v.max
+//          val gruped = v.groupBy(identity)
+//          v.groupBy(identity).mapValues(_.length).maxBy(_._2)._1
+        } else 1
       })
 
       val classMinData = datTest(*, ::).map(u => {
@@ -118,8 +119,9 @@ class wknn {
 
       val classMinIndex=classIndexesForMin.map(v=>{
         if(!v.isEmpty)
-          v.groupBy(identity).mapValues(_.length).minBy(_._2)._1
-        else 0
+          v.min
+          //v.groupBy(identity).mapValues(_.length).minBy(_._2)._1
+        else 1
       })
 
 
