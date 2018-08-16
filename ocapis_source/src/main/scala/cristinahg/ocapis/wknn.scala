@@ -4,7 +4,9 @@ import breeze.linalg.functions.minkowskiDistance
 import breeze.linalg.{*, DenseMatrix, DenseVector}
 import breeze.numerics._
 import breeze.numerics.constants._
-import breeze.stats.{stddev, median, mean}
+import breeze.stats.{mean, median, stddev}
+
+import scala.util.Random
 
 class wknn {
 
@@ -129,7 +131,12 @@ class wknn {
 
       val predictions = indexesClass.map(a => {
         val indexOfA = indexesClass.indexOf(a)
-        a.groupBy(identity).mapValues(_.length).filter(p => yMinMax(indexOfA).contains(p._1)).maxBy(_._2)._1
+        val containedClasses=a.groupBy(identity).mapValues(_.length).filter(p => yMinMax(indexOfA).contains(p._1))
+
+        if(containedClasses.isEmpty)
+          Random.shuffle(yMinMax(indexOfA).toList).head
+        else
+          containedClasses.maxBy(_._2)._1
       })
 
       predictions
