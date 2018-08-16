@@ -125,7 +125,7 @@ class wknn {
       })
 
 
-      val yMinMax = (0 until classMaxIndex.length).map(i => Array.range(classMinIndex(i), classMaxIndex(i))).toArray
+      val yMinMax = (0 until classMaxIndex.length).map(i => (classMinIndex(i) to classMaxIndex(i)).toArray)
 //
 //      val predictions = indexesClass.map(a => {
 //        val indexOfA = indexesClass.indexOf(a)
