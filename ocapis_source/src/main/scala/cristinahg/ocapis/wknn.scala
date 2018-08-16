@@ -116,10 +116,9 @@ class wknn {
 
       val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
 
-
       val classMinIndex=classIndexesForMin.map(v=>{
         if(!v.isEmpty)
-          v.groupBy(identity).minBy(_._1)._1
+          v.groupBy(identity).mapValues(_.length).minBy(_._2)._1
         else 0
       })
 
