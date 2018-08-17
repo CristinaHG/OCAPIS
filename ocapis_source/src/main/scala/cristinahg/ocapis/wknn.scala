@@ -100,7 +100,7 @@ class wknn {
 
     if (monotonicity) {
       val classMaxData = datTest(*, ::).map(u => {
-        datTrain(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
+        standarized(*, ::).map(x => u.>:=(x).forall(p=>p==true)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
 
@@ -114,7 +114,7 @@ class wknn {
       })
 
       val classMinData = datTest(*, ::).map(u => {
-        datTrain(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
+        standarized(*, ::).map(x => u.<:=(x).forall(p=>p==true)).toArray
       }).map(d => d.zipWithIndex.filter(d => d._1 == true)).toArray
 
       val classIndexesForMin = classMinData.map(f => f.map(i => trainLabels(i._2)))
@@ -157,16 +157,15 @@ class wknn {
           val filtered = instanceClasses.zipWithIndex.filter(p => p._1 == c)
           filtered.map(f => instanceWeights(f._2)).sum
         })
-        val ponderated = (1 to numClasses).map(u => probs(u - 1) * u)
-        val probsvector = new DenseVector[Double](ponderated.toArray)
-        //val probsvector = new DenseVector[Double](probs.toArray)
-        //val medianValue=median(probsvector)
-        val meanValue = mean(probsvector)
-        // val nearestProb = probs.map(p => abs(p - meanValue)).zipWithIndex.minBy(_._1)
+        val maxweight=probs.max
+        probs.indexOf(maxweight)+1
+//        val ponderated = (1 to numClasses).map(u => probs(u - 1) * u)
+//        val probsvector = new DenseVector[Double](ponderated.toArray)
 
-        floor(meanValue).toInt + 1
-        // probs.indexOf(medianValue)+1
-        // probs.indexOf(nearestProb._2) + 1
+        //val medianValue=median(probsvector)
+        //val meanValue = mean(probsvector)
+
+        //floor(meanValue).toInt + 1
       })
       predictions
     }
