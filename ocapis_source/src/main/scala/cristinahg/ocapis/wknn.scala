@@ -172,16 +172,12 @@ class wknn {
   }
 }
 
-//
-//object wknn{
-//  def main(args: Array[String]): Unit = {
-//    val tr=Array(Array(1.0,2.0,3.0),Array(4.0,5.0,2.0))
-//    val tst=Array(Array(2.0,3.0,4.0),Array(7.0,9.0,5.0))
-//    val trlabs=Array(1,2,3)
-//    val k=5
-//    val q=2.0
-//    val ktype="gauss"
-//    val inst=new wknn
-//    inst.fitwknn(tr,trlabs,tst,k,q,ktype)
-//  }
-//}
+
+object wknn{
+  val monordwknn = new wknn()
+
+  def wknnfit(trainData: Array[Array[Double]], trainLabels: Array[Int], testData: Array[Array[Double]], k: Int, q: Double, kernelType: String,
+               monotonicity: Boolean): Array[Int] ={
+    monordwknn.fitwknn(trainData,trainLabels,testData,k,q,kernelType,monotonicity)
+  }
+}
