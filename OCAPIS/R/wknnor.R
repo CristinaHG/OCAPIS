@@ -28,7 +28,7 @@ wknnor<-function(traindata,trainlabels,testdata,k,q,kerneltype,monotonicity){
   if(k<0){
     stop("Number of neighbors must be positive.")
   }
-  if(!tolower(kernelType) %in% c("rectangular","triangular","epanechnikov","biweight","triweight","cosine",
+  if(!tolower(kerneltype) %in% c("rectangular","triangular","epanechnikov","biweight","triweight","cosine",
                                  "gauss","inversion")){
     stop("Unknown kernel. Avaiable kernels are: rectangular, triangular,epanechnikov,
           biweight, triweight, cosine, gauss and inversion.")
@@ -40,7 +40,7 @@ wknnor<-function(traindata,trainlabels,testdata,k,q,kerneltype,monotonicity){
   if (!is.matrix(traindata)){traindata=as.matrix(traindata)}
   if (!is.matrix(testdata)){testdata=as.matrix(testdata)}
 
-  predictions<-s$wknnfit(traindata,trainlabels,testdata,k,q,kerneltype,monotonicity)
+  predictions<-s$wknnfit(traindata,trainlabels,testdata,as.integer(k),q,kerneltype,monotonicity)
   predictions
 }
 
