@@ -26,7 +26,7 @@ class MonoFSelector {
     val datTrain = datTr.t
 
     val nfeatures=datTrain.cols
-    val fuzzy0=fuzzySet(datTrain,k,0)
+    val fuzzySets= (0 until nfeatures).map(i=>fuzzyMat(datTrain,k,i))
 
     Array(0)
 
