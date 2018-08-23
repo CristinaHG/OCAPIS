@@ -12,10 +12,10 @@ class MonoFSelector {
     1/(1+ exp(k*(xiVal(featureIndex)-xjVal(featureIndex))))
   }
 
-  private def fuzzyMat(datTrain:DenseMatrix[Double],k: Int,featureIndex:Int):DenseMatrix[Double]={
+  private def fuzzyMat(datTrain:DenseMatrix[Double],k: Int,featureIndex:Int):Array[Array[Double]]={
     datTrain(*,::).map(f=>{
-      datTrain(*,::).map(r=> computeRelation(k,f.toArray,r.toArray,featureIndex))
-    }).toDenseMatrix
+      datTrain(*,::).map(r=> computeRelation(k,f.toArray,r.toArray,featureIndex)).toArray
+    }).toArray
   }
 
 
@@ -25,8 +25,15 @@ class MonoFSelector {
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
     val datTrain = datTr.t
 
-    val nfeatures=datTrain.cols
-    val fuzzySets= (0 until nfeatures).map(i=>fuzzyMat(datTrain,k,i))
+    val nfeatures = datTrain.cols
+    val fuzzyMats = (0 until nfeatures).map(i=>fuzzyMat(datTrain,k,i))
+
+    val fuzzy0=fuzzyMats(0)
+    fuzzy0(*,::).to.map(u=>{
+      (0 until fuzzy0.rows).foreach(i=>)
+    })
+
+
 
     Array(0)
 
