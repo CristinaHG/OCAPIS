@@ -48,14 +48,16 @@ class MonoFSelector {
     })
 
     val fuzzyDecission=trainLabels.map(i=>{
-      trainLabels.map(j=>1.0/(1.0+ exp(k*(i-j))))
+      trainLabels.map(j=>(1.0/(1.0+ exp(k*(i.toDouble-j.toDouble)))))
     })
 
-    
+    val ordsetDecision=fuzzyDecission.map(r=>{
+      r.map(e=>{
+        val instanceIndex=r.indexOf(e)
+        e/datTrain(instanceIndex,::).inner
+      }).map(d=>d.toArray).transpose.map(_.sum)
+    })
 
-    //ordsets.map(i=>i.toSet)
-
-   // val summed=ordsetsmr
 
 
 
