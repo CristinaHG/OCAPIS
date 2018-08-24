@@ -19,7 +19,7 @@ class MonoFSelector {
   }
 
 
-  private def RMI(ordSetA1:Array[Double],ordSetA2:Array[Double],beta:Double,n:Int):Double={
+  private def RMI(ordSetA1:Array[Double],ordSetA2:Array[Double],n:Int):Double={
     val ordS1=ordSetA1.toSet
     val ordS2=ordSetA2.toSet
     val infosum=(1 to n).map(i=>{
