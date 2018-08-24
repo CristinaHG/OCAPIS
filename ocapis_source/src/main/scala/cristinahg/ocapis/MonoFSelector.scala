@@ -29,16 +29,19 @@ class MonoFSelector {
     val fuzzyMats = (0 until nfeatures).map(i=>fuzzyMat(datTrain,k,i))
 
     val fuzzy0=fuzzyMats(0)
-    val ordsets=fuzzy0.map(f=>{
-      f.map(i=>{
-        val colIndex=f.indexOf(i)
-        i/datTrain(colIndex,::).inner
-      }).map(d=>d.toArray).transpose.map(_.sum)
+
+    val ordsets= fuzzyMats.map(m =>{ 
+        m.map(f=>{
+          f.map(i=>{
+            val colIndex=f.indexOf(i)
+            i/datTrain(colIndex,::).inner
+          }).map(d=>d.toArray).transpose.map(_.sum)
+      })
     })
 
-    ordsets.map(i=>i.toSet)
+    //ordsets.map(i=>i.toSet)
 
-   // val summed=ordsets
+   // val summed=ordsetsmr
 
 
 
