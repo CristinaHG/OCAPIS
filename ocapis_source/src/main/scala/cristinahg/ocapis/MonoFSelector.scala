@@ -9,7 +9,7 @@ class MonoFSelector {
 
   private def computeRelation(k: Int, xiVal:Array[Double], xjVal: Array[Double],featureIndex:Int):
   Double={
-    1/(1+ exp(k*(xiVal(featureIndex)-xjVal(featureIndex))))
+    1.0/(1.0+ exp(k*(xiVal(featureIndex)-xjVal(featureIndex))))
   }
 
   private def fuzzyMat(datTrain:DenseMatrix[Double],k: Int,featureIndex:Int):Array[Array[Double]]={
@@ -17,6 +17,7 @@ class MonoFSelector {
       datTrain(*,::).map(r=> computeRelation(k,f.toArray,r.toArray,featureIndex)).toArray
     }).toArray
   }
+
 
   private def RMI(ordSetA1:Array[Double],ordSetA2:Array[Double],beta:Double,n:Int):Double={
     val ordS1=ordSetA1.toSet
@@ -36,7 +37,6 @@ class MonoFSelector {
     val nfeatures = datTrain.cols
     val fuzzyMats = (0 until nfeatures).map(i=>fuzzyMat(datTrain,k,i))
 
-    val fuzzy0=fuzzyMats(0)
 
     val ordsets= fuzzyMats.map(m =>{
         m.map(f=>{
@@ -46,6 +46,12 @@ class MonoFSelector {
           }).map(d=>d.toArray).transpose.map(_.sum)
       })
     })
+
+    val fuzzyDecission=trainLabels.map(i=>{
+      trainLabels.map(j=>1.0/(1.0+ exp(k*(i-j))))
+    })
+
+    
 
     //ordsets.map(i=>i.toSet)
 
