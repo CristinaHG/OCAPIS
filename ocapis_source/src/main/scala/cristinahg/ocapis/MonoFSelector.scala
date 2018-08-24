@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 
 import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.exp
+import breeze.numerics.{exp, log}
 import breeze.linalg.{*, DenseMatrix, DenseVector}
 
 
@@ -18,6 +18,14 @@ class MonoFSelector {
     }).toArray
   }
 
+  private def RMI(ordSetA1:Array[Double],ordSetA2:Array[Double],beta:Double,n:Int):Double={
+    val ordS1=ordSetA1.toSet
+    val ordS2=ordSetA2.toSet
+    val infosum=(1 to n).map(i=>{
+                (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
+                }).sum
+    -infosum
+  }
 
   def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int, nSelected: Int):Array[Int]={
     val ncoltrain = trainData.length
@@ -30,7 +38,7 @@ class MonoFSelector {
 
     val fuzzy0=fuzzyMats(0)
 
-    val ordsets= fuzzyMats.map(m =>{ 
+    val ordsets= fuzzyMats.map(m =>{
         m.map(f=>{
           f.map(i=>{
             val colIndex=f.indexOf(i)
