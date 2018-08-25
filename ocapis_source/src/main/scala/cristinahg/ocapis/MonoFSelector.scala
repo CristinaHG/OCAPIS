@@ -19,14 +19,15 @@ class MonoFSelector {
   }
 
 
-  private def RMI(ordSetA1:Array[Double],ordSetA2:Array[Double],n:Int):Double={
-    val ordS1=ordSetA1.toSet
-    val ordS2=ordSetA2.toSet
+  private def RMI(ordSetsA1:Array[Array[Double]],ordSetsA2:Array[Array[Double]],n:Int):Double={
     val infosum=(1 to n).map(i=>{
-                (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
-                }).sum
+      val ordS1=ordSetsA1(i-1).toSet
+      val ordS2=ordSetsA2(i-1).toSet
+      (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
+    }).sum
     -infosum
   }
+
 
   def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int, nSelected: Int):Array[Int]={
     val ncoltrain = trainData.length
@@ -47,6 +48,7 @@ class MonoFSelector {
       })
     })
 
+
     val fuzzyDecission=trainLabels.map(i=>{
       trainLabels.map(j=>(1.0/(1.0+ exp(k*(i.toDouble-j.toDouble)))))
     })
@@ -59,6 +61,10 @@ class MonoFSelector {
     })
 
 
+    val frmi=(0 until nfeatures).map(i=>{
+      val relevance=RMI(ordsetDecision(0),)
+
+    })
 
 
     Array(0)
