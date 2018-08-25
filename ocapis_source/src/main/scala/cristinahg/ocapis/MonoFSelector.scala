@@ -37,7 +37,7 @@ class MonoFSelector {
     -infosum
   }
 
-  def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int, nSelected: Int):Array[Int]={
+  def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int,beta:Double, nSelected: Int):Array[Int]={
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
@@ -70,12 +70,14 @@ class MonoFSelector {
 
 
     val frmi=(0 until nfeatures).map(i=>{
-      val relevance=RMI(ordsets(i),ordsetDecision(i),datTrain.rows)
+      val relev=relevance(ordsets(i),ordsetDecision(i),datTrain.rows)
+      val redundancy=ordsets.map(s=>RMI(ordsets(i),s,datTrain.rows)).sum
+      (0.5*relev-(beta/4.0)*redundancy)
+    }).zipWithIndex
 
-    })
-
-
-    Array(0)
+    val maxFrmi=frmi.sortBy(_._1).takeRight(nfeatures)
+    val bestFeatures=maxFrmi.map(f=>f._2).toArray
+    bestFeatures
 
 
 
