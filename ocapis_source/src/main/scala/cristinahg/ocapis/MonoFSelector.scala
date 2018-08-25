@@ -28,6 +28,14 @@ class MonoFSelector {
     -infosum
   }
 
+  private def relevance(ordSetsA1:Array[Array[Double]],ordSetsA2:Array[Double],n:Int):Double={
+    val ordS2=ordSetsA2.toSet
+    val infosum=(1 to n).map(i=>{
+      val ordS1=ordSetsA1(i-1).toSet
+      (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
+    }).sum
+    -infosum
+  }
 
   def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int, nSelected: Int):Array[Int]={
     val ncoltrain = trainData.length
@@ -62,7 +70,7 @@ class MonoFSelector {
 
 
     val frmi=(0 until nfeatures).map(i=>{
-      val relevance=RMI(ordsetDecision(0),)
+      val relevance=RMI(ordsets(i),ordsetDecision(i),datTrain.rows)
 
     })
 
