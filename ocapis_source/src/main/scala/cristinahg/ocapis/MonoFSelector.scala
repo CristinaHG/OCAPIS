@@ -1,7 +1,7 @@
 package cristinahg.ocapis
 
-import breeze.numerics.{Inf, ceil, exp, log}
-import breeze.linalg.{*, DenseMatrix, DenseVector}
+import breeze.numerics.{exp, log}
+import breeze.linalg.{*, DenseMatrix}
 
 
 class MonoFSelector {

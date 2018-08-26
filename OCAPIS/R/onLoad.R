@@ -21,6 +21,7 @@
       import cristinahg.ocapis.svmop._
       import cristinahg.ocapis.kdlor._
       import cristinahg.ocapis.wknn._
+      import cristinahg.ocapis.MonoFSelector._
     '
   }
   scalaPackage(pkgname,assign.callback=assign.callback)
