@@ -24,8 +24,8 @@ class MonoFSelector {
       val ordS2=ordSetsA2(i-1).toSet
       val intersection= n * (ordS1.intersect(ordS2).size)
       intersection match {
-        case 0 => (1.0/n)*Inf
-        case _ => (1.0/n)*log((ordS1.size * ordS2.size)/ intersection )
+        case 0 => (1.0/n)*10000
+        case _ => (1.0/n)*log((ordS1.size * ordS2.size)/ intersection)
       }
     }).sum
     -infosum
@@ -37,7 +37,7 @@ class MonoFSelector {
       val ordS2=ordSetsA2(i-1).toSet
       val intersection=n*(ordS1.intersect(ordS2).size)
       intersection match {
-        case 0 => (1.0/n)*Inf
+        case 0 => (1.0/n)*10000
         case _ => (1.0/n)*log((ordS1.size * ordS2.size)/ intersection )
       }
     }).sum
@@ -87,7 +87,7 @@ class MonoFSelector {
       (0.5*relev-(beta/4.0)*redundancy)
     }).zipWithIndex
 
-    val maxFrmi=frmi.sortBy(_._1).takeRight(nfeatures)
+    val maxFrmi=frmi.sortBy(_._1).takeRight(nSelected)
     val bestFeatures=maxFrmi.map(f=>f._2).toArray
     bestFeatures
 
@@ -106,6 +106,6 @@ object MonoFSelector {
   val mfs=new MonoFSelector
   val trainDat=Array(Array(1.0,2.0,3.0), Array(5.0,4.0,2.0))
   def main(args: Array[String]): Unit = {
-    mfs.MonoFSelector(trainDat,Array(1,2),2,2.0,3)
+    mfs.MonoFSelector(trainDat,Array(1,2),2,2.0,2)
   }
 }
