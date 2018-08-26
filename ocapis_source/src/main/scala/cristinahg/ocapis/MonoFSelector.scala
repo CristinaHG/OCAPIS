@@ -96,6 +96,6 @@ class MonoFSelector {
 object MonoFSelector {
   val mfs=new MonoFSelector
   def fselector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int,beta:Double, nSelected: Int):Array[Int]={
-    mfs.MonoFSelector(trainData, trainLabels,k,beta, nSelected)
+    mfs.MonoFSelector(trainData, trainLabels, k, beta, nSelected)
   }
 }
