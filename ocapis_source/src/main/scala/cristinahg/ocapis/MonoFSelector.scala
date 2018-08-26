@@ -1,11 +1,11 @@
 package cristinahg.ocapis
 
-import breeze.numerics.{exp, log,Inf}
+import breeze.numerics.{Inf, ceil, exp, log}
 import breeze.linalg.{*, DenseMatrix, DenseVector}
 
 
 class MonoFSelector {
-
+  private val decimals=2
   private def computeRelation(k: Int, xiVal:Array[Double], xjVal: Array[Double],featureIndex:Int):
   Double={
     1.0/(1.0+ exp(k*(xiVal(featureIndex)-xjVal(featureIndex))))
@@ -18,7 +18,7 @@ class MonoFSelector {
   }
 
 
-  private def RMI(ordSetsA1:Array[Array[Double]],ordSetsA2:Array[Array[Double]],n:Int):Double={
+  private def RMI(ordSetsA1:Array[Array[Float]],ordSetsA2:Array[Array[Float]],n:Int):Double={
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
       val ordS2=ordSetsA2(i-1).toSet
@@ -27,7 +27,7 @@ class MonoFSelector {
     -infosum
   }
 
-  private def relevance(ordSetsA1:Array[Array[Double]],ordSetsA2:Array[Double],n:Int):Double={
+  private def relevance(ordSetsA1:Array[Array[Float]],ordSetsA2:Array[Float],n:Int):Double={
     val ordS2=ordSetsA2.toSet
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
@@ -38,6 +38,11 @@ class MonoFSelector {
       }
     }).sum
     -infosum
+  }
+
+  private def roundValue(value: Double): Float = {
+      val mult = Math.pow(10, decimals)
+      return (value * mult.round / mult).toFloat
   }
 
   def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int,beta:Double, nSelected: Int):Array[Int]={
@@ -55,7 +60,7 @@ class MonoFSelector {
           f.map(i=>{
             val colIndex=f.indexOf(i)
             i/datTrain(colIndex,::).inner
-          }).map(d=>d.toArray).transpose.map(_.sum)
+          }).map(d=>d.toArray).transpose.map(_.sum).map(v=>roundValue(v))
       })
     })
 
@@ -68,7 +73,7 @@ class MonoFSelector {
       r.map(e=>{
         val instanceIndex=r.indexOf(e)
         e/datTrain(instanceIndex,::).inner
-      }).map(d=>d.toArray).transpose.map(_.sum)
+      }).map(d=>d.toArray).transpose.map(_.sum).map(v=>roundValue(v))
     })
 
 
