@@ -4,18 +4,18 @@
 \alias{wknnor}
 \title{K-nearest neighbors for ordinal and monotonic data}
 \usage{
-wknnor(trainData, trainLabels, testData, k, q, kernelType, monotonicity)
+wknnor(traindata, trainlabels, testdata, k, q, kerneltype, monotonicity)
 }
 \arguments{
-\item{trainData}{Training data of numeric type without labels.}
+\item{traindata}{Training data of numeric type without labels.}
 
-\item{trainLabels}{A vector of numeric tags for each instance of training data.}
+\item{trainlabels}{A vector of numeric tags for each instance of training data.}
 
-\item{testData}{Test data of numeric type.}
+\item{testdata}{Test data of numeric type.}
 
 \item{q}{Minkowski distance param. Use q=1 for Manhattan distance and q=2  for Euclidean distance.}
 
-\item{kernelType}{Kernel used to compute neighbors weights. Avaiable kernels are: rectangular, triangular,epanechnikov,
+\item{kerneltype}{Kernel used to compute neighbors weights. Avaiable kernels are: rectangular, triangular,epanechnikov,
 biweight, triweight, cosine, gauss and inversion.}
 
 \item{monotonicity}{Boolean param specifying whether data is monotone or not.}
