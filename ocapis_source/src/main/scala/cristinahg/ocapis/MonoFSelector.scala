@@ -32,9 +32,10 @@ class MonoFSelector {
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
       val intersection=(n*(ordS1.intersect(ordS2).size))
-      if (intersection !=0)
-        (1.0/i)*log((ordS1.size * ordS2.size)/ intersection )
-      else (1.0/i)*Inf
+      intersection match {
+        case 0 => (1.0/i)*Inf
+        case _ => (1.0/i)*log((ordS1.size * ordS2.size)/ intersection )
+      }
     }).sum
     -infosum
   }
