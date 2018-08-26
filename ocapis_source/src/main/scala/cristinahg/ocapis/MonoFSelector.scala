@@ -90,22 +90,12 @@ class MonoFSelector {
     val maxFrmi=frmi.sortBy(_._1).takeRight(nSelected)
     val bestFeatures=maxFrmi.map(f=>f._2).toArray
     bestFeatures
-
-
-
-//      (0 until nfeatures).map(f=>{
-//      datTrain(*,::).map(r=>{
-//        r mapValues(i=>computeRelation(k,))
-//      })
-//    })
-
   }
 }
 
 object MonoFSelector {
   val mfs=new MonoFSelector
-  val trainDat=Array(Array(1.0,2.0,3.0), Array(5.0,4.0,2.0))
-  def main(args: Array[String]): Unit = {
-    mfs.MonoFSelector(trainDat,Array(1,2),2,2.0,2)
+  def fselector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int,beta:Double, nSelected: Int):Array[Int]={
+    mfs.MonoFSelector(trainData, trainLabels,k,beta, nSelected)
   }
 }
