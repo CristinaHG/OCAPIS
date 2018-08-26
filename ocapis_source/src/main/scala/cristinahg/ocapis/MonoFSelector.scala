@@ -5,7 +5,7 @@ import breeze.linalg.{*, DenseMatrix, DenseVector}
 
 
 class MonoFSelector {
-  private val decimals=2
+  private val decimals=1
   private def computeRelation(k: Int, xiVal:Array[Double], xjVal: Array[Double],featureIndex:Int):
   Double={
     1.0/(1.0+ exp(k*(xiVal(featureIndex)-xjVal(featureIndex))))
@@ -22,7 +22,11 @@ class MonoFSelector {
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
       val ordS2=ordSetsA2(i-1).toSet
-      (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
+      val intersection= n * (ordS1.intersect(ordS2).size)
+      intersection match {
+        case 0 => (1.0/n)*Inf
+        case _ => (1.0/n)*log((ordS1.size * ordS2.size)/ intersection )
+      }
     }).sum
     -infosum
   }
@@ -31,10 +35,10 @@ class MonoFSelector {
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
       val ordS2=ordSetsA2(i-1).toSet
-      val intersection=(n*(ordS1.intersect(ordS2).size))
+      val intersection=n*(ordS1.intersect(ordS2).size)
       intersection match {
-        case 0 => (1.0/i)*Inf
-        case _ => (1.0/i)*log((ordS1.size * ordS2.size)/ intersection )
+        case 0 => (1.0/n)*Inf
+        case _ => (1.0/n)*log((ordS1.size * ordS2.size)/ intersection )
       }
     }).sum
     -infosum
