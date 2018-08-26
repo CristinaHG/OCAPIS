@@ -1,7 +1,6 @@
 package cristinahg.ocapis
 
-import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.{exp, log}
+import breeze.numerics.{exp, log,Inf}
 import breeze.linalg.{*, DenseMatrix, DenseVector}
 
 
@@ -32,7 +31,10 @@ class MonoFSelector {
     val ordS2=ordSetsA2.toSet
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
-      (1.0/i)*log((ordS1.size * ordS2.size)/ (n*(ordS1.intersect(ordS2).size)))
+      val intersection=(n*(ordS1.intersect(ordS2).size))
+      if (intersection !=0)
+        (1.0/i)*log((ordS1.size * ordS2.size)/ intersection )
+      else (1.0/i)*Inf
     }).sum
     -infosum
   }
@@ -94,6 +96,6 @@ object MonoFSelector {
   val mfs=new MonoFSelector
   val trainDat=Array(Array(1.0,2.0,3.0), Array(5.0,4.0,2.0))
   def main(args: Array[String]): Unit = {
-    mfs.MonoFSelector(trainDat,Array(1,2),2,3)
+    mfs.MonoFSelector(trainDat,Array(1,2),2,2.0,3)
   }
 }
