@@ -27,10 +27,10 @@ class MonoFSelector {
     -infosum
   }
 
-  private def relevance(ordSetsA1:Array[Array[Float]],ordSetsA2:Array[Float],n:Int):Double={
-    val ordS2=ordSetsA2.toSet
+  private def relevance(ordSetsA1:Array[Array[Float]],ordSetsA2:Array[Array[Float]],n:Int):Double={
     val infosum=(1 to n).map(i=>{
       val ordS1=ordSetsA1(i-1).toSet
+      val ordS2=ordSetsA2(i-1).toSet
       val intersection=(n*(ordS1.intersect(ordS2).size))
       intersection match {
         case 0 => (1.0/i)*Inf
@@ -42,7 +42,7 @@ class MonoFSelector {
 
   private def roundValue(value: Double): Float = {
       val mult = Math.pow(10, decimals)
-      return (value * mult.round / mult).toFloat
+      return (Math.round(value * mult) / mult).asInstanceOf[Float]
   }
 
   def MonoFSelector(trainData: Array[Array[Double]], trainLabels: Array[Int],k: Int,beta:Double, nSelected: Int):Array[Int]={
@@ -78,7 +78,7 @@ class MonoFSelector {
 
 
     val frmi=(0 until nfeatures).map(i=>{
-      val relev=relevance(ordsets(i),ordsetDecision(i),datTrain.rows)
+      val relev=relevance(ordsets(i),ordsetDecision,datTrain.rows)
       val redundancy=ordsets.map(s=>RMI(ordsets(i),s,datTrain.rows)).sum
       (0.5*relev-(beta/4.0)*redundancy)
     }).zipWithIndex
