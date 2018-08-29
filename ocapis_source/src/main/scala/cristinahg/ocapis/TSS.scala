@@ -7,7 +7,7 @@ import java.util.Collections
 
 class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int = 5) {
 
-  private val interes = null
+  private var interes = null
   private val pesoDominados = null
 
   private val noDominados = null
@@ -24,7 +24,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
   private val INRANGE = 1
   private val OUTOFRANGE = 2
 
-  private val distanciasEucl = null
+  private var distanciasEucl = null
 
   import java.util
 
@@ -211,4 +211,116 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
 
     vecinos
   }
+
+
+
+  private def CalculaInteres(trainData: Array[Array[Double]],trainlabels:Array[Double]): Unit = {
+
+    val ncoltrain = trainData.length
+    val nrowtrain = trainData.take(2).map(a => a.length).max
+    val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
+    val datTrain = datTr.t
+
+    val normalizedInputValues = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normalizedOutputValues=NormalizeValues(trainlabels)
+
+    calculaDistanciasEuclideas(normalizedInputValues)
+    var interes = new Array[Double](trainData.length)
+    var i = 0
+    while ( {
+      i < trainData.length
+    }) {
+      interes(i) = 0
+      val ins = trainData(i)
+      val insOutp = normalizedOutputValues(i)
+      val clasIns = insOutp.toInt
+      val vecinos = getVecinosMasCercanos(i,normalizedInputValues,normalizedOutputValues)
+      var pesoVecino = new Array[Double](vecinos.size)
+      // sumo las distancias de la instancia i hasta todos sus vecinos
+      var sumDist = 0
+
+      var z = 0
+      while ( {
+        z < vecinos.size
+      }) {
+        val neig = vecinos.get(z).asInstanceOf[Neighbor]
+        sumDist += neig.distance
+        pesoVecino(z) = neig.distance
+        //                System.out.print( pesoVecino[j]+",");
+
+        {
+          z += 1; z - 1
+        }
+      }
+      //            System.out.print("\t Suma: "+sumDist);
+      // esto se hace para que el peso de un vecino
+      // que esté mas cerca sea mayor que el del que está mas lejos
+      //             System.out.print("\nPeso Vecinos Normalizando: ");
+      var sumaNorm = 0.0
+      z = 0
+      while ( {
+        z < vecinos.size
+      }) {
+        val neig = vecinos.get(z).asInstanceOf[Neighbor]
+        val clasNeig = neig.classNeig
+        pesoVecino(z) = (sumDist - pesoVecino(z)) / sumDist
+        sumaNorm = sumaNorm + pesoVecino(z)
+
+        {
+          z += 1; z - 1
+        }
+      }
+      //            System.out.print("\t SumaNorm: "+sumaNorm);
+      //            System.out.print("\nPeso Vecinos TRAS Normalizar: ");
+      var prueba = 0.0
+      z = 0
+      while ( {
+        z < vecinos.size
+      }) {
+        pesoVecino(z) = pesoVecino(z) / sumaNorm
+        prueba = prueba + pesoVecino(z)
+
+        {
+          z += 1; z - 1
+        }
+      }
+      //             System.out.print("\t Suma TRAS Norm: "+prueba);
+      // Normalizamos el peso de cada vecino entre [0,1]
+      // En peso vecinos tengo la importancia de cad vecino segun su distancia
+      // PAra calcular el interes de cada muestra, Se multiplican esos
+      // pesos por 1 si es un enemigo y por 0 si es un amigo y se suman
+      // El mas interesante se da cuando todos son enemigos y estan sobre la
+      // instancia (supongamos 5 vecinos considerandos valor maximo.. 5*1=5).
+      // habría que normalizar dividiendo entre kEdit
+      var suma = 0.0
+      var cuentaVecinosDistintaClase = 0
+      z = 0
+      while ( {
+        z < vecinos.size
+      }) {
+        val neig = vecinos.get(z).asInstanceOf[Neighbor]
+        val clasNeig = neig.classNeig
+        //System.out.print("\n\t ClasIns: "+clasIns+ "  ClasVec: "+clasNeig);
+        if (clasNeig != clasIns) {
+          suma = suma + pesoVecino(z)
+          //System.out.print("\n\t\t Vecino "+j+" peso: "+pesoVecino[j]+ " suma: "+suma);
+          cuentaVecinosDistintaClase += 1
+        }
+
+        {
+          z += 1; z - 1
+        }
+      }
+      interes(i) = suma
+      //System.out.print("\n Interes de instancia "+i+ "  es: "+interes[i]+"  Vecinos Disntitos: "+cuentaVecinosDistintaClase);
+      // Habria que comprobar si la instancia es no comparable, en cuyo caso
+      // es mas interesante (se le suma 0.5 sin superar el valor de 1)
+      //System.out.print("\n ********** DARLE MAS INTERES SI LA INSTANCAS ES NOCOMPARABLE");
+
+      {
+        i += 1; i - 1
+      }
+    }
+  }
+
 }
