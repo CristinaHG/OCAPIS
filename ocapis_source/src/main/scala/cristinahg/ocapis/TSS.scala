@@ -323,4 +323,90 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
     }
   }
 
+  def CalculaNoDominados(NormTrainData: Array[Array[Double]],trainlabels:Array[Double]): Unit = {
+    val noComp = 0
+    var noDominados = new Array[Double](NormTrainData.length)
+    var Dominados = new Array[Double](NormTrainData.length)
+    var pesoDominados = new Array[Double](NormTrainData.length)
+    var dominado = new Array[Int](NormTrainData.length)
+    val normalizedOutputValues=NormalizeValues(trainlabels)
+
+    var j = 0
+    while ( {
+      j < NormTrainData.length
+    }) {
+      dominado(j) = 0
+      noDominados(j) = 0
+      Dominados(j) = 0
+      pesoDominados(j) = 0
+
+      {
+        j += 1; j - 1
+      }
+    }
+    val instPerClas = new Array[Int](trainlabels.distinct.length)
+    j = 0
+    while ( {
+      j < NormTrainData.length
+    }) {
+      val instX = NormTrainData(j)
+      val insX = NormTrainData(j)
+      val outpX = normalizedOutputValues(j)
+      val clasX = outpX.toInt
+      instPerClas(clasX) += 1
+      var y = 0
+      while ( {
+        y < NormTrainData.length
+      }) {
+        val instY = NormTrainData(y)
+        val insY = NormTrainData(y)
+        val outpY = normalizedOutputValues(y)
+        if (j != y) {
+          var menoresoIguales = 0
+          var z = 0
+          while ( {
+            z < insX.length
+          }) {
+            if (insX(z) <= insY(z)) menoresoIguales += 1
+
+            {
+              z += 1; z - 1
+            }
+          }
+
+          if (menoresoIguales == insX.length && outpX == outpY) {
+            dominado(j) = dominado(j) + 1
+          }
+        }
+
+        {
+          y += 1; y - 1
+        }
+      }
+
+      {
+        j += 1; j - 1
+      }
+    }
+    j = 0
+    while ( {
+      j < NormTrainData.length
+    }) {
+      val instX = NormTrainData(j)
+      val outpX = normalizedOutputValues(j)
+      val clasX = outpX.toInt
+      Dominados(j) = dominado(j)
+      noDominados(j) = instPerClas(clasX) - dominado(j)
+
+      val temp = Math.abs(Dominados(j) - noDominados(j))
+      pesoDominados(j) = temp / (Dominados(j) + noDominados(j))
+
+      {
+        j += 1; j - 1
+      }
+    }
+    //
+    //return(noComp);
+  }
+
 }
