@@ -5,15 +5,15 @@ import cristinahg.ocapis.Neighbor
 import java.util
 import java.util.Collections
 
+import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int = 5) {
+class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int = 5) {
+  private val interes=scala.collection.mutable.MutableList[Double]()
+  private val pesoDominados=scala.collection.mutable.MutableList[Double]()
 
-  private var interes = null
-  private val pesoDominados = null
-
-  private val noDominados = null
-  private val Dominados = null
+  private val noDominados = scala.collection.mutable.MutableList[Double]()
+  private val Dominados = scala.collection.mutable.MutableList[Double]()
 
   private val distanceType = 0
   private val neighbourhood = 0
@@ -26,7 +26,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
   private val INRANGE = 1
   private val OUTOFRANGE = 2
 
-  private var distanciasEucl = null
+  private var distanciasEucl = ArrayBuffer.empty[Array[Double]]
 
   import java.util
 
@@ -152,18 +152,20 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
     length
   }
 
-  private def calculaDistanciasEuclideas(NormTrainData: Array[Array[Double]]): Unit = {
-    var distanciasEucl = new Array[Array[Double]](NormTrainData.length)
+  private def calculaDistanciasEuclideas(normTrainData: Array[Array[Double]]): Unit = {
+//    var distanciasEucl = new Array[Array[Double]](normTrainData.length)
+    for (i <- normTrainData.length)
+      distanciasEucl.append(Array.fill(normTrainData.head.length)(0d))
     var i = 0
     while ( {
-      i < NormTrainData.length
+      i < normTrainData.length
     }) {
-      val xiInputs = NormTrainData(i)
+      val xiInputs = normTrainData(i)
       var j = 0
       while ( {
-        j < NormTrainData.length
+        j < normTrainData.length
       }) {
-        val xjInputs = NormTrainData(j)
+        val xjInputs = normTrainData(j)
         distanciasEucl(i)(j) = euclideanDistance(xiInputs, xjInputs)
 
         {
@@ -228,12 +230,12 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
     val normalizedOutputValues = NormalizeValues(trainlabels)
 
     calculaDistanciasEuclideas(normalizedInputValues)
-    var interes = new Array[Double](trainData.length)
+    //this.interes = new Array[Double](trainData.length)
     var i = 0
     while ( {
       i < trainData.length
     }) {
-      interes(i) = 0
+      interes+=0
       val ins = trainData(i)
       val insOutp = normalizedOutputValues(i)
       val clasIns = insOutp.toInt
@@ -252,7 +254,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
         //                System.out.print( pesoVecino[j]+",");
 
         {
-          z += 1;
+          z += 1
           z - 1
         }
       }
@@ -271,7 +273,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
         sumaNorm = sumaNorm + pesoVecino(z)
 
         {
-          z += 1;
+          z += 1
           z - 1
         }
       }
@@ -286,7 +288,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
         prueba = prueba + pesoVecino(z)
 
         {
-          z += 1;
+          z += 1
           z - 1
         }
       }
@@ -314,11 +316,11 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
         }
 
         {
-          z += 1;
+          z += 1
           z - 1
         }
       }
-      interes(i) = suma
+      interes.update(i,suma)
       //System.out.print("\n Interes de instancia "+i+ "  es: "+interes[i]+"  Vecinos Disntitos: "+cuentaVecinosDistintaClase);
       // Habria que comprobar si la instancia es no comparable, en cuyo caso
       // es mas interesante (se le suma 0.5 sin superar el valor de 1)
@@ -332,9 +334,10 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
   }
 
   def CalculaNoDominados(NormTrainData: Array[Array[Double]], trainlabels: Array[Double]): Unit = {
-    var noDominados = new Array[Double](NormTrainData.length)
-    var Dominados = new Array[Double](NormTrainData.length)
-    var pesoDominados = new Array[Double](NormTrainData.length)
+//    var noDominados = new Array[Double](normTrainData.length)
+//    var Dominados = new Array[Double](normTrainData.length)
+//    var pesoDominados = new Array[Double](normTrainData.length)
+
     var dominado = new Array[Int](NormTrainData.length)
     val normalizedOutputValues = NormalizeValues(trainlabels)
 
@@ -343,12 +346,12 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
       j < NormTrainData.length
     }) {
       dominado(j) = 0
-      noDominados(j) = 0
-      Dominados(j) = 0
-      pesoDominados(j) = 0
+      noDominados+= 0
+      Dominados+= 0
+      pesoDominados+= 0
 
       {
-        j += 1;
+        j += 1
         j - 1
       }
     }
@@ -406,11 +409,11 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
       val instX = NormTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
-      Dominados(j) = dominado(j)
-      noDominados(j) = instPerClas(clasX) - dominado(j)
+      Dominados.update(j,dominado(j))
+      noDominados.update(j,instPerClas(clasX) - dominado(j))
 
       val temp = Math.abs(Dominados(j) - noDominados(j))
-      pesoDominados(j) = temp / (Dominados(j) + noDominados(j))
+      pesoDominados.update(j,temp / (Dominados(j) + noDominados(j)))
 
       {
         j += 1;
@@ -483,5 +486,52 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01,kEdition:Int 
     }
     eliminada
   }
+
+  import cristinahg.ocapis.NeighborWeight
+  import java.util
+
+  def executeSelecNoDomin(trainData: Array[Array[Double]],NormTrainData: Array[Array[Double]],trainlabels: Array[Double]): Array[NeighborWeight] = {
+    val theend = false
+    val instancesSelec = null
+    var instancesFinal=scala.collection.mutable.MutableList[NeighborWeight]()
+    val selec = new Array[Int](NormTrainData.length)
+    var j = 0
+    while ( {
+      j < NormTrainData.length
+    }) {
+      selec(j) = 1
+
+      {
+        j += 1; j - 1
+      }
+    }
+    // calculamos el peso de las NoDominadas
+    CalculaNoDominados(NormTrainData,trainlabels)
+    // calculamos el interes al principio
+    calculaDistanciasEuclideas(NormTrainData)
+    CalculaInteres(trainData,trainlabels)
+    var cont = 0
+    var i = 0
+    while ( {
+      i < trainData.length
+    }) {
+      val ne = new NeighborWeight(i, 0)
+      //            System.out.print("\n Instancia: "+ne.getIndex()+" Dom: "+pesoDominados[i]+"  Inter: "+interes[i]);
+
+      if (pesoDominados(i) < interes(i) || pesoDominados(i) >= 0.9) {
+
+        instancesFinal+=ne
+        cont += 1
+        //           System.out.print("\t <----   PruebaPeso: "+( pesoDominados[i]-interes[i]));
+      }
+
+      {
+        i += 1; i - 1
+      }
+    }
+    System.out.print("\n\tSelected: " + cont)
+    instancesFinal.toArray
+  }
+
 
 }
