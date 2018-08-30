@@ -9,10 +9,10 @@ import scala.util.Random
 class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int = 5) {
 
   private val interes=scala.collection.mutable.MutableList[Double]()
-  private val pesoDominados=scala.collection.mutable.MutableList[Double]()
+  private val pesoDominados=ArrayBuffer.empty[Double]
 
-  private val noDominados = scala.collection.mutable.MutableList[Double]()
-  private val Dominados = scala.collection.mutable.MutableList[Double]()
+  private val noDominados = ArrayBuffer.empty[Double]
+  private val Dominados = ArrayBuffer.empty[Double]
 
   private val distanceType = 0
 
@@ -137,7 +137,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
 
   private def calculaDistanciasEuclideas(normTrainData: Array[Array[Double]]): Unit = {
 //    var distanciasEucl = new Array[Array[Double]](normTrainData.length)
-    for (i <- 0 to normTrainData.length)
+    for (i <- 0 until normTrainData.length)
       distanciasEucl.append(Array.fill(normTrainData.head.length)(0d))
     var i = 0
     while ( {
@@ -317,42 +317,47 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
   }
 
-  def CalculaNoDominados(NormTrainData: Array[Array[Double]], trainlabels: Array[Double]): Unit = {
+  def CalculaNoDominados(normTrainData: Array[Array[Double]], trainlabels: Array[Double]): Unit = {
 //    var noDominados = new Array[Double](normTrainData.length)
 //    var Dominados = new Array[Double](normTrainData.length)
 //    var pesoDominados = new Array[Double](normTrainData.length)
 
-    var dominado = new Array[Int](NormTrainData.length)
+    var dominado = new Array[Int](normTrainData.length)
     val normalizedOutputValues = NormalizeValues(trainlabels)
+    for (i <- 0 until normTrainData.length){
+      noDominados.append(0d)
+      Dominados.append(0d)
+      pesoDominados.append(0d)
+    }
 
+//    var j = 0
+//    while ( {
+//      j < normTrainData.length
+//    }) {
+//      noDominados.append(0d)
+//      Dominados.append(0d)
+//      pesoDominados.append(0d)
+//      {
+//        j += 1
+//        j - 1
+//      }
+//    }
+    val instPerClas = new Array[Int](trainlabels.distinct.length)
     var j = 0
     while ( {
-      j < NormTrainData.length
+      j < normTrainData.length
     }) {
-      noDominados+= 0
-      Dominados+= 0
-      pesoDominados+= 0
-      {
-        j += 1
-        j - 1
-      }
-    }
-    val instPerClas = new Array[Int](trainlabels.distinct.length)
-    j = 0
-    while ( {
-      j < NormTrainData.length
-    }) {
-      val instX = NormTrainData(j)
-      val insX = NormTrainData(j)
+      val instX = normTrainData(j)
+      val insX = normTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
       instPerClas(clasX) += 1
       var y = 0
       while ( {
-        y < NormTrainData.length
+        y < normTrainData.length
       }) {
-        val instY = NormTrainData(y)
-        val insY = NormTrainData(y)
+        val instY = normTrainData(y)
+        val insY = normTrainData(y)
         val outpY = normalizedOutputValues(y)
         if (j != y) {
           var menoresoIguales = 0
@@ -386,9 +391,9 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
     j = 0
     while ( {
-      j < NormTrainData.length
+      j < normTrainData.length
     }) {
-      val instX = NormTrainData(j)
+      val instX = normTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
       Dominados.update(j,dominado(j))
