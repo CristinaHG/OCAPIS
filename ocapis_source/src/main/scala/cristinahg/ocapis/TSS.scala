@@ -115,7 +115,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         ind - 1
       }
     }
-    conflictos.toArray
+    conflictos.toList.toArray
   }
 
   protected def euclideanDistance(instance1: Array[Double], instance2: Array[Double]): Double = {
@@ -408,7 +408,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     //return(noComp);
   }
 
-  def executeSelecColisiones(trainData: Array[Array[Double]], trainlabels: Array[Double]): Array[Int] = {
+  def executeSelecColisiones(trainData: Array[Array[Double]], trainlabels: Array[Double]):
+  Array[Int] = {
     var theend = false
     var eliminada = Array.fill(trainData.length){0}
 
@@ -574,7 +575,7 @@ object TSS{
     val tss=new TSS()
     val train=Array(Array(1.0,2.0,3.0,2.0),Array(3.0,6.0,4.0,3.2),Array(4.0,5.3,2.0,7.2))
 
-    val labels=Array(1.0,2.0,3.0)
+    val labels=Array(3.0,1.0,3.0)
     tss.execute(train,labels)
   }
 
