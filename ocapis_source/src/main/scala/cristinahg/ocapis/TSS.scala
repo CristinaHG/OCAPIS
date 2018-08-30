@@ -32,7 +32,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val conflictos = scala.collection.mutable.MutableList[NeighborWeight]()
 
     var colisiones = Array.fill(trainData.length){0}
-    var i = 0
     var ind = 0
 
     val ncoltrain = trainData.length
@@ -40,7 +39,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
     val datTrain = datTr.t
 
-    val normalizedInputValues = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normalizedcols = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normalizedInputValues=normalizedcols.transpose
     val normalizedOutputValues = NormalizeValues(trainlabels)
     while ( {
       ind < trainData.length
