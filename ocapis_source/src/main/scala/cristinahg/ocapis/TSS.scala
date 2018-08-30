@@ -46,7 +46,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       ind < trainData.length
     }) {
       if (eliminada(ind) == 0) {
-        val ins = trainData(ind)
         val insX = normalizedInputValues(ind)
         val outpX = normalizedOutputValues(ind)
         val classX = outpX.toInt
@@ -55,7 +54,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
           y < trainData.length
         }) {
           if (eliminada(y) == 0 && ind != y) {
-            val instY = trainData(y)
             val insY = normalizedInputValues(y)
             val outpY = normalizedOutputValues(y)
             val classY = outpY.toInt
