@@ -490,10 +490,15 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   import cristinahg.ocapis.NeighborWeight
   import java.util
 
-  def executeSelecNoDomin(trainData: Array[Array[Double]],NormTrainData: Array[Array[Double]],trainlabels: Array[Double]): Array[NeighborWeight] = {
+  def executeSelecNoDomin(trainData: Array[Array[Double]],trainlabels: Array[Double]): Array[NeighborWeight] = {
     val theend = false
     val instancesSelec = null
+    val ncoltrain = trainData.length
+    val nrowtrain = trainData.take(2).map(a => a.length).max
+    val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
+    val datTrain = datTr.t
     var instancesFinal=scala.collection.mutable.MutableList[NeighborWeight]()
+    var NormTrainData=datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
     val selec = new Array[Int](NormTrainData.length)
     var j = 0
     while ( {
@@ -534,4 +539,55 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   }
 
 
+  def execute(trainData: Array[Array[Double]],trainlabels: Array[Double]): Unit = {
+    val elim = executeSelecColisiones(trainData,trainlabels)
+    val selec = new Array[Int](elim.length)
+    // Primero eliminamos mediante un grasp aquellas que producen colisiones
+    // Se permite el que Pueden quedar algunas que provoquen colisiones
+    var j = 0
+    while ( {
+      j < elim.length
+    }) {
+      selec(j) = 0
+      if (elim(j) == 0) selec(j) = 1
+
+      {
+        j += 1; j - 1
+      }
+    }
+    // actualizamos el conjunto de train solo con las seleccionadas
+    val tmp = ArrayBuffer.empty[Array[Double]]
+    j= 0
+    while ( {
+      j < trainData.length
+    }) {
+      if (selec(j) == 1) {
+        val ins = trainData(j)
+        tmp.append(ins)
+      }
+
+      {
+        j += 1; j - 1
+      }
+    }
+    var train = tmp
+    //System.out.print("\n Quedan sin colisiones: "+train.getnData());
+    val selectedS = executeSelecNoDomin(train.toArray,trainlabels)
+    //System.out.print("\n+++++++++++++++++++++++++");
+    var S = ArrayBuffer.empty[Array[Double]]
+    var i = 0
+    while ( {
+      i < selectedS.size
+    }) {
+      val ne = selectedS(i).asInstanceOf[NeighborWeight]
+      //System.out.print("\n Se ha elegido: "+ne.getIndex());
+      val ins = train(ne.index)
+      S.append(ins)
+
+      {
+        i += 1; i - 1
+      }
+    }
+    System.out.print("\nAlgorithm Finished.\n")
+  }
 }
