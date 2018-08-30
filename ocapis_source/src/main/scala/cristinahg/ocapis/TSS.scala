@@ -329,11 +329,9 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       j < NormTrainData.length
     }) {
-      dominado(j) = 0
       noDominados+= 0
       Dominados+= 0
       pesoDominados+= 0
-
       {
         j += 1
         j - 1
@@ -470,28 +468,19 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
 
   def executeSelecNoDomin(trainData: Array[Array[Double]],trainlabels: Array[Double]): Array[NeighborWeight] = {
     val theend = false
-    val instancesSelec = null
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
     val datTrain = datTr.t
     var instancesFinal=scala.collection.mutable.MutableList[NeighborWeight]()
-    var NormTrainData=datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
-    val selec = new Array[Int](NormTrainData.length)
-    var j = 0
-    while ( {
-      j < NormTrainData.length
-    }) {
-      selec(j) = 1
+    val normalizedcols = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normTrainData=normalizedcols.transpose
+    val selec = Array.fill(normTrainData.length){1}
 
-      {
-        j += 1; j - 1
-      }
-    }
     // calculamos el peso de las NoDominadas
-    CalculaNoDominados(NormTrainData,trainlabels)
+    CalculaNoDominados(normTrainData,trainlabels)
     // calculamos el interes al principio
-    calculaDistanciasEuclideas(NormTrainData)
+    calculaDistanciasEuclideas(normTrainData)
     CalculaInteres(trainData,trainlabels)
     var cont = 0
     var i = 0
@@ -526,7 +515,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       j < elim.length
     }) {
-      selec(j) = 0
       if (elim(j) == 0) selec(j) = 1
 
       {
