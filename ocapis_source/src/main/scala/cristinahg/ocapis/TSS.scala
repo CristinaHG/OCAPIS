@@ -249,7 +249,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       while ( {
         z < vecinos.size
       }) {
-        val neig = vecinos(z).asInstanceOf[Neighbor]
+        val neig = vecinos(z)
         val clasNeig = neig.classNeig
         pesoVecino(z) = (sumDist - pesoVecino(z)) / sumDist
         sumaNorm = sumaNorm + pesoVecino(z)
@@ -546,7 +546,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       i < selectedS.size
     }) {
-      val ne = selectedS(i).asInstanceOf[NeighborWeight]
+      val ne = selectedS(i)
       //System.out.print("\n Se ha elegido: "+ne.getIndex());
       val ins = trainData(ne.index)
       S.append(ins)
