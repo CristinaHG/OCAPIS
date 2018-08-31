@@ -1,8 +1,6 @@
 package cristinahg.ocapis
 
 import breeze.linalg.{*, DenseMatrix}
-
-import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -203,7 +201,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   }
 
 
-  private def CalculaInteres(trainData: Array[Array[Double]], trainlabels: Array[Double]): Unit = {
+  private def CalculaInteres(): Unit = {
 
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
@@ -317,7 +315,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
   }
 
-  def CalculaNoDominados(normTrainData: Array[Array[Double]], trainlabels: Array[Double]): Unit = {
+  def CalculaNoDominados(normTrainData: Array[Array[Double]]): Unit = {
 //    var noDominados = new Array[Double](normTrainData.length)
 //    var Dominados = new Array[Double](normTrainData.length)
 //    var pesoDominados = new Array[Double](normTrainData.length)
@@ -409,13 +407,13 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     //return(noComp);
   }
 
-  def executeSelecColisiones(trainData: Array[Array[Double]], trainlabels: Array[Double]):
+  def executeSelecColisiones():
   Array[Int] = {
     var theend = false
     var eliminada = Array.fill(trainData.length){0}
 
     // Calculo el número inidical de colisiones del dataset
-    var instancesCol = calculaColisiones(trainData, trainlabels, eliminada)
+    var instancesCol = calculaColisiones(eliminada)
 
     var col = 0.0
     var i = 0
@@ -469,7 +467,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
 
 
 
-  def executeSelecNoDomin(trainData: Array[Array[Double]],trainlabels: Array[Double]): Array[NeighborWeight] = {
+  def executeSelecNoDomin(): Array[NeighborWeight] = {
     val theend = false
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
@@ -481,10 +479,10 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val selec = Array.fill(normTrainData.length){1}
 
     // calculamos el peso de las NoDominadas
-    CalculaNoDominados(normTrainData,trainlabels)
+    CalculaNoDominados(normTrainData)
     // calculamos el interes al principio
     calculaDistanciasEuclideas(normTrainData)
-    CalculaInteres(trainData,trainlabels)
+    CalculaInteres()
     var cont = 0
     var i = 0
     while ( {
@@ -517,7 +515,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
 
     trainlabs.foreach(l=>trainlabels.update(trainlabs.indexOf(l),l))
 
-    val elim = executeSelecColisiones(trainData,trainlabels)
+    val elim = executeSelecColisiones()
     val selec = new Array[Int](elim.length)
     // Primero eliminamos mediante un grasp aquellas que producen colisiones
     // Se permite el que Pueden quedar algunas que provoquen colisiones
@@ -553,7 +551,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     var train = tmp
     var labels=tmpOutputs
     //System.out.print("\n Quedan sin colisiones: "+train.getnData());
-    val selectedS = executeSelecNoDomin(train.toArray,labels.toArray)
+    val selectedS = executeSelecNoDomin()
     //System.out.print("\n+++++++++++++++++++++++++");
     var S = ArrayBuffer.empty[Array[Double]]
     var i = 0
