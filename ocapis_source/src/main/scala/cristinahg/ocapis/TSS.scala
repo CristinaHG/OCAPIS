@@ -516,23 +516,11 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     trainlabs.foreach(l=>trainlabels:+=l)
 
     val elim = executeSelecColisiones()
-    val selec = new Array[Int](elim.length)
-    // Primero eliminamos mediante un grasp aquellas que producen colisiones
-    // Se permite el que Pueden quedar algunas que provoquen colisiones
-    var j = 0
-    while ( {
-      j < elim.length
-    }) {
-      if (elim(j) == 0) selec(j) = 1
-
-      {
-        j += 1; j - 1
-      }
-    }
+    val selec = elim.map(e=>if(e==0) 1 else 0)
     // actualizamos el conjunto de train solo con las seleccionadas
     val tmp = ArrayBuffer.empty[Array[Double]]
     val tmpOutputs = ArrayBuffer.empty[Double]
-    j= 0
+    var j= 0
     while ( {
       j < trainData.length
     }) {
@@ -560,7 +548,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }) {
       val ne = selectedS(i).asInstanceOf[NeighborWeight]
       //System.out.print("\n Se ha elegido: "+ne.getIndex());
-      val ins = train(ne.index)
+      val ins = trainData(ne.index)
       S.append(ins)
 
       {
