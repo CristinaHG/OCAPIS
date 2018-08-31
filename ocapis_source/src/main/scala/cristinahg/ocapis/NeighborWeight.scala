@@ -1,6 +1,6 @@
 package cristinahg.ocapis
 
-class NeighborWeight( var weight:Double = .0, var index:Int = -1) extends Ordered[NeighborWeight] {
+class NeighborWeight( var index:Int = -1, var weight:Double = .0) extends Ordered[NeighborWeight] {
 
   override def compareTo(o: NeighborWeight): Int = {
     val n = o.asInstanceOf[NeighborWeight]

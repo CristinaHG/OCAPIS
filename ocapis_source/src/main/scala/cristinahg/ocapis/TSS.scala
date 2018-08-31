@@ -285,7 +285,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       // instancia (supongamos 5 vecinos considerandos valor maximo.. 5*1=5).
       // habría que normalizar dividiendo entre kEdit
       var suma = 0.0
-      var cuentaVecinosDistintaClase = 0
+      //var cuentaVecinosDistintaClase = 0
       z = 0
       while ( {
         z < vecinos.size
@@ -296,7 +296,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         if (clasNeig != clasIns) {
           suma = suma + pesoVecino(z)
           //System.out.print("\n\t\t Vecino "+j+" peso: "+pesoVecino[j]+ " suma: "+suma);
-          cuentaVecinosDistintaClase += 1
+          //cuentaVecinosDistintaClase += 1
         }
 
         {
