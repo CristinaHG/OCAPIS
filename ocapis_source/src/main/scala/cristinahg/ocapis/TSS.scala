@@ -19,8 +19,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   private val seed = 0
 
   private var distanciasEucl = ArrayBuffer.empty[Array[Double]]
-
-
+  private val trainData = ArrayBuffer.empty[Array[Double]].toArray
+  private val trainlabels = ArrayBuffer.empty[Double].toArray
 
   private def NormalizeValues(dataValues: Array[Double]): Array[Double] = {
     val min = dataValues.min
@@ -28,7 +28,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     dataValues.map(v => (v - min) / (max - min))
   }
 
-  private def calculaColisiones(trainData: Array[Array[Double]], trainlabels: Array[Double], eliminada: Array[Int]): Array[NeighborWeight] = {
+  private def calculaColisiones(eliminada: Array[Int]): Array[NeighborWeight] = {
     val conflictos = scala.collection.mutable.MutableList[NeighborWeight]()
 
     var colisiones = Array.fill(trainData.length){0}
@@ -437,7 +437,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       !theend
     }) {
-      instancesCol = calculaColisiones(trainData, trainlabels, eliminada)
+      instancesCol = calculaColisiones(eliminada)
       var numCol = 0.0
       var i = 0
       while ( {
@@ -509,7 +509,14 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   }
 
 
-  def execute(trainData: Array[Array[Double]],trainlabels: Array[Double]): Unit = {
+  def execute(traindat: Array[Array[Double]],trainlabs: Array[Double]): Unit = {
+    traindat.foreach(i=>{
+      val indexOfi=traindat.indexOf(i)
+      trainData.update(indexOfi,i)
+    })
+
+    trainlabs.foreach(l=>trainlabels.update(trainlabs.indexOf(l),l))
+
     val elim = executeSelecColisiones(trainData,trainlabels)
     val selec = new Array[Int](elim.length)
     // Primero eliminamos mediante un grasp aquellas que producen colisiones
