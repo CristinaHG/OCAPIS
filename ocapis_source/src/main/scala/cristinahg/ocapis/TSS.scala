@@ -17,8 +17,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   private val seed = 0
 
   private var distanciasEucl = ArrayBuffer.empty[Array[Double]]
-  private val trainData = ArrayBuffer.empty[Array[Double]].toArray
-  private val trainlabels = ArrayBuffer.empty[Double].toArray
+  private var trainData = ArrayBuffer.empty[Array[Double]].toArray
+  private var trainlabels = ArrayBuffer.empty[Double].toArray
 
   private def NormalizeValues(dataValues: Array[Double]): Array[Double] = {
     val min = dataValues.min
@@ -510,10 +510,10 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   def execute(traindat: Array[Array[Double]],trainlabs: Array[Double]): Unit = {
     traindat.foreach(i=>{
       val indexOfi=traindat.indexOf(i)
-      trainData.update(indexOfi,i)
+      trainData :+= i
     })
 
-    trainlabs.foreach(l=>trainlabels.update(trainlabs.indexOf(l),l))
+    trainlabs.foreach(l=>trainlabels:+=l)
 
     val elim = executeSelecColisiones()
     val selec = new Array[Int](elim.length)
