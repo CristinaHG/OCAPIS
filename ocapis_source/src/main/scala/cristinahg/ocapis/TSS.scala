@@ -420,7 +420,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       i < instancesCol.length
     }) {
-      val neigh = instancesCol(i).asInstanceOf[NeighborWeight]
+      val neigh = instancesCol(i)
       col = col + neigh.weight
 
       {
@@ -429,7 +429,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       }
     }
     val candidatos = (trainData.length * porcCandidatos).asInstanceOf[Int]
-    val minColisiones = (col * porcColisiones).asInstanceOf[Int]
+    val minColisiones = (col * porcColisiones).toInt
     //        System.out.print("\nNúmero de candidatos maximos: "+candidatos+"/"+train.getnData());
     //        System.out.print("\nNúmero de colisiones máximas permitidas: "+minColisiones+"/"+col);
     while ( {
@@ -441,7 +441,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       while ( {
         i < instancesCol.size
       }) {
-        val neigh = instancesCol(i).asInstanceOf[NeighborWeight]
+        val neigh = instancesCol(i)
         numCol = numCol + neigh.weight
 
         {
