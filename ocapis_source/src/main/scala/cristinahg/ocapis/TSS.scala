@@ -322,7 +322,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
 //    var Dominados = new Array[Double](normTrainData.length)
 //    var pesoDominados = new Array[Double](normTrainData.length)
 
-    var dominado = new Array[Int](normTrainData.length)
+    var dominado = Array.fill(normTrainData.length){0d}
     val normalizedOutputValues = NormalizeValues(trainlabels)
     for (i <- 0 until normTrainData.length){
       noDominados.append(0d)
@@ -528,13 +528,17 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
     // actualizamos el conjunto de train solo con las seleccionadas
     val tmp = ArrayBuffer.empty[Array[Double]]
+    val tmpOutputs = ArrayBuffer.empty[Double]
     j= 0
     while ( {
       j < trainData.length
     }) {
       if (selec(j) == 1) {
         val ins = trainData(j)
+        val lab=trainlabels(j)
         tmp.append(ins)
+        tmpOutputs.append(lab)
+
       }
 
       {
@@ -542,8 +546,9 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       }
     }
     var train = tmp
+    var labels=tmpOutputs
     //System.out.print("\n Quedan sin colisiones: "+train.getnData());
-    val selectedS = executeSelecNoDomin(train.toArray,trainlabels)
+    val selectedS = executeSelecNoDomin(train.toArray,labels.toArray)
     //System.out.print("\n+++++++++++++++++++++++++");
     var S = ArrayBuffer.empty[Array[Double]]
     var i = 0
