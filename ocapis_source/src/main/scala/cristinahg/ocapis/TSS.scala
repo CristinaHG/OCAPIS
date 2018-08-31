@@ -210,7 +210,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val datTr = new DenseMatrix(nrowtrain, ncoltrain, trainData.flatten)
     val datTrain = datTr.t
 
-    val normalizedInputValues = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normalizedcols = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
+    val normalizedInputValues=normalizedcols.transpose
     val normalizedOutputValues = NormalizeValues(trainlabels)
 
     calculaDistanciasEuclideas(normalizedInputValues)
