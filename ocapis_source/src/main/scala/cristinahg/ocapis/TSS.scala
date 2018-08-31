@@ -221,7 +221,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       i < trainData.length
     }) {
       interes+=0
-      val ins = trainData(i)
       val insOutp = normalizedOutputValues(i)
       val clasIns = insOutp.toInt
       val vecinos = getVecinosMasCercanos(i, normalizedInputValues, normalizedOutputValues)
