@@ -138,7 +138,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   private def calculaDistanciasEuclideas(normTrainData: Array[Array[Double]]): Unit = {
 //    var distanciasEucl = new Array[Array[Double]](normTrainData.length)
     for (i <- 0 until normTrainData.length)
-      distanciasEucl.append(Array.fill(normTrainData.head.length)(0d))
+      distanciasEucl.append(Array.fill(normTrainData.length)(0d))
     var i = 0
     while ( {
       i < normTrainData.length
@@ -347,7 +347,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       j < normTrainData.length
     }) {
-      val instX = normTrainData(j)
       val insX = normTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
@@ -356,7 +355,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       while ( {
         y < normTrainData.length
       }) {
-        val instY = normTrainData(y)
         val insY = normTrainData(y)
         val outpY = normalizedOutputValues(y)
         if (j != y) {
@@ -393,7 +391,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       j < normTrainData.length
     }) {
-      val instX = normTrainData(j)
+      //val instX = normTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
       Dominados.update(j,dominado(j))
