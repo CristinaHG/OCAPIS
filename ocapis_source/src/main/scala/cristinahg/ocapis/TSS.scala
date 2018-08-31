@@ -548,8 +548,8 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         j += 1; j - 1
       }
     }
-    var train = tmp
-    var labels=tmpOutputs
+     trainData = tmp.toArray
+     trainlabels=tmpOutputs.toArray
     //System.out.print("\n Quedan sin colisiones: "+train.getnData());
     val selectedS = executeSelecNoDomin()
     //System.out.print("\n+++++++++++++++++++++++++");
