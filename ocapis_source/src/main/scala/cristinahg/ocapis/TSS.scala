@@ -288,7 +288,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       while ( {
         z < vecinos.size
       }) {
-        val neig = vecinos(z).asInstanceOf[Neighbor]
+        val neig = vecinos(z)
         val clasNeig = neig.classNeig
         //System.out.print("\n\t ClasIns: "+clasIns+ "  ClasVec: "+clasNeig);
         if (clasNeig != clasIns) {
@@ -542,6 +542,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val selectedS = executeSelecNoDomin()
     //System.out.print("\n+++++++++++++++++++++++++");
     var S = ArrayBuffer.empty[Array[Double]]
+    var classS=ArrayBuffer.empty[Double]
     var i = 0
     while ( {
       i < selectedS.size
@@ -549,12 +550,15 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       val ne = selectedS(i)
       //System.out.print("\n Se ha elegido: "+ne.getIndex());
       val ins = trainData(ne.index)
+      val cls=trainlabels(ne.index)
       S.append(ins)
+      classS.append(cls)
 
       {
         i += 1; i - 1
       }
     }
+    Array(S.toArray,classS.toArray)
     System.out.print("\nAlgorithm Finished.\n")
   }
 }
