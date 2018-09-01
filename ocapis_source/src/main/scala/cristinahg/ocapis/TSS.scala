@@ -454,7 +454,6 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
         i += 1; i - 1
       }
     }
-    System.out.print("\n\tSelected: " + cont)
     instancesFinal.toArray
   }
 
