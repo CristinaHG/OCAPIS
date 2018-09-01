@@ -134,7 +134,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   }
 
   private def calculaDistanciasEuclideas(normTrainData: Array[Array[Double]]): Unit = {
-//    var distanciasEucl = new Array[Array[Double]](normTrainData.length)
     for (i <- 0 until normTrainData.length)
       distanciasEucl.append(Array.fill(normTrainData.length)(0d))
     var i = 0
@@ -190,9 +189,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       }
     }
     vecinos.toArray.sorted
-    //vecinos = vecinos.sorted(_<_)
-    //            System.out.print("\n\n\n************************* Inst: "+indInst+" ************************");
-    // Eliminamos vecinos hasta que queden solo kEdit vecinos-enemigos
+
     while ( {
       vecinos.size > kEdition
     }) vecinos = vecinos.dropRight(1)
@@ -213,7 +210,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     val normalizedOutputValues = NormalizeValues(trainlabels)
 
     calculaDistanciasEuclideas(normalizedInputValues)
-    //this.interes = new Array[Double](trainData.length)
     var i = 0
     while ( {
       i < trainData.length
@@ -233,17 +229,12 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         val neig = vecinos(z)
         sumDist += neig.distance
         pesoVecino(z) = neig.distance
-        //                System.out.print( pesoVecino[j]+",");
-
         {
           z += 1
           z - 1
         }
       }
-      //            System.out.print("\t Suma: "+sumDist);
-      // esto se hace para que el peso de un vecino
-      // que esté mas cerca sea mayor que el del que está mas lejos
-      //             System.out.print("\nPeso Vecinos Normalizando: ");
+
       var sumaNorm = 0.0
       z = 0
       while ( {
@@ -259,8 +250,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
           z - 1
         }
       }
-      //            System.out.print("\t SumaNorm: "+sumaNorm);
-      //            System.out.print("\nPeso Vecinos TRAS Normalizar: ");
+
       var prueba = 0.0
       z = 0
       while ( {
@@ -274,27 +264,16 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
           z - 1
         }
       }
-      //             System.out.print("\t Suma TRAS Norm: "+prueba);
-      // Normalizamos el peso de cada vecino entre [0,1]
-      // En peso vecinos tengo la importancia de cad vecino segun su distancia
-      // PAra calcular el interes de cada muestra, Se multiplican esos
-      // pesos por 1 si es un enemigo y por 0 si es un amigo y se suman
-      // El mas interesante se da cuando todos son enemigos y estan sobre la
-      // instancia (supongamos 5 vecinos considerandos valor maximo.. 5*1=5).
-      // habría que normalizar dividiendo entre kEdit
+
       var suma = 0.0
-      //var cuentaVecinosDistintaClase = 0
       z = 0
       while ( {
         z < vecinos.size
       }) {
         val neig = vecinos(z)
         val clasNeig = neig.classNeig
-        //System.out.print("\n\t ClasIns: "+clasIns+ "  ClasVec: "+clasNeig);
         if (clasNeig != clasIns) {
           suma = suma + pesoVecino(z)
-          //System.out.print("\n\t\t Vecino "+j+" peso: "+pesoVecino[j]+ " suma: "+suma);
-          //cuentaVecinosDistintaClase += 1
         }
 
         {
@@ -303,10 +282,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         }
       }
       interes.update(i,suma)
-      //System.out.print("\n Interes de instancia "+i+ "  es: "+interes[i]+"  Vecinos Disntitos: "+cuentaVecinosDistintaClase);
-      // Habria que comprobar si la instancia es no comparable, en cuyo caso
-      // es mas interesante (se le suma 0.5 sin superar el valor de 1)
-      //System.out.print("\n ********** DARLE MAS INTERES SI LA INSTANCAS ES NOCOMPARABLE");
 
       {
         i += 1;
@@ -316,10 +291,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
   }
 
   def CalculaNoDominados(normTrainData: Array[Array[Double]]): Unit = {
-//    var noDominados = new Array[Double](normTrainData.length)
-//    var Dominados = new Array[Double](normTrainData.length)
-//    var pesoDominados = new Array[Double](normTrainData.length)
-
     var dominado = Array.fill(normTrainData.length){0d}
     val normalizedOutputValues = NormalizeValues(trainlabels)
     for (i <- 0 until normTrainData.length){
@@ -328,18 +299,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       pesoDominados.append(0d)
     }
 
-//    var j = 0
-//    while ( {
-//      j < normTrainData.length
-//    }) {
-//      noDominados.append(0d)
-//      Dominados.append(0d)
-//      pesoDominados.append(0d)
-//      {
-//        j += 1
-//        j - 1
-//      }
-//    }
     val instPerClas = new Array[Int](trainlabels.distinct.length)
     var j = 0
     while ( {
@@ -389,7 +348,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     while ( {
       j < normTrainData.length
     }) {
-      //val instX = normTrainData(j)
       val outpX = normalizedOutputValues(j)
       val clasX = outpX.toInt
       Dominados.update(j,dominado(j))
@@ -403,8 +361,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         j - 1
       }
     }
-    //
-    //return(noComp);
   }
 
   def executeSelecColisiones():
@@ -430,8 +386,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
     val candidatos = (trainData.length * porcCandidatos).asInstanceOf[Int]
     val minColisiones = (col * porcColisiones).toInt
-    //        System.out.print("\nNúmero de candidatos maximos: "+candidatos+"/"+train.getnData());
-    //        System.out.print("\nNúmero de colisiones máximas permitidas: "+minColisiones+"/"+col);
     while ( {
       !theend
     }) {
@@ -457,7 +411,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
         else elegido = Random.nextInt( (candidatos) + 1 )
         // Cogemos 'elegido' de la lista de candidatos
         val eleg = instancesCol(elegido)
-        //System.out.print("\n\t---------> Eliminamos Candidato: "+elegido+" con Index: "+eleg.getIndex()+"  col: "+eleg.getWeight());
         eliminada(eleg.index) = 1
       }
       if (numCol <= minColisiones) theend = true
@@ -489,13 +442,11 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       i < trainData.length
     }) {
       val ne = new NeighborWeight(i, 0)
-      //            System.out.print("\n Instancia: "+ne.getIndex()+" Dom: "+pesoDominados[i]+"  Inter: "+interes[i]);
 
       if (pesoDominados(i) < interes(i) || pesoDominados(i) >= 0.9) {
 
         instancesFinal+=ne
         cont += 1
-        //           System.out.print("\t <----   PruebaPeso: "+( pesoDominados[i]-interes[i]));
       }
 
       {
@@ -538,9 +489,7 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
     }
      trainData = tmp.toArray
      trainlabels=tmpOutputs.toArray
-    //System.out.print("\n Quedan sin colisiones: "+train.getnData());
     val selectedS = executeSelecNoDomin()
-    //System.out.print("\n+++++++++++++++++++++++++");
     var S = ArrayBuffer.empty[Array[Double]]
     var classS=ArrayBuffer.empty[Double]
     var i = 0
@@ -548,7 +497,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       i < selectedS.size
     }) {
       val ne = selectedS(i)
-      //System.out.print("\n Se ha elegido: "+ne.getIndex());
       val ins = trainData(ne.index)
       val cls=trainlabels(ne.index)
       S.append(ins)
@@ -559,7 +507,6 @@ class TSS(porcCandidatos:Double=0.01, porcColisiones:Double = 0.01, kEdition:Int
       }
     }
     Array(S.toArray,classS.toArray)
-    System.out.print("\nAlgorithm Finished.\n")
   }
 }
 
