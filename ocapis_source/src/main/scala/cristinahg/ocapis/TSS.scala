@@ -515,15 +515,18 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
   }
 }
 
-object TSS{
-//  val tss=new TSS
-//  def InstanceSelec()
-  def main(args: Array[String]): Unit = {
-    val tss=new TSS()
-    val train=Array(Array(1.0,2.0,3.0,2.0),Array(3.0,6.0,4.0,3.2),Array(4.0,5.3,2.0,7.2))
+object TSS {
+  val tss = new TSS
 
-    val labels=Array(3.0,1.0,3.0)
-    tss.execute(train,labels,kEd = 6)
+  def instanceSelec(traindat: Array[Array[Double]], trainlabs: Array[Double], cand: Double = 0.01, col: Double = 0.01, kEd: Int = 5): Unit = {
+    tss.execute(traindat, trainlabs, cand, col, kEd)
   }
-
 }
+//  def main(args: Array[String]): Unit = {
+//    val tss=new TSS()
+//    val train=Array(Array(1.0,2.0,3.0,2.0),Array(3.0,6.0,4.0,3.2),Array(4.0,5.3,2.0,7.2))
+//
+//    val labels=Array(3.0,1.0,3.0)
+//    tss.execute(train,labels,kEd = 6)
+//  }
+
