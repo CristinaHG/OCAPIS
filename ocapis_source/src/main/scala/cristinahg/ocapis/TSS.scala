@@ -1,6 +1,9 @@
 package cristinahg.ocapis
 
+import java.io.{BufferedWriter, File, FileWriter, PrintWriter}
+
 import breeze.linalg.{*, DenseMatrix}
+
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -408,6 +411,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
         instancesCol = instancesCol.sorted.reverse
         // se elige un candidato de entre los primeros 'candidatos'
         var elegido = -1
+        Random.setSeed(2342)
         if (instancesCol.size < candidatos) elegido = Random.nextInt( (instancesCol.size) + 1)
         else elegido = Random.nextInt( (candidatos) + 1 )
         // Cogemos 'elegido' de la lista de candidatos
@@ -458,7 +462,8 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
   }
 
 
-  def execute(traindat: Array[Array[Double]],trainlabs: Array[Double],cand:Double=0.01, col:Double=0.01, kEd:Int=5): Unit = {
+  def execute(traindat: Array[Array[Double]],trainlabs: Array[Double],cand:Double=0.01, col:Double=0.01, kEd:Int=5):
+  Array[Array[_ >: Array[Double] with Double]]= {
     traindat.foreach(i=>{
       val indexOfi=traindat.indexOf(i)
       trainData :+= i
@@ -510,6 +515,14 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
         i += 1; i - 1
       }
     }
+//    val file = new File(getClass.getResource("/tssoutputs").getPath)
+//    val filelabs = new File(getClass.getResource("/tssoutputslabs").getPath)
+//    val bw = new  PrintWriter(new FileWriter(file))
+//    val bw2 = new  PrintWriter(new FileWriter(filelabs))
+//    S.toArray.foreach(a=> bw.write(a.mkString(" ")+"\n"))
+//    classS.toArray.foreach(a=>bw2.write(a + "\n"))
+//    bw.close()
+//    bw2.close()
     Array(S.toArray,classS.toArray)
   }
 }
