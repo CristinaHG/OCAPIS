@@ -1,6 +1,9 @@
 package cristinahg.ocapis
 
+import java.awt.geom.QuadCurve2D
+
 import breeze.linalg.{*, DenseMatrix}
+
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -20,7 +23,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
   private var trainData = ArrayBuffer.empty[Array[Double]].toArray
   private var trainlabels = ArrayBuffer.empty[Double].toArray
 
-  private def NormalizeValues(dataValues: Array[Double]): Array[Double] = {
+  private def NormalizeValues(dataValues: Array [Double]): Array[Double] = {
     val min = dataValues.min
     val max = dataValues.max
     dataValues.map(v => (v - min) / (max - min))
@@ -440,7 +443,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
 
 
   def execute(traindat: Array[Array[Double]],trainlabs: Array[Double],cand:Double=0.01, col:Double=0.01, kEd:Int=5):
-  Array[Array[_ >: Array[Double] with Double]]= {
+  Array[Double]= {
     traindat.foreach(i=>{
       val indexOfi=traindat.indexOf(i)
       trainData :+= i
@@ -476,17 +479,17 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
      trainData = tmp.toArray
      trainlabels=tmpOutputs.toArray
     val selectedS = executeSelecNoDomin()
-    var S = ArrayBuffer.empty[Array[Double]]
+    var S = ArrayBuffer.empty[Double]
     var classS=ArrayBuffer.empty[Double]
     var i = 0
     while ( {
       i < selectedS.size
     }) {
       val ne = selectedS(i)
-      val ins = trainData(ne.index)
-      val cls=trainlabels(ne.index)
-      S.append(ins)
-      classS.append(cls)
+//      val ins = trainData(ne.index)
+//      val cls=trainlabels(ne.index)
+      S.append(ne.index+1)
+     // classS.append(cls)
 
       {
         i += 1; i - 1
@@ -500,7 +503,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
 //    classS.toArray.foreach(a=>bw2.write(a + "\n"))
 //    bw.close()
 //    bw2.close()
-    Array(S.toArray,classS.toArray)
+    S.toArray
   }
 }
 
@@ -508,7 +511,7 @@ object TSS {
   val tss = new TSS
 
   def instanceSelec(traindat: Array[Array[Double]], trainlabs: Array[Double], cand: Double = 0.01, col: Double = 0.01, kEd: Int = 5):
-  Array[Array[_ >: Array[Double] with Double]] = {
+  Array[Double] = {
     tss.execute(traindat, trainlabs, cand, col, kEd)
   }
 }

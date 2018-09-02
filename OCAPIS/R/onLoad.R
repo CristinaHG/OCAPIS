@@ -22,6 +22,7 @@
       import cristinahg.ocapis.kdlor._
       import cristinahg.ocapis.wknn._
       import cristinahg.ocapis.MonoFSelector._
+      import cristinahg.ocapis.TSS._
     '
   }
   scalaPackage(pkgname,assign.callback=assign.callback)
