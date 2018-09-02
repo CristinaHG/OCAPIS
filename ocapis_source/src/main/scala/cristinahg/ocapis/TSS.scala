@@ -1,9 +1,6 @@
 package cristinahg.ocapis
 
-import java.io.{BufferedWriter, File, FileWriter, PrintWriter}
-
 import breeze.linalg.{*, DenseMatrix}
-
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -510,7 +507,8 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
 object TSS {
   val tss = new TSS
 
-  def instanceSelec(traindat: Array[Array[Double]], trainlabs: Array[Double], cand: Double = 0.01, col: Double = 0.01, kEd: Int = 5): Unit = {
+  def instanceSelec(traindat: Array[Array[Double]], trainlabs: Array[Double], cand: Double = 0.01, col: Double = 0.01, kEd: Int = 5):
+  Array[Array[_ >: Array[Double] with Double]] = {
     tss.execute(traindat, trainlabs, cand, col, kEd)
   }
 }

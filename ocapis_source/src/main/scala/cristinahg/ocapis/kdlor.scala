@@ -1,17 +1,13 @@
 package cristinahg.ocapis
 
-import breeze.linalg._
-import breeze.numerics._
+
+import breeze.linalg.{*, DenseMatrix, DenseVector, inv, max, rank, sum, tile}
+import breeze.numerics.{exp, isNonfinite, tanh,Inf}
 import breeze.optimize.proximal.{ProjectBox, QuadraticMinimizer}
 import breeze.stats.mean
 
-import scala.Numeric._
 
 class kdlor {
-
-//  def main(args: Array[String]): Unit = {
-//    println("HOLA")
-//  }
 
  private var parameters=collection.mutable.Map[String,Double]("u"->0.001,"d"->10)
  private var kerneltype:String="linear"

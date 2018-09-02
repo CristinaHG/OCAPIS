@@ -1,12 +1,13 @@
 package cristinahg.ocapis
 
 import breeze.linalg.functions.minkowskiDistance
-import breeze.linalg.{*, DenseMatrix, DenseVector}
-import breeze.numerics._
-import breeze.numerics.constants._
-import breeze.stats.{mean, median, stddev}
+import breeze.linalg.{*, DenseMatrix}
+import breeze.numerics.{abs, cos, exp, pow, sqrt}
+import breeze.numerics.constants.Pi
+import breeze.stats.stddev
 
 import scala.util.Random
+
 
 class wknn {
 
