@@ -1,4 +1,19 @@
-
+#' Instance Selection for Monotonic Classification
+#'
+#' Selects the N most relevant instances from ordinal and monotonic dataset, using a three-steps algorithm.
+#'
+#' @param traindata Training data of numeric type without labels.
+#' @param trainlabels A vector of numeric tags for each instance of training data.
+#' @param candidates Rate of the best candidates to be selected.
+#' @param collisions Minimal rate of collisions permitted to stop the removal process.
+#' @param kEdition Maximum number of nearest neighborgs to consider.
+#' @return A reduced dataset with the selected instances and its labels.
+#' @examples
+#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' traindata=dattrain[,-ncol(dattrain)]
+#' selected<-iselector(traindata,trainlabels,0.01,0.01,5)
+#'
+#'
 
 
 iselector<-function(traindata,trainlabels,candidates,collisions,kEdition){
