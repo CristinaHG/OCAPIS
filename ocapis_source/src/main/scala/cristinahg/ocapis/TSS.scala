@@ -43,7 +43,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
     val normalizedInputValues=normalizedcols.transpose
     val normalizedOutputValues = NormalizeValues(trainlabels)
 
-      (0 to trainData.length).foreach(ind=>{
+      (0 until trainData.length).foreach(ind=>{
 
       if (eliminada(ind) == 0) {
         val insX = normalizedInputValues(ind)
@@ -86,11 +86,11 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
     })
     var avgColis = 0
 
-    (0 to trainData.length).foreach(ind=>{
+    (0 until trainData.length).foreach(ind=>{
       if (colisiones(ind) > avgColis && eliminada(ind) == 0) avgColis = colisiones(ind)
     })
 
-    (0 to trainData.length).foreach(ind=>{
+    (0 until trainData.length).foreach(ind=>{
       if (colisiones(ind) > 0) {
         val ne = new NeighborWeight(ind, colisiones(ind))
         conflictos += ne
