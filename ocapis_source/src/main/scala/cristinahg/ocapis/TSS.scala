@@ -33,7 +33,6 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
     val conflictos = scala.collection.mutable.MutableList[NeighborWeight]()
 
     var colisiones = Array.fill(trainData.length){0}
-    var ind = 0
 
     val ncoltrain = trainData.length
     val nrowtrain = trainData.take(2).map(a => a.length).max
@@ -43,9 +42,9 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
     val normalizedcols = datTrain(::, *).map(c => NormalizeValues(c.toArray)).inner.toArray
     val normalizedInputValues=normalizedcols.transpose
     val normalizedOutputValues = NormalizeValues(trainlabels)
-    while ( {
-      ind < trainData.length
-    }) {
+
+      (0 to trainData.length).foreach(ind=>{
+
       if (eliminada(ind) == 0) {
         val insX = normalizedInputValues(ind)
         val outpX = normalizedOutputValues(ind)
@@ -84,38 +83,19 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
           }
         }
       }
-      {
-        ind += 1
-        ind - 1
-      }
-    }
+    })
     var avgColis = 0
 
-    ind = 0
-    while ( {
-      ind < trainData.length
-    }) {
+    (0 to trainData.length).foreach(ind=>{
       if (colisiones(ind) > avgColis && eliminada(ind) == 0) avgColis = colisiones(ind)
+    })
 
-      {
-        ind += 1
-        ind - 1
-      }
-    }
-    ind = 0
-    while ( {
-      ind < trainData.length
-    }) {
+    (0 to trainData.length).foreach(ind=>{
       if (colisiones(ind) > 0) {
         val ne = new NeighborWeight(ind, colisiones(ind))
         conflictos += ne
       }
-
-      {
-        ind += 1
-        ind - 1
-      }
-    }
+    })
     conflictos.toList.toArray
   }
 
