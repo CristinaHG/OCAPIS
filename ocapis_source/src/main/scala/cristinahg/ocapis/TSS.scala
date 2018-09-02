@@ -391,7 +391,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
         instancesCol = instancesCol.sorted.reverse
         // se elige un candidato de entre los primeros 'candidatos'
         var elegido = -1
-        Random.setSeed(2342)
+        //Random.setSeed(2342)
         if (instancesCol.size < candidatos) elegido = Random.nextInt( (instancesCol.size) + 1)
         else elegido = Random.nextInt( (candidatos) + 1 )
         // Cogemos 'elegido' de la lista de candidatos
