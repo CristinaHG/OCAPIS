@@ -443,7 +443,7 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
 
 
   def execute(traindat: Array[Array[Double]],trainlabs: Array[Double],cand:Double=0.01, col:Double=0.01, kEd:Int=5):
-  Array[Double]= {
+  Array[Int]= {
     traindat.foreach(i=>{
       val indexOfi=traindat.indexOf(i)
       trainData :+= i
@@ -479,22 +479,39 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
      trainData = tmp.toArray
      trainlabels=tmpOutputs.toArray
     val selectedS = executeSelecNoDomin()
-    var S = ArrayBuffer.empty[Double]
+    var S = ArrayBuffer.empty[Array[Double]]
     var classS=ArrayBuffer.empty[Double]
     var i = 0
     while ( {
       i < selectedS.size
     }) {
       val ne = selectedS(i)
-//      val ins = trainData(ne.index)
-//      val cls=trainlabels(ne.index)
-      S.append(ne.index+1)
-     // classS.append(cls)
+      val ins = trainData(ne.index)
+      val cls=trainlabels(ne.index)
+      S.append(ins)
+      classS.append(cls)
 
       {
         i += 1; i - 1
       }
     }
+
+    val StoMat=S.toArray
+    val classSToArr=classS.toArray
+    val reducedDataset=StoMat.map(a=>{
+      val index=StoMat.indexOf(a)
+      a.:+(classSToArr(index))
+    })
+
+    val realDataset=traindat.map(a=>{
+      val index=traindat.indexOf(a)
+      a.:+(trainlabs(index))
+    })
+
+    val selectedInstancesIndexesInOriginal=reducedDataset.map(f=>{
+      realDataset.indexWhere(_.deep==f.deep)
+    })
+
 //    val file = new File(getClass.getResource("/tssoutputs").getPath)
 //    val filelabs = new File(getClass.getResource("/tssoutputslabs").getPath)
 //    val bw = new  PrintWriter(new FileWriter(file))
@@ -503,7 +520,8 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
 //    classS.toArray.foreach(a=>bw2.write(a + "\n"))
 //    bw.close()
 //    bw2.close()
-    S.toArray
+
+    selectedInstancesIndexesInOriginal
   }
 }
 
@@ -511,7 +529,7 @@ object TSS {
   val tss = new TSS
 
   def instanceSelec(traindat: Array[Array[Double]], trainlabs: Array[Double], cand: Double = 0.01, col: Double = 0.01, kEd: Int = 5):
-  Array[Double] = {
+  Array[Int] = {
     tss.execute(traindat, trainlabs, cand, col, kEd)
   }
 }
