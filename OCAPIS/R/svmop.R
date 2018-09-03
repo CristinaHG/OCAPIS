@@ -23,7 +23,7 @@ computeWeights<-function(p,tags) {
 #' @param gamma numeric value indicating the gamma parameter to train the SVM.
 #' @return A matrix of 1xn svm trained with weights models.
 #' @examples
-#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' dattrain<-read.table("train_balance-scale.0", sep=" ")
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #'
 svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
@@ -60,9 +60,9 @@ svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
 #' @param test Numeric test data without labels.
 #' @return A list containing the projected values per instance per class and the predicted values (the maximum probability for each data instance).
 #' @examples
-#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' dattrain<-read.table("train_balance-scale.0", sep=" ")
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
-#' dattest<-read.csv("test_balance-scale.0", sep=" ")
+#' dattest<-read.table("test_balance-scale.0", sep=" ")
 #' predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])
 #'
 svmopredict<-function(models,test){
@@ -86,9 +86,3 @@ svmopredict<-function(models,test){
   list(projected,predicted)
 }
 
-
-#dattrain<-read.csv("train_balance-scale.0", sep=" ")
-#modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
-#dattest<-read.csv("test_balance-scale.0", sep=" ")
-#pred<-mysvm$svm_predict(r_to_py(dattest$X1),r_to_py(dattest[,-ncol(dattest)])$values$tolist(),modelstrain[[1,1]],r_to_py('-b 1')
-#predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])

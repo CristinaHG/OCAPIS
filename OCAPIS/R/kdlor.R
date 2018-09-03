@@ -40,7 +40,7 @@ setClass(Class="kdlorModel",
 #'Each of these fields can be accesed with "@" (see section examples) below.
 #' @examples
 #' # read train data
-#' dattrain<-read.csv("train_balance-scale.0", sep=" ")
+#' dattrain<-read.table("train_balance-scale.0", sep=" ")
 #' traindata=dattrain[,-ncol(dattrain)]
 #' trainlabels=dattrain[,ncol(dattrain)]
 #' # fit the kdlor model
@@ -93,7 +93,7 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
 #' @return A list of two elements containing the predicted labels for each instances and the projected values.
 #'
 #' @examples
-#' testdata<-read.csv("test_balance-scale.0", sep=" ")
+#' testdata<-read.table("test_balance-scale.0", sep=" ")
 #' testdata<-testdata[,-ncol(testdata)]
 #' pred<-kdlorpredict(myfit,traindata,testdata)
 #'
