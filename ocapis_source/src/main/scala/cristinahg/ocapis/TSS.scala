@@ -508,8 +508,8 @@ class TSS(var porcCandidatos:Double=0.01, var porcColisiones:Double = 0.01, var 
       a.:+(trainlabs(index))
     })
 
-    val selectedInstancesIndexesInOriginal=reducedDataset.map(f=>{
-      realDataset.indexWhere(_.deep==f.deep)
+    val selectedInstancesIndexesInOriginal=reducedDataset.map(f = f => {
+      realDataset.indexWhere(_.deep == f.deep) + 1
     })
 
 //    val file = new File(getClass.getResource("/tssoutputs").getPath)
