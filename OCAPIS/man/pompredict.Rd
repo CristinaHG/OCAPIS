@@ -18,9 +18,9 @@ A list containing at the first position the projected values per instance per cl
 Predict over the new data instances using the trained model.
 }
 \examples{
-dattrain<-read.csv("train_balance-scale.0", sep=" ")
+dattrain<-read.table("train_balance-scale.0", sep=" ")
 fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
-dattest<-read.csv("test_balance-scale.0", sep=" ")
+dattest<-read.table("test_balance-scale.0", sep=" ")
 predictions<-pompredict(fit,dattest[,-ncol(dattest)])
 projections<-predictions[[1]]
 predictedLabels<-predictions[[2]]

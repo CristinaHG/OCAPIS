@@ -20,7 +20,7 @@ A list of two elements containing the predicted labels for each instances and th
 Predicts the test data labels using a Kernel Discriminant Learning for Ordinal Regression fitted model
 }
 \examples{
-testdata<-read.csv("test_balance-scale.0", sep=" ")
+testdata<-read.table("test_balance-scale.0", sep=" ")
 testdata<-testdata[,-ncol(testdata)]
 pred<-kdlorpredict(myfit,traindata,testdata)
 
