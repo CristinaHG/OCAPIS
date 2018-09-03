@@ -3,7 +3,7 @@ R package for ordinal data classification and preprocessing implementing algorit
 
 ## Classification algorithms
 - Support vector machine for ordinal data
-- ordinal regression
+- Ordinal regression
 - Kernel Discriminant Learning for Ordinal Regression 
 - Weighted K-Nearest Neightborgs for monotonic and ordinal data
 
