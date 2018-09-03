@@ -26,3 +26,11 @@ Ordinal regression methods: survey and experimental study
 IEEE Transactions on Knowledge and Data Engineering, Vol. 28. Issue 1
 2016
 http://dx.doi.org/10.1109/TKDE.2015.2457911
+4. P. McCullagh, Regression models for ordinal data,  Journal of
+the Royal Statistical Society. Series B (Methodological), vol. 42,
+no. 2, pp. 109–142, 1980.
+5. B.-Y. Sun, J. Li, D. D. Wu, X.-M. Zhang, and W.-B. Li,
+Kernel discriminant learning for ordinal regression
+IEEE Transactions on Knowledge and Data Engineering, vol. 22,
+no. 6, pp. 906-910, 2010.
+https://doi.org/10.1109/TKDE.2009.170
