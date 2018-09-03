@@ -34,3 +34,9 @@ Kernel discriminant learning for ordinal regression
 IEEE Transactions on Knowledge and Data Engineering, vol. 22,
 no. 6, pp. 906-910, 2010.
 https://doi.org/10.1109/TKDE.2009.170
+6. Duivesteijn, Wouter & Feelders, Ad. (2008). Nearest Neighbour Classification with Monotonicity Constraints. 301-316. 10.1007/978-3-540-87479-9_38.
+7. Cano, José & García, S. (2017). Training Set Selection for Monotonic Ordinal Classification. Data & Knowledge Engineering. 112. 10.1016/j.datak.2017.10.003. 
+8. Hu, Qinghua & Pan, Weiwei & Zhang, Lei & Zhang, David & Song, Yanping & Guo, Maozu & Yu, Daren. (2012). Feature Selection for Monotonic Classification. IEEE T. Fuzzy Systems. 20. 69-81. 10.1109/TFUZZ.2011.2167235. 
+9. Hechenbichler, Schliep:
+Weighted k-Nearest-Neighbor Techniques and Ordinal Classification Sonderforschungsbereich 386, Paper 399 (2004)
+https://epub.ub.uni-muenchen.de/1769/1/paper_399.pdf
