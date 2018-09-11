@@ -45,7 +45,7 @@ svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
       parameters<-paste0('-b 1',' ','-t 2',' ',paste0('-c ',cost),' ', paste0('-g ',gamma),' -q')
       param<-mysvm$svm_parameter(r_to_py(parameters))
       # remeber to remove the class from dattrain
-      problem<-mysvm$svm_problem(r_to_py(weightsTrain),r_to_py(train_labels),r_to_py(train)$values$tolist())
+      problem<-mysvm$svm_problem(r_to_py(weightsTrain),r_to_py(train_labels),r_to_py(train)$tolist())
       models[[1,i-1]]<-mysvm$svm_train(problem,param)
       if(is.atomic(models[[1,i-1]])){
           warning("Empty model. Please check the training patterns.")
