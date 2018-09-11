@@ -16,8 +16,8 @@ computeWeights<-function(p,tags) {
 #' Train n-1 SVM models for ordinal data with given parameters
 #'
 #' train data must be the data without labels. Labels should be provided in trainLabels
-#' @param x Training data of numeric type without labels.
-#' @param y A vector of numeric tags for each instance of training data.
+#' @param train Training data of numeric type without labels.
+#' @param trainLabels A vector of numeric tags for each instance of training data.
 #' @param weights A boolean indicating whether weights per instance are used.
 #' @param cost numeric value indicating the cost parameter to train the SVM.
 #' @param gamma numeric value indicating the gamma parameter to train the SVM.
@@ -45,7 +45,7 @@ svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
       parameters<-paste0('-b 1',' ','-t 2',' ',paste0('-c ',cost),' ', paste0('-g ',gamma),' -q')
       param<-mysvm$svm_parameter(r_to_py(parameters))
       # remeber to remove the class from dattrain
-      problem<-mysvm$svm_problem(r_to_py(weightsTrain),r_to_py(train_labels),r_to_py(dattrain)$values$tolist())
+      problem<-mysvm$svm_problem(r_to_py(weightsTrain),r_to_py(train_labels),r_to_py(train)$values$tolist())
       models[[1,i-1]]<-mysvm$svm_train(problem,param)
       if(is.atomic(models[[1,i-1]])){
           warning("Empty model. Please check the training patterns.")
@@ -72,7 +72,8 @@ svmopredict<-function(models,test){
     #pred<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
     pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
     predprob<-pred[[3]]
-    projected[i-1,]<-unlist(predprob[seq(2,length(predprob), by=2)])
+    unlisted<-unlist(predprob)
+    projected[i-1,]<-unlisted[seq(2,length(unlisted), by=2)]
     #projected[i-1,]<-matrix(unlist(pred[[3]]),ncol=2)[,2]
   }
   probts<-matrix(0,length(models)+1,nrow(test))

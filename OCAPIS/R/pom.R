@@ -2,8 +2,8 @@
 #' Train a proportional odd model for ordinal regression
 #'
 #' train data must be the training data without labels. Labels should be provided in trainLabels.
-#' @param x Training data of numeric type without labels.
-#' @param y Tags for each instance of training data. Must be factors.
+#' @param train Training data of numeric type without labels.
+#' @param trainLabels Tags for each instance of training data. Must be factors.
 #' @param linkfunction link function to be used in the ordinal logistic regression fit. Possible functions are: logistic','probit','loglog','cloglog' or 'cauchit'.
 #' @return the fitted model.
 #' @examples

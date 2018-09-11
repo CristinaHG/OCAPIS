@@ -9,10 +9,9 @@ Description: Package for regression and preprocessing
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-SystemRequirements: Scala
+SystemRequirements: Scala, Python
 BugReports: https://github.com/CristinaHG/OCAPIS/issues
 Imports: 
     rscala (>= 3.1.0),
-    reticulate,
-    Rcpp
+    reticulate
 RoxygenNote: 6.0.1

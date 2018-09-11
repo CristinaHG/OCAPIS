@@ -94,6 +94,7 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
 #'
 #' @examples
 #' testdata<-read.table("test_balance-scale.0", sep=" ")
+#' testlabels<-testdata[,ncol(testdata)]
 #' testdata<-testdata[,-ncol(testdata)]
 #' pred<-kdlorpredict(myfit,traindata,testdata)
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/svmop.R
 \name{svmopredict}
 \alias{svmopredict}
-\title{Predict over the new data instances using the trained models}
+\title{Predict over the new data instances using the trained models.}
 \usage{
 svmopredict(models, test)
 }
@@ -15,7 +15,7 @@ svmopredict(models, test)
 A list containing the projected values per instance per class and the predicted values (the maximum probability for each data instance).
 }
 \description{
-Predict over the new data instances using the trained models
+Predict over the new data instances using the trained models.
 }
 \examples{
 dattrain<-read.table("train_balance-scale.0", sep=" ")
