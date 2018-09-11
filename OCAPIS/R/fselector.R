@@ -32,11 +32,11 @@ fselector<-function(traindata,trainlabels,k,beta,nselected){
   if (nselected<1){
     stop("number of features to select must be a positive integer.")
   }
-  if (!is.integer(k)) nselected=as.integer(k)
+  if (!is.integer(k)) k=as.integer(k)
   if (!is.integer(nselected)) nselected=as.integer(nselected)
 
   if (!is.matrix(traindata)){traindata=as.matrix(traindata)}
 
-  selected<-s$fselector(traindata,trainlabels,k,beta,as.nselected)
+  selected<-s$fselector(traindata,trainlabels,as.integer(k),beta,nselected)
   selected
 }

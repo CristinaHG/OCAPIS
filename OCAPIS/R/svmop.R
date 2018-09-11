@@ -27,6 +27,7 @@ computeWeights<-function(p,tags) {
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #'
 svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
+  train<-as.matrix(train)
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   classes<-unique(trainLabels)
   nOfClasses = length(classes)

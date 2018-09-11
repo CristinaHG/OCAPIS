@@ -12,6 +12,7 @@
 #'
 
 pomfit<-function(train,trainLabels,linkfunction="logistic"){
+  if(!is.factor(trainLabels)) trainLabels<-as.factor(trainLabels)
   setlinkfunc<-function(value){
     if(!(value %in% c("logistic","probit","log-log","cauchit"))) stop("possible linkfunctions are: 'logistic','probit','loglog','cloglog' or 'cauchit'")
   }
