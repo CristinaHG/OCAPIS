@@ -40,7 +40,7 @@ wknnor<-function(traindata,trainlabels,testdata,k,q,kerneltype,monotonicity){
   }
   if (!is.matrix(traindata)){traindata=as.matrix(traindata)}
   if (!is.matrix(testdata)){testdata=as.matrix(testdata)}
-
+  if (! is.integer(trainlabels)){trainlabels<-as.integer(trainlabels)}
   predictions<-s$wknnfit(traindata,trainlabels,testdata,as.integer(k),q,kerneltype,monotonicity)
   predictions
 }

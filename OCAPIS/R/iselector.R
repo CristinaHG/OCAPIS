@@ -34,7 +34,6 @@ iselector<-function(traindata,trainlabels,candidates,collisions,kEdition){
     stop("K Edition param must be an integer bigger or equal to zero.")
   }
   if (!is.integer(kEdition)){
-    warning("coercing kEdition to int")
     kEdition<-as.integer(kEdition)
   }
 

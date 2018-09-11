@@ -55,6 +55,7 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
   if (length(trainlabels)!= nrow(traindata)){
     stop('Number of patterns and targets should be the same.\n');
   }
+  if (! is.integer(trainlabels)){trainlabels<-as.integer(trainlabels)}
   if(!tolower(kernel) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
