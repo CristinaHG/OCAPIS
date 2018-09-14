@@ -5,6 +5,7 @@
 #' @param traindata Training data of numeric type without labels.
 #' @param trainlabels A vector of numeric tags for each instance of training data.
 #' @param testdata Test data of numeric type.
+#' @param k number of neighbors to use.
 #' @param q Minkowski distance param. Use q=1 for Manhattan distance and q=2  for Euclidean distance.
 #' @param kerneltype Kernel used to compute neighbors weights. Avaiable kernels are: rectangular, triangular,epanechnikov,
 #'biweight, triweight, cosine, gauss and inversion.

@@ -59,7 +59,7 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
   if(!tolower(kernel) %in% c("rbf","gauss","gaussian","sigmoid","linear","poly","polynomial")){
     stop("Unknown kernel. Avaiable kernels are: Gauss, Linear, Poly, or Sigmoid.")
   }
-  if(tolower(kernel)=="sigmoid" & length(k<2)) stop("Sigmoid kernel needs two parameters")
+  if(tolower(kernel)=="sigmoid" & length(k)!=2) stop("Sigmoid kernel needs two parameters")
 
   if(!typeof(d)=="double" || !typeof(u)=="double" || !typeof(k)=="double"){
     stop("d, u and k params must be of type numeric.")
