@@ -26,7 +26,7 @@ computeWeights<-function(p,tags) {
 #' dattrain<-read.table("train_balance-scale.0", sep=" ")
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #'
-svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
+svmofit<-function(train,trainLabels,weights,cost,gamma){
   train<-as.matrix(train)
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   classes<-unique(trainLabels)
@@ -34,8 +34,8 @@ svmofit<-function(train,trainLabels,weights=TRUE,cost,gamma){
   models<-matrix(list(), 1, nOfClasses -1)
   for (i in 2:nOfClasses){
       train_labels<-rep(0,length(trainLabels))
-      train_labels[which(trainLabels<i)]=-1
-      train_labels[which(trainLabels>=i)]<-1
+      train_labels[which(trainLabels<i)]<-1
+      train_labels[which(trainLabels>=i)]<-2
 
       # compute instances weights
       if(weights){
