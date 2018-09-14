@@ -68,9 +68,8 @@ svmofit<-function(train,trainLabels,weights,cost,gamma){
 #'
 svmopredict<-function(models,test){
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
-  projected<-matrix(0,length(models),nrow(test))
+  projected<-matrix(0,length(models)+1,nrow(test))
   for(i in 2:(length(models)+1)){
-    #pred<-kernlab::predict(models[[1,i-1]],kernlab::as.kernelMatrix(as.matrix(test[,-ncol(test)])),type = "probabilities")
     pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
     predprob<-pred[[3]]
     unlisted<-unlist(predprob)
@@ -78,8 +77,8 @@ svmopredict<-function(models,test){
     #projected[i-1,]<-matrix(unlist(pred[[3]]),ncol=2)[,2]
   }
   probts<-matrix(0,length(models)+1,nrow(test))
-  probts[1,]<-rep(1,length(projected[1,]))-projected[1,]
-  for(i in 2:(length(models))){
+  probts[1,]<-1-projected[1,]
+  for(i in 2:(length(models)+1)){
     probts[i,]<-projected[i-1,]-projected[i,]
   }
   probts[length(models)+1,]<-projected[length(models),]
