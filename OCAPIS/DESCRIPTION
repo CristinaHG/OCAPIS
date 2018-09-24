@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("M. Cristina", "Heredia Gómez", email = "mrcrstnheredia@gmail.com",role = c("aut", "cre"))
 Maintainer: <mrcrstnheredia@gmail.com>
 Description: Package for regression and preprocessing
-    over ordinal data.
+    over ordinal and monotonic data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
