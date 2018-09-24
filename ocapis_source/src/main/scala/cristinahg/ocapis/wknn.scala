@@ -1,11 +1,10 @@
 package cristinahg.ocapis
 
 import breeze.linalg.functions.minkowskiDistance
-import breeze.linalg.{*, DenseMatrix}
-import breeze.numerics.{abs, cos, exp, pow, sqrt}
+import breeze.linalg.{*, DenseMatrix, DenseVector}
+import breeze.numerics._
 import breeze.numerics.constants.Pi
 import breeze.stats.stddev
-
 import scala.util.Random
 
 
@@ -162,11 +161,11 @@ class wknn {
         probs.indexOf(maxweight)+1
 //        val ponderated = (1 to numClasses).map(u => probs(u - 1) * u)
 //        val probsvector = new DenseVector[Double](ponderated.toArray)
-
-        //val medianValue=median(probsvector)
-        //val meanValue = mean(probsvector)
-
-        //floor(meanValue).toInt + 1
+//
+//        //val medianValue=median(probsvector)
+//        val meanValue = mean(probsvector)
+//
+//        floor(meanValue).toInt + 1
       })
       predictions
     }

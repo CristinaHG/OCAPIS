@@ -2,26 +2,26 @@
 % Please edit documentation in R/svmop.R
 \name{svmofit}
 \alias{svmofit}
-\title{Train n-1 SVM models for ordinal data with given parameters.}
+\title{Train n-1 SVM models for ordinal data with given parameters}
 \usage{
-svmofit(train, trainLabels, weights = TRUE, cost, gamma)
+svmofit(train, trainLabels, weights, cost, gamma)
 }
 \arguments{
+\item{train}{Training data of numeric type without labels.}
+
+\item{trainLabels}{A vector of numeric tags for each instance of training data.}
+
 \item{weights}{A boolean indicating whether weights per instance are used.}
 
 \item{cost}{numeric value indicating the cost parameter to train the SVM.}
 
 \item{gamma}{numeric value indicating the gamma parameter to train the SVM.}
-
-\item{train}{Training data of numeric type without labels.}
-
-\item{trainLabels}{A vector of numeric tags for each instance of training data.}
 }
 \value{
 A matrix of 1xn svm trained with weights models.
 }
 \description{
-Train data must be the data without labels. Labels should be provided in trainLabels
+train data must be the data without labels. Labels should be provided in trainLabels
 }
 \examples{
 dattrain<-read.table("train_balance-scale.0", sep=" ")

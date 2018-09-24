@@ -27,8 +27,9 @@ computeWeights<-function(p,tags) {
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 #'
 svmofit<-function(train,trainLabels,weights,cost,gamma){
-  train<-as.matrix(train)
-  mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
+  if(! is.matrix(train)) train<-as.matrix(train)
+  mysvm<-load_libsvm()
+  #mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   classes<-unique(trainLabels)
   nOfClasses = length(classes)
   models<-matrix(list(), 1, nOfClasses -1)
@@ -67,10 +68,11 @@ svmofit<-function(train,trainLabels,weights,cost,gamma){
 #' predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])
 #'
 svmopredict<-function(models,test){
+  if(! is.matrix(test)) test<-as.matrix(test)
   mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
   projected<-matrix(0,length(models)+1,nrow(test))
   for(i in 2:(length(models)+1)){
-    pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$values$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
+    pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
     predprob<-pred[[3]]
     unlisted<-unlist(predprob)
     projected[i-1,]<-unlisted[seq(2,length(unlisted), by=2)]

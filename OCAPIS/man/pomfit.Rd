@@ -7,11 +7,11 @@
 pomfit(train, trainLabels, linkfunction = "logistic")
 }
 \arguments{
+\item{train}{Training data of numeric type without labels.}
+
+\item{trainLabels}{Tags for each instance of training data. Must be factors.}
+
 \item{linkfunction}{link function to be used in the ordinal logistic regression fit. Possible functions are: logistic','probit','loglog','cloglog' or 'cauchit'.}
-
-\item{x}{Training data of numeric type without labels.}
-
-\item{y}{Tags for each instance of training data. Must be factors.}
 }
 \value{
 the fitted model.

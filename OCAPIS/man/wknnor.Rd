@@ -13,6 +13,8 @@ wknnor(traindata, trainlabels, testdata, k, q, kerneltype, monotonicity)
 
 \item{testdata}{Test data of numeric type.}
 
+\item{k}{number of neighbors to use.}
+
 \item{q}{Minkowski distance param. Use q=1 for Manhattan distance and q=2  for Euclidean distance.}
 
 \item{kerneltype}{Kernel used to compute neighbors weights. Avaiable kernels are: rectangular, triangular,epanechnikov,
@@ -32,7 +34,8 @@ dattrain<-read.table("train_balance-scale.0", sep=" ")
 traindata=dattrain[,-ncol(dattrain)]
 trainlabels=dattrain[,ncol(dattrain)]
 testdata<-read.table("test_balance-scale.0", sep=" ")
+testlabels<-testdata[,ncol(testdata)]
 testdata<-testdata[,-ncol(testdata)]
-testlabels<-wknnor(traindata,trainlabels,testdata,5,2,"rectangular",FALSE)
+predictions<-wknnor(traindata,trainlabels,testdata,5,2,"rectangular",FALSE)
 
 }
