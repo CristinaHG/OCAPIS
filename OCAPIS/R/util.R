@@ -1,9 +1,9 @@
 load_libsvm<-function(){
-  libdir<-file.path("usr/lib","libsvm-weights-3.17","python")
+  libdir<-file.path("/usr/lib","libsvm-weights-3.17","python")
   if(dir.exists(libdir)){
   svm<-import_from_path("svmutil",libdir)
   }else{
-    libdir<-file.path("usr/local/lib","libsvm-weights-3.17","python")
+    libdir<-file.path("/usr/local/lib","libsvm-weights-3.17","python")
     if(dir.exists(libdir)){
       svm<-import_from_path("svmutil",libdir)
     }else {
@@ -21,7 +21,7 @@ load_libsvm<-function(){
       }
     }
   }
-
+  svm
   #mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
 
 }

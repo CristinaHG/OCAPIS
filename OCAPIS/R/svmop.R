@@ -69,7 +69,7 @@ svmofit<-function(train,trainLabels,weights,cost,gamma){
 #'
 svmopredict<-function(models,test){
   if(! is.matrix(test)) test<-as.matrix(test)
-  mysvm<-import_from_path("svmutil",system.file("python","python",package = "OCAPIS"))
+  mysvm<-load_libsvm()
   projected<-matrix(0,length(models)+1,nrow(test))
   for(i in 2:(length(models)+1)){
     pred<-mysvm$svm_predict(r_to_py(rep(0,nrow(test))),r_to_py(test)$tolist(),models[[1,i-1]],r_to_py('-b 1 -q'))
