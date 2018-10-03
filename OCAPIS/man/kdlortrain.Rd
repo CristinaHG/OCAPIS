@@ -13,11 +13,11 @@ kdlortrain(traindata, trainlabels, kernel, d, u, k)
 
 \item{kernel}{Type of kernel to compute the Gram matrix. One of "rbf","gauss","gaussian","sigmoid","linear","poly","polynomial".}
 
+\item{d}{Numeric parameter for optimization method. Default is 10.}
+
 \item{u}{Numeric parameter for H matrix computation. Default is 0.01.}
 
 \item{k}{Array of kernel Params. If kernel type is sigmoid, Array of two values should be provided.}
-
-\item{c}{Numeric parameter for optimization method. Default is 10.}
 }
 \value{
 An instance of kdlorModel class containing the fields: projectedTrain, predictedTrain, kerneltype, kernelParam, projection and thresholds

@@ -18,7 +18,7 @@ setClass(Class="kdlorModel",
 #' @param traindata Data to train kdlor model. Tags should not be provided in traindata.
 #' @param trainlabels Class labels for training data. Must be numeric of type integer.
 #' @param kernel Type of kernel to compute the Gram matrix. One of "rbf","gauss","gaussian","sigmoid","linear","poly","polynomial".
-#' @param c Numeric parameter for optimization method. Default is 10.
+#' @param d Numeric parameter for optimization method. Default is 10.
 #' @param u Numeric parameter for H matrix computation. Default is 0.01.
 #' @param k Array of kernel Params. If kernel type is sigmoid, Array of two values should be provided.
 #' @return An instance of kdlorModel class containing the fields: projectedTrain, predictedTrain, kerneltype, kernelParam, projection and thresholds
