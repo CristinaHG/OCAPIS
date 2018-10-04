@@ -65,7 +65,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#ocapis" class="anchor"></a>OCAPIS</h1></div>
 <p>Package for ordinal data classification and preprocessing implementing algorithms in Scala</p>
-<p><a href="https://github.com/CristinaHG/OCAPIS/issues"><img src="https://img.shields.io/github/issues/CristinaHG/OCAPIS.svg" alt="Issues"></a> <a href="https://www.gnu.org/licenses/gpl.html"><img src="https://img.shields.io/github/license/CristinaHG/OCAPIS.svg" alt="license"></a> <a href="https://github.com/CristinaHG/OCAPIS/network/members"><img src="https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg" alt="Forks"></a> <a href="https://github.com/CristinaHG/OCAPIS/stargazers"><img src="https://img.shields.io/github/stars/CristinaHG/OCAPIS.svg" alt="Stars"></a> <a href="https://www.r-project.org/"><img src="https://img.shields.io/badge/language-R-lightgrey.svg" alt="R language"></a></p>
+<p><a href="https://github.com/CristinaHG/OCAPIS/issues"><img src="https://img.shields.io/github/issues/CristinaHG/OCAPIS.svg" alt="Issues"></a> <a href="https://www.gnu.org/licenses/gpl.html"><img src="https://img.shields.io/github/license/CristinaHG/OCAPIS.svg" alt="license"></a> <a href="https://github.com/CristinaHG/OCAPIS/network/members"><img src="https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg" alt="Forks"></a> <a href="https://github.com/CristinaHG/OCAPIS/stargazers"><img src="https://img.shields.io/github/stars/CristinaHG/OCAPIS.svg" alt="Stars"></a> <a href="https://www.r-project.org/"><img src="https://img.shields.io/badge/language-R-lightgrey.svg" alt="R language"></a> <a href="https://www.scala-lang.org/"><img src="https://img.shields.io/badge/language-Scala-red.svg" alt="Scala language"></a></p>
 <hr>
 <p>Included algorithms are:</p>
 <div id="classification-algorithms" class="section level3">
@@ -89,6 +89,106 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<div id="dependencies" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dependencies" class="anchor"></a>Dependencies</h3>
+<p>Before installing OCAPIS you need to get Python (&gt;=2.7), Scala(&gt;=2.11) and libsvm-weights-3.17 installed on your system, if they are not yet.</p>
+<div id="installing-python" class="section level4">
+<h4 class="hasAnchor">
+<a href="#installing-python" class="anchor"></a>Installing Python</h4>
+<p>If using Linux, you can easily install Python from the command line, just typing:</p>
+<pre><code>$ sudo apt-get install python3</code></pre>
+<p>If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced to install Python through command line, just check this official <a href="https://wiki.python.org/moin/BeginnersGuide/Download">Python Installation guide</a>.</p>
+</div>
+<div id="installing-scala" class="section level4">
+<h4 class="hasAnchor">
+<a href="#installing-scala" class="anchor"></a>Installing Scala</h4>
+<p>Similarly, if using Linux, you can install Scala from repo. For example, for Linux Mint just type:</p>
+<pre><code>sudo apt install scala</code></pre>
+<p>In any other case just check the <strong>Other ways to install Scala</strong> section from the official <a href="https://www.scala-lang.org/download/">Scala Installation Guide</a>.</p>
+</div>
+<div id="installing-libsvm-weights" class="section level4">
+<h4 class="hasAnchor">
+<a href="#installing-libsvm-weights" class="anchor"></a>Installing Libsvm-weights</h4>
+<p>Libsvm-weights-3.17 is required as it is used by SVMOP method. To install it, just follow the instructions in <strong>Installation and Data Format</strong> section from the README on <a href="https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17">Libsvm-weights</a>.</p>
+</div>
+</div>
+<div id="installing-ocapis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installing-ocapis" class="anchor"></a>Installing OCAPIS</h3>
+<p>After installing the external dependencies, the latest version of OCAPIS can be installed from GitHub via:</p>
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("cristinahg/OCAPIS/OCAPIS")</a></code></pre>
+<p>The rest of the dependencies will be automatically installed. These are <a href="https://github.com/rstudio/reticulate">Reticulate</a> and <a href="https://github.com/dbdahl/rscala">Rscala</a>.</p>
+</div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>Below are shown examples of how to use all classification and preprocessing methods, using an ordinal dataset named <strong>balance-scale</strong>.</p>
+<div id="classification" class="section level3">
+<h3 class="hasAnchor">
+<a href="#classification" class="anchor"></a>Classification</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data reading</span>
+dattrain&lt;-<span class="kw">read.table</span>(<span class="st">"train_balance-scale.0"</span>, <span class="dt">sep=</span><span class="st">" "</span>)
+trainlabels&lt;-dattrain[,<span class="kw">ncol</span>(dattrain)]
+traindata=dattrain[,<span class="op">-</span><span class="kw">ncol</span>(dattrain)]
+dattest&lt;-<span class="kw">read.table</span>(<span class="st">"test_balance-scale.0"</span>, <span class="dt">sep=</span><span class="st">" "</span>)
+testdata&lt;-dattest[,<span class="op">-</span><span class="kw">ncol</span>(dattest)]
+testlabels&lt;-dattest[,<span class="kw">ncol</span>(dattest)]
+
+<span class="co"># SVMOP</span>
+modelstrain&lt;-<span class="kw"><a href="reference/svmofit.html">svmofit</a></span>(traindata,trainlabels,<span class="ot">TRUE</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>)
+predictions&lt;-<span class="kw"><a href="reference/svmopredict.html">svmopredict</a></span>(modelstrain,testdata)
+<span class="kw">sum</span>(predictions[[<span class="dv">2</span>]]<span class="op">==</span>testlabels)<span class="op">/</span><span class="kw">nrow</span>(dattest)
+
+<span class="co"># POM</span>
+fit&lt;-<span class="kw"><a href="reference/pomfit.html">pomfit</a></span>(traindata,trainlabels,<span class="st">"logistic"</span>)
+predictions&lt;-<span class="kw"><a href="reference/pompredict.html">pompredict</a></span>(fit,testdata)
+projections&lt;-predictions[[<span class="dv">1</span>]]
+predictedLabels&lt;-predictions[[<span class="dv">2</span>]]
+<span class="kw">sum</span>(predictedLabels<span class="op">==</span>testlabels)<span class="op">/</span><span class="kw">nrow</span>(dattest)
+
+<span class="co"># KDLOR</span>
+myfit&lt;-<span class="kw"><a href="reference/kdlortrain.html">kdlortrain</a></span>(traindata,trainlabels,<span class="st">"rbf"</span>,<span class="dv">10</span>,<span class="fl">0.001</span>,<span class="dv">1</span>)
+pred&lt;-<span class="kw"><a href="reference/kdlorpredict.html">kdlorpredict</a></span>(myfit,traindata,testdata)
+<span class="kw">sum</span>(pred[[<span class="dv">1</span>]]<span class="op">==</span>testlabels)<span class="op">/</span><span class="kw">nrow</span>(dattest)
+
+<span class="co"># WKNNOR</span>
+predictions&lt;-<span class="kw"><a href="reference/wknnor.html">wknnor</a></span>(traindata,trainlabels,testdata,<span class="dv">5</span>,<span class="dv">2</span>,<span class="st">"rectangular"</span>,<span class="ot">FALSE</span>)
+<span class="kw">sum</span>(predictions<span class="op">==</span>testlabels)<span class="op">/</span><span class="kw">nrow</span>(dattest)
+<span class="kw">mae</span>(testlabels,predictions)</code></pre></div>
+</div>
+<div id="preprocessing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#preprocessing" class="anchor"></a>Preprocessing</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Feature Selector</span>
+selected&lt;-<span class="kw"><a href="reference/fselector.html">fselector</a></span>(traindata,trainlabels,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">8</span>)
+trainselected&lt;-traindata[,selected]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Instance Selector</span>
+selected&lt;-<span class="kw"><a href="reference/iselector.html">iselector</a></span>(traindata,trainlabels,<span class="fl">0.02</span>,<span class="fl">0.1</span>,<span class="dv">5</span>)
+trainselected&lt;-selected[,<span class="op">-</span><span class="kw">ncol</span>(selected)]
+trainlabels&lt;-selected[,<span class="kw">ncol</span>(selected)]</code></pre></div>
+<p>For more details about method params, see <a href="https://cristinahg.github.io/OCAPIS/reference/">OCAPIS documentation</a>.</p>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References:</h2>
+<ol style="list-style-type: decimal">
+<li>E. Frank and M. Hall, “A simple approach to ordinal classification” in Proceedings of the 12th European Conference on Machine Learning, ser. EMCL’01. London, UK: Springer-Verlag, 2001, pp. 145–156. <a href="https://doi.org/10.1007/3-540-44795-4_13" class="uri">https://doi.org/10.1007/3-540-44795-4_13</a>
+</li>
+<li>W. Waegeman and L. Boullart, “An ensemble of weighted support vector machines for ordinal regression”, International Journal of Computer Systems Science and Engineering, vol. 3, no. 1, pp. 47–51, 2009.</li>
+<li>P.A. Gutiérrez, M. Pérez-Ortiz, J. Sánchez-Monedero, F. Fernández-Navarro and C. Hervás-Martínez Ordinal regression methods: survey and experimental study IEEE Transactions on Knowledge and Data Engineering, Vol. 28. Issue 1 2016 <a href="http://dx.doi.org/10.1109/TKDE.2015.2457911" class="uri">http://dx.doi.org/10.1109/TKDE.2015.2457911</a>
+</li>
+<li>P. McCullagh, Regression models for ordinal data, Journal of the Royal Statistical Society. Series B (Methodological), vol. 42, no. 2, pp. 109–142, 1980.</li>
+<li>B.-Y. Sun, J. Li, D. D. Wu, X.-M. Zhang, and W.-B. Li, Kernel discriminant learning for ordinal regression IEEE Transactions on Knowledge and Data Engineering, vol. 22, no. 6, pp. 906-910, 2010. <a href="https://doi.org/10.1109/TKDE.2009.170" class="uri">https://doi.org/10.1109/TKDE.2009.170</a>
+</li>
+<li>Duivesteijn, Wouter &amp; Feelders, Ad. (2008). Nearest Neighbour Classification with Monotonicity Constraints. 301-316. 10.1007/978-3-540-87479-9_38.</li>
+<li>Cano, José &amp; García, S. (2017). Training Set Selection for Monotonic Ordinal Classification. Data &amp; Knowledge Engineering. 112. 10.1016/j.datak.2017.10.003.</li>
+<li>Hu, Qinghua &amp; Pan, Weiwei &amp; Zhang, Lei &amp; Zhang, David &amp; Song, Yanping &amp; Guo, Maozu &amp; Yu, Daren. (2012). Feature Selection for Monotonic Classification. IEEE T. Fuzzy Systems. 20. 69-81. 10.1109/TFUZZ.2011.2167235.</li>
+<li>Hechenbichler, Schliep: Weighted k-Nearest-Neighbor Techniques and Ordinal Classification Sonderforschungsbereich 386, Paper 399 (2004) <a href="https://epub.ub.uni-muenchen.de/1769/1/paper_399.pdf" class="uri">https://epub.ub.uni-muenchen.de/1769/1/paper_399.pdf</a>
+</li>
+</ol>
 </div>
 </div>
   </div>
