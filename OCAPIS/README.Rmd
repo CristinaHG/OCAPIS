@@ -7,6 +7,7 @@ Package for ordinal data classification and preprocessing implementing algorithm
 [![Forks](https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/network/members)
 [![Stars](https://img.shields.io/github/stars/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/stargazers)
 [![R language](https://img.shields.io/badge/language-R-lightgrey.svg)](https://www.r-project.org/)
+[![Scala language](https://img.shields.io/badge/language-Scala-red.svg)](https://www.scala-lang.org/)
 
 ---
 
@@ -34,6 +35,17 @@ If using Linux, you can easily install Python from the command line, just typing
 $ sudo apt-get install python3
 ```
 If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official ![Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
+
+#### Installing Scala
+Similarly, if using Linux, you can install Scala from repo. For example, for Linux Mint just type:
+
+```
+sudo apt install scala
+```
+In any other case just check the **Other ways to install Scala** section from the official ![Scala Installation Guide](https://www.scala-lang.org/download/).
+
+ 
+
 
 ## References:
 1. E. Frank and M. Hall, "A simple approach to ordinal classification"
