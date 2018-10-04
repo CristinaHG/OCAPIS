@@ -1,6 +1,12 @@
 # OCAPIS
 R package for ordinal data classification and preprocessing implementing algorithms in Scala. Included algorithms are:
 
+[![Issues](https://img.shields.io/github/issues/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/issues)
+[![license](https://img.shields.io/github/license/CristinaHG/OCAPIS.svg)](https://www.gnu.org/licenses/gpl.html)
+[![Forks](https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/network/members)
+[![Stars](https://img.shields.io/github/stars/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/stargazers)
+[![R language](https://img.shields.io/badge/language-R-lightgrey.svg)](https://www.r-project.org/)
+
 ## Classification algorithms
 - Support vector machine for ordinal data
 - Ordinal regression
