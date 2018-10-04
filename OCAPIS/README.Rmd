@@ -33,7 +33,7 @@ If using Linux, you can easily install Python from the command line, just typing
 ```
 $ sudo apt-get install python3
 ```
-If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official [!Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
+If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official ![Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 ## References:
 1. E. Frank and M. Hall, "A simple approach to ordinal classification"
