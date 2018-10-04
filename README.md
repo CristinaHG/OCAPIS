@@ -6,6 +6,7 @@ R package for ordinal data classification and preprocessing implementing algorit
 [![Forks](https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/network/members)
 [![Stars](https://img.shields.io/github/stars/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/stargazers)
 [![R language](https://img.shields.io/badge/language-R-lightgrey.svg)](https://www.r-project.org/)
+[![Scala language](https://img.shields.io/badge/language-Scala-red.svg)](https://www.scala-lang.org/)
 
 ## Classification algorithms
 - Support vector machine for ordinal data

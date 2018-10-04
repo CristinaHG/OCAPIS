@@ -24,7 +24,16 @@ Included algorithms are:
 
 ## Installation
 
+### Dependencies 
+Before installing OCAPIS you need to get Python (>=2.7), Scala(>=2.11) and libsvm-weights-3.17 installed on your system, if they are not yet.
 
+#### Installing Python
+If using Linux, you can easily install Python from the command line, just typing:
+
+```
+$ sudo apt-get install python3
+```
+If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official [!Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 ## References:
 1. E. Frank and M. Hall, "A simple approach to ordinal classification"
