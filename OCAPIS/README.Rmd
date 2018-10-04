@@ -44,7 +44,73 @@ sudo apt install scala
 ```
 In any other case just check the **Other ways to install Scala** section from the official ![Scala Installation Guide](https://www.scala-lang.org/download/).
 
- 
+#### Installing Libsvm-weights
+
+Libsvm-weights-3.17 is required as it is used by SVMOP method. To install it, just follow the instructions in **Installation and Data Format** section from the README on ![Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
+
+### Installing OCAPIS
+After installing the external dependencies, the latest version of OCAPIS can be installed from GitHub via:
+
+```
+devtools::install_github("cristinahg/OCAPIS/OCAPIS")
+```
+The rest of the dependencies will be automatically installed. These are ![Reticulate](https://github.com/rstudio/reticulate) and ![Rscala](https://github.com/dbdahl/rscala).
+
+## Usage
+
+Below are shown examples of how to use all classification and preprocessing methods, using an ordinal dataset named **balance-scale**.
+
+### Classification
+
+```{r}
+# Data reading
+dattrain<-read.table("train_balance-scale.0", sep=" ")
+trainlabels<-dattrain[,ncol(dattrain)]
+traindata=dattrain[,-ncol(dattrain)]
+dattest<-read.table("test_balance-scale.0", sep=" ")
+testdata<-dattest[,-ncol(dattest)]
+testlabels<-dattest[,ncol(dattest)]
+
+# SVMOP
+modelstrain<-svmofit(traindata,trainlabels,TRUE,0.1,0.1)
+predictions<-svmopredict(modelstrain,testdata)
+sum(predictions[[2]]==testlabels)/nrow(dattest)
+
+# POM
+fit<-pomfit(traindata,trainlabels,"logistic")
+predictions<-pompredict(fit,testdata)
+projections<-predictions[[1]]
+predictedLabels<-predictions[[2]]
+sum(predictedLabels==testlabels)/nrow(dattest)
+
+# KDLOR
+myfit<-kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
+pred<-kdlorpredict(myfit,traindata,testdata)
+sum(pred[[1]]==testlabels)/nrow(dattest)
+
+# WKNNOR
+predictions<-wknnor(traindata,trainlabels,testdata,5,2,"rectangular",FALSE)
+sum(predictions==testlabels)/nrow(dattest)
+mae(testlabels,predictions)
+```
+
+### Preprocessing
+
+```{r}
+# Feature Selector
+selected<-fselector(traindata,trainlabels,2,2,8)
+trainselected<-traindata[,selected]
+```
+
+# Instance Selector
+
+```{r}
+selected<-iselector(traindata,trainlabels,0.02,0.1,5)
+trainselected<-selected[,-ncol(selected)]
+trainlabels<-selected[,ncol(selected)]
+```
+
+For more details about method params, see ![OCAPIS documentation](https://cristinahg.github.io/OCAPIS/reference/).
 
 
 ## References:
