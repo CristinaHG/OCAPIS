@@ -15,7 +15,7 @@
  # if(any(toset)) options(op.devtools[toset])
 
  # invisible()
-  packageStartupMessage("This is OCAPIS V.0.1.0")
+  #packageStartupMessage("This is OCAPIS V.0.1.0")
   assign.callback <- function(s) {
     s + '
       import cristinahg.ocapis.svmop._
@@ -27,7 +27,9 @@
   }
   scalaPackage(pkgname,assign.callback=assign.callback)
 }
-
+.onAttach <-function(libname,pkgname) {
+  packageStartupMessage("This is OCAPIS V.1.0.0")
+}
 .onUnload <- function(libpath) {
   scalaPackageUnload()
 }
