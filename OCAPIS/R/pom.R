@@ -17,7 +17,7 @@ pomfit<-function(train,trainLabels,linkfunction="logistic"){
     if(!(value %in% c("logistic","probit","loglog", "cloglog","cauchit"))) stop("possible linkfunctions are: 'logistic','probit','loglog', 'cloglog' or 'cauchit'")
   }
   setlinkfunc(linkfunction)
-  fit<-polr(trainLabels~.,data=train,Hess = TRUE,method = linkfunction)
+  fit<-MASS::polr(trainLabels~.,data=train,Hess = TRUE,method = linkfunction)
   fit
 }
 
