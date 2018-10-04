@@ -1,4 +1,5 @@
-
+#' Class to model a KDLOR object that is created in the trainning of the model and used in the prediction.
+#'
 setClass(Class="kdlorModel",
          representation(
            projectedTrain="numeric",
