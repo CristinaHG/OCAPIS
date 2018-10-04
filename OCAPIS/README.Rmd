@@ -34,7 +34,7 @@ If using Linux, you can easily install Python from the command line, just typing
 ```
 $ sudo apt-get install python3
 ```
-If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official ![Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
+If your system is an Ubuntu distribution, or its counterpart in the distro you use. If you are not using Linux or you are not convinced  to install Python through command line, just check this official [Python Installation guide](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 #### Installing Scala
 Similarly, if using Linux, you can install Scala from repo. For example, for Linux Mint just type:
@@ -42,11 +42,11 @@ Similarly, if using Linux, you can install Scala from repo. For example, for Lin
 ```
 sudo apt install scala
 ```
-In any other case just check the **Other ways to install Scala** section from the official ![Scala Installation Guide](https://www.scala-lang.org/download/).
+In any other case just check the **Other ways to install Scala** section from the official [Scala Installation Guide](https://www.scala-lang.org/download/).
 
 #### Installing Libsvm-weights
 
-Libsvm-weights-3.17 is required as it is used by SVMOP method. To install it, just follow the instructions in **Installation and Data Format** section from the README on ![Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
+Libsvm-weights-3.17 is required as it is used by SVMOP method. To install it, just follow the instructions in **Installation and Data Format** section from the README on [Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
 
 ### Installing OCAPIS
 After installing the external dependencies, the latest version of OCAPIS can be installed from GitHub via:
@@ -54,7 +54,7 @@ After installing the external dependencies, the latest version of OCAPIS can be 
 ```
 devtools::install_github("cristinahg/OCAPIS/OCAPIS")
 ```
-The rest of the dependencies will be automatically installed. These are ![Reticulate](https://github.com/rstudio/reticulate) and ![Rscala](https://github.com/dbdahl/rscala).
+The rest of the dependencies will be automatically installed. These are [Reticulate](https://github.com/rstudio/reticulate) and [Rscala](https://github.com/dbdahl/rscala).
 
 ## Usage
 
@@ -62,7 +62,7 @@ Below are shown examples of how to use all classification and preprocessing meth
 
 ### Classification
 
-```{r}
+```r
 # Data reading
 dattrain<-read.table("train_balance-scale.0", sep=" ")
 trainlabels<-dattrain[,ncol(dattrain)]
@@ -96,21 +96,20 @@ mae(testlabels,predictions)
 
 ### Preprocessing
 
-```{r}
+```r
 # Feature Selector
 selected<-fselector(traindata,trainlabels,2,2,8)
 trainselected<-traindata[,selected]
 ```
 
+```r
 # Instance Selector
-
-```{r}
 selected<-iselector(traindata,trainlabels,0.02,0.1,5)
 trainselected<-selected[,-ncol(selected)]
 trainlabels<-selected[,ncol(selected)]
 ```
 
-For more details about method params, see ![OCAPIS documentation](https://cristinahg.github.io/OCAPIS/reference/).
+For more details about method params, see [OCAPIS documentation](https://cristinahg.github.io/OCAPIS/reference/).
 
 
 ## References:
