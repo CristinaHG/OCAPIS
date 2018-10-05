@@ -6,6 +6,9 @@
 \usage{
 s(...)
 }
+\arguments{
+\item{...}{scala code snipped of function to call from R}
+}
 \value{
 The avaiable Scala instance
 }

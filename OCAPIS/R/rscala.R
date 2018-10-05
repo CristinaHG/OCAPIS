@@ -18,6 +18,7 @@
 #'
 #' Scala interpreter instance named 's' by default. Name can be changed using 'assign.name'
 #'
+#' @param ... scala code snipped of function to call from R
 #' @return The avaiable Scala instance
 "s"
 
