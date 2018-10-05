@@ -12,10 +12,10 @@
 #' @param monotonicity Boolean param specifying whether data is monotone or not.
 #' @return Predicted labels for test data.
 #' @examples
-#' load("./data/train_balance-scale.rda")
+#' data("train_balance-scale")
 #' traindata=dattrain[,-ncol(dattrain)]
 #' trainlabels=dattrain[,ncol(dattrain)]
-#' load("./data/test_balance-scale.rda")
+#' data("test_balance-scale")
 #' testlabels<-dattest[,ncol(dattest)]
 #' testdata<-dattest[,-ncol(dattest)]
 #' predictions<-wknnor(traindata,trainlabels,testdata,5,2,"rectangular",FALSE)

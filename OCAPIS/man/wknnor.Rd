@@ -30,10 +30,10 @@ Predicts labels for test data with ordinal nature or monotonic constraints using
 of wknn.
 }
 \examples{
-load("./data/train_balance-scale.rda")
+data("train_balance-scale")
 traindata=dattrain[,-ncol(dattrain)]
 trainlabels=dattrain[,ncol(dattrain)]
-load("./data/test_balance-scale.rda")
+data("test_balance-scale")
 testlabels<-dattest[,ncol(dattest)]
 testdata<-dattest[,-ncol(dattest)]
 predictions<-wknnor(traindata,trainlabels,testdata,5,2,"rectangular",FALSE)
