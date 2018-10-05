@@ -11,6 +11,7 @@ Encoding: UTF-8
 LazyData: true
 SystemRequirements: Scala (>=2.12); Python (>=2.7); libsvm-weights-3.17 <https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17/> 
 BugReports: https://github.com/CristinaHG/OCAPIS/issues
+URL: https://cristinahg.github.io/OCAPIS/
 Imports: 
     rscala (>= 3.1.0),
     reticulate,
