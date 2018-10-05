@@ -25,7 +25,7 @@ nselected most important features.
 Selects the N most relevant features from ordinal and monotonic data, based on mRMR criterion.
 }
 \examples{
-dattrain<-read.table("train_balance-scale.0", sep=" ")
+load("./data/train_balance-scale.rda")
 trainlabels<-dattrain[,ncol(dattrain)]
 traindata=dattrain[,-ncol(dattrain)]
 selected<-fselector(traindata,trainlabels,2,2,2)

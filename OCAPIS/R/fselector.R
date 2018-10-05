@@ -10,7 +10,7 @@
 #' @param nselected Number of features to select.
 #' @return nselected most important features.
 #' @examples
-#' dattrain<-read.table("train_balance-scale.0", sep=" ")
+#' load("./data/train_balance-scale.rda")
 #' trainlabels<-dattrain[,ncol(dattrain)]
 #' traindata=dattrain[,-ncol(dattrain)]
 #' selected<-fselector(traindata,trainlabels,2,2,2)
