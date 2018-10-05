@@ -43,7 +43,7 @@ Trains the Kernel Discriminant Learning for Ordinal Regression model with traini
 }
 \examples{
 # read train data
-dattrain<-read.table("train_balance-scale.0", sep=" ")
+load("./data/train_balance-scale.rda")
 traindata=dattrain[,-ncol(dattrain)]
 trainlabels=dattrain[,ncol(dattrain)]
 # fit the kdlor model
