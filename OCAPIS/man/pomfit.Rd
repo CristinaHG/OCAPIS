@@ -20,7 +20,7 @@ the fitted model.
 train data must be the training data without labels. Labels should be provided in trainLabels.
 }
 \examples{
-load("./data/train_balance-scale.rda")
+data("train_balance-scale")
 fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
 
 }
