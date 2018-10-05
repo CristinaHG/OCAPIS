@@ -18,9 +18,9 @@ A list containing the projected values per instance per class and the predicted 
 Predict over the new data instances using the trained models
 }
 \examples{
-load("./data/train_balance-scale.rda")
+data("train_balance-scale")
 modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
-load("./data/test_balance-scale.rda")
+data("test_balance-scale")
 predictions<-svmopredict(modelstrain,dattest[,-ncol(dattest)])
 
 }
