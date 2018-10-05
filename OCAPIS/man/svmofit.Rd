@@ -24,7 +24,7 @@ A matrix of 1xn svm trained with weights models.
 train data must be the data without labels. Labels should be provided in trainLabels
 }
 \examples{
-dattrain<-read.table("train_balance-scale.0", sep=" ")
+load("./data/train_balance-scale.rda")
 modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
 
 }
