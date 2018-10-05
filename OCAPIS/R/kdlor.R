@@ -95,6 +95,11 @@ kdlortrain<-function(traindata,trainlabels,kernel,d,u,k){
 #' @return A list of two elements containing the predicted labels for each instances and the projected values.
 #'
 #' @examples
+#' data("train_balance-scale")
+#' traindata=dattrain[,-ncol(dattrain)]
+#' trainlabels=dattrain[,ncol(dattrain)]
+#' # fit the kdlor model
+#' myfit<-kdlortrain(traindata,trainlabels,"rbf",10,0.001,1)
 #' data("test_balance-scale")
 #' testlabels<-dattest[,ncol(dattest)]
 #' testdata<-dattest[,-ncol(dattest)]
