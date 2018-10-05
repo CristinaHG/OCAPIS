@@ -9,7 +9,7 @@
 rscalaBridgeName
 }
 \value{
-#' The Name of the bridge between R and Scala. By default is 's'
+The Name of the bridge between R and Scala. By default is 's'
 }
 \description{
 Object from rscala package, it returns the name of the bridge between r and Scala

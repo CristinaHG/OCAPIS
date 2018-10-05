@@ -9,7 +9,7 @@
 rscalaBridgeOwner
 }
 \value{
-#' TRUE if embeded scala bridge in the package has owner, else FALSE
+TRUE if embeded scala bridge in the package has owner, else FALSE
 }
 \description{
 Object from rscala package, is a boolean pointing if the embeded scala bridge in the package has owner

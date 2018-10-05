@@ -7,7 +7,7 @@
 s(...)
 }
 \value{
-#' The avaiable Scala instance
+The avaiable Scala instance
 }
 \description{
 Scala interpreter instance named 's' by default. Name can be changed using 'assign.name'

@@ -15,7 +15,7 @@
 #'   \item{Class}{3 (1, 2, 3) }
 #' }
 #'
-#' @source \href{http://www.uco.es/grupos/ayrna/orreview}.
+#' @source \href{http://www.uco.es/grupos/ayrna/orreview}{AYRNA}.
 #' @seealso Original available in \href{https://archive.ics.uci.edu/ml/datasets/Balance+Scale}{UCI ML Repository}.
 "dattrain"
 
@@ -36,6 +36,6 @@
 #'   \item{Class}{3 (1, 2, 3) }
 #' }
 #'
-#' @source \href{http://www.uco.es/grupos/ayrna/orreview}.
+#' @source \href{http://www.uco.es/grupos/ayrna/orreview}{AYRNA}.
 #' @seealso Original available in \href{https://archive.ics.uci.edu/ml/datasets/Balance+Scale}{UCI ML Repository}.
 "dattest"
