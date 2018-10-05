@@ -9,7 +9,7 @@
 #' @param kEdition Maximum number of nearest neighborgs to consider.
 #' @return A reduced dataset with the selected instances and its labels.
 #' @examples
-#' load("./data/train_balance-scale.rda")
+#' data("train_balance-scale")
 #' trainlabels<-dattrain[,ncol(dattrain)]
 #' traindata=dattrain[,-ncol(dattrain)]
 #' selected<-iselector(traindata,trainlabels,0.01,0.01,5)
