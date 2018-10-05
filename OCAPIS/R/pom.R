@@ -7,7 +7,7 @@
 #' @param linkfunction link function to be used in the ordinal logistic regression fit. Possible functions are: logistic','probit','loglog','cloglog' or 'cauchit'.
 #' @return the fitted model.
 #' @examples
-#' dattrain<-read.table("train_balance-scale.0", sep=" ")
+#' load("./data/train_balance-scale.rda")
 #' fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
 #'
 
@@ -27,9 +27,9 @@ pomfit<-function(train,trainLabels,linkfunction="logistic"){
 #' @param test Numeric test data without labels.
 #' @return A list containing at the first position the projected values per instance per class and at the second position the predicted label for the values.
 #' @examples
-#' dattrain<-read.table("train_balance-scale.0", sep=" ")
+#' load("./data/train_balance-scale.rda")
 #' fit<-pomfit(dattrain[,-ncol(dattrain)],as.factor(dattrain[,ncol(dattrain)]),"logistic")
-#' dattest<-read.table("test_balance-scale.0", sep=" ")
+#' load("./data/test_balance-scale.rda")
 #' predictions<-pompredict(fit,dattest[,-ncol(dattest)])
 #' projections<-predictions[[1]]
 #' predictedLabels<-predictions[[2]]
