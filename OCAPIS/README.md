@@ -2,7 +2,6 @@
 
 Package for ordinal data classification and preprocessing implementing algorithms in Scala
 
-
 [![Issues](https://img.shields.io/github/issues/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/issues)
 [![license](https://img.shields.io/github/license/CristinaHG/OCAPIS.svg)](https://www.gnu.org/licenses/gpl.html)
 [![Forks](https://img.shields.io/github/forks/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/network/members)
