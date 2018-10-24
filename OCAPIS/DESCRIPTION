@@ -1,8 +1,7 @@
 Package: OCAPIS
 Title: Ordinal Classification and Preprocessing in Scala
 Version: 1.0.0
-Authors@R: c(person("M. Cristina", "Heredia-Gómez", email = "mrcrstnherediagmez@gmail.com",role = c("aut", "cre"),comment = c(ORCID = "0000-0002-7806-0201")),person("Salvador", "García", email="salvagl@decsai.ugr.es",role = "aut"),person("Pedro Antonio", "Gutiérrez",
-email="pagutierrez@uco.es",role = "aut"),person("Francisco", "Herrera", email = "herrera@decsai.ugr.es", role = "aut"))
+Authors@R: c(person("M. Cristina", "Heredia-Gómez", email = "mrcrstnherediagmez@gmail.com",role = c("aut", "cre"),comment = c(ORCID="0000-0002-7806-0201")),person("Salvador", "García", email="salvagl@decsai.ugr.es",role = "aut"),person("Pedro Antonio", "Gutiérrez",email="pagutierrez@uco.es",role = "aut"), person("Francisco", "Herrera", email = "herrera@decsai.ugr.es", role = "aut"))
 Description: Package for regression and preprocessing
     over ordinal and monotonic data, including four classification techniques: Support Vector Machine with Ordered Partitions,
     Proportional Odd Model for Ordinal Regression, Kernel Discriminant Learning for Ordinal Regression, Weighted k-Nearest-Neighbor for ordinal classification,
