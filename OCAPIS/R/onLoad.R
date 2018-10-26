@@ -6,7 +6,7 @@
 
   ## path to the jar
   basepath <- file.path(system.file(package ='OCAPIS'))
-  path<-file.path(basepath,"inst","java","scala-2.12")
+  path<-file.path(basepath,"java","scala-2.12")
 
   print(path)
   #print(paste0("SIZE:", list.files(path)))
@@ -50,7 +50,7 @@
 }
 
 .onAttach <-function(libname,pkgname) {
-  path <- file.path(file.path(system.file(package ='OCAPIS')),"inst","java","scala-2.12")
+  path <- file.path(file.path(system.file(package ='OCAPIS')),"java","scala-2.12")
   if (length(list.files(path)) == 0) {
     packageStartupMessage(
       'The automatic installation of Jar file containing the scala algorithms seems to have failed.\n',
