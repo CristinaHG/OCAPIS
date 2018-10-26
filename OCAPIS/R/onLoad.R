@@ -1,21 +1,42 @@
+#' Loads scala implementations
+#' Downloads and installs the jars providing the scala algorithms
+#' The first time the package is loaded, it checks if the jar files
+#' are available and if not, automatically download  them from \url{https://github.com/CristinaHG/OCAPIS/blob/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar?raw=true}
 .onLoad <- function(libname, pkgname) {
-#  callback <-'
-#import breeze.linalg._'
- # op <- options()
- # op.devtools <- list(
- #   devtools.path = "~/R-dev",
- #   devtools.install.args = "",
- #   devtools.name = "Your name goes here",
- #   devtools.desc.author = "First Last <first.last@example.com> [aut, cre]",
- #   devtools.desc.license = "What license is it under?",
- #   devtools.desc.suggests = NULL,
- #   devtools.desc = list()
- # )
- # toset <- !(names(op.devtools) %in% names(op))
- # if(any(toset)) options(op.devtools[toset])
 
- # invisible()
-  #packageStartupMessage("This is OCAPIS V.0.1.0")
+  ## path to the jar
+  basepath <- file.path(system.file(package ='OCAPIS'))
+  path<-file.path(basepath,"inst","java","scala-2.12")
+
+  print(path)
+  #print(paste0("SIZE:", list.files(path)))
+  # check if the jar is available and install it if not
+  #print(dir(path = path, no.. = T))
+ # if (length(dir(path)) == 0) {
+    ## download the jar from the OCAPIS github repository and store it in a temporal location
+    #tzip <- tempfile()
+    #print(tzip)
+   print(dir.exists(path))
+   if (!dir.exists(path)) {
+     dir.create(path, recursive = TRUE)
+   }
+
+    ocapisfile<-file.path(path,"ocapis.jar")
+    dres <- tryCatch(download.file(
+      url = 'https://github.com/CristinaHG/OCAPIS/raw/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar',
+      destfile = ocapisfile, mode = 'wb'), error = function(e) e)
+    print("DRES")
+    print(dres)
+    ## create the int/java if not exist
+
+
+    ##check error
+    print(inherits(dres, 'error'))
+
+    # clean up temp files
+   # unlink(tzip)
+  #}
+
   assign.callback <- function(s) {
     s + '
       import cristinahg.ocapis.svmop._
@@ -25,10 +46,20 @@
       import cristinahg.ocapis.TSS._
     '
   }
-  scalaPackage(pkgname,assign.callback=assign.callback)
+ scalaPackage(pkgname,assign.callback=assign.callback, JARs = file.path(path,"ocapis.jar"))
 }
+
 .onAttach <-function(libname,pkgname) {
-  packageStartupMessage("This is OCAPIS V.1.0.0")
+  path <- file.path(file.path(system.file(package ='OCAPIS')),"inst","java","scala-2.12")
+  if (length(list.files(path)) == 0) {
+    packageStartupMessage(
+      'The automatic installation of Jar file containing the scala algorithms seems to have failed.\n',
+      'Please check your Internet connection and you have writing permissions to ', path, '\n',
+      'If still having issues, try install the full package from the GitHub repository:\n',
+      'https://github.com/CristinaHG/OCAPIS/tree/master/OCAPIS\n',
+      'where you can find a complete guide about HOW-TO install OCAPIS')
+  }else
+    packageStartupMessage("This is OCAPIS V.1.0.0")
 }
 .onUnload <- function(libpath) {
   scalaPackageUnload()
