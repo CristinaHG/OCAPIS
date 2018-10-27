@@ -8,35 +8,18 @@
   basepath <- file.path(system.file(package ='OCAPIS'))
   path<-file.path(basepath,"java","scala-2.12")
 
-  print(path)
-  #print(paste0("SIZE:", list.files(path)))
-  # check if the jar is available and install it if not
-  #print(dir(path = path, no.. = T))
- # if (length(dir(path)) == 0) {
-    ## download the jar from the OCAPIS github repository and store it in a temporal location
-    #tzip <- tempfile()
-    #print(tzip)
+ # check if dir exists
    print(dir.exists(path))
    if (!dir.exists(path)) {
      dir.create(path, recursive = TRUE)
    }
-
+  # check if dir is not empty
    if (length(dir(path)) == 0) {
     ocapisfile<-file.path(path,"ocapis.jar")
     dres <- tryCatch(download.file(
       url = 'https://github.com/CristinaHG/OCAPIS/raw/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar',
       destfile = ocapisfile, mode = 'wb'), error = function(e) e)
-    print("DRES")
-    print(dres)
-    ## create the int/java if not exist
 
-
-    ##check error
-    print(inherits(dres, 'error'))
-
-    # clean up temp files
-   # unlink(tzip)
-  #}
 
   assign.callback <- function(s) {
     s + '
