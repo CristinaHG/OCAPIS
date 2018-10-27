@@ -9,7 +9,6 @@
   path<-file.path(basepath,"java","scala-2.12")
 
  # check if dir exists
-   print(dir.exists(path))
    if (!dir.exists(path)) {
      dir.create(path, recursive = TRUE)
    }
