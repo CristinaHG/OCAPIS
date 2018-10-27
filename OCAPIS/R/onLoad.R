@@ -21,6 +21,7 @@
      dir.create(path, recursive = TRUE)
    }
 
+   if (length(dir(path)) == 0) {
     ocapisfile<-file.path(path,"ocapis.jar")
     dres <- tryCatch(download.file(
       url = 'https://github.com/CristinaHG/OCAPIS/raw/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar',
@@ -47,6 +48,18 @@
     '
   }
  scalaPackage(pkgname,assign.callback=assign.callback, JARs = file.path(path,"ocapis.jar"))
+   } else {
+     assign.callback <- function(s) {
+       s + '
+      import cristinahg.ocapis.svmop._
+      import cristinahg.ocapis.kdlor._
+      import cristinahg.ocapis.wknn._
+      import cristinahg.ocapis.MonoFSelector._
+      import cristinahg.ocapis.TSS._
+    '
+     }
+     scalaPackage(pkgname,assign.callback=assign.callback)
+  }
 }
 
 .onAttach <-function(libname,pkgname) {
