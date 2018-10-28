@@ -3,15 +3,17 @@
 #' The first time the package is loaded, it checks if the jar files
 #' are available and if not, automatically download  them from \url{https://github.com/CristinaHG/OCAPIS/blob/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar?raw=true}
 .onLoad <- function(libname, pkgname) {
-
+  s <- scala()
   ## path to the jar
   basepath <- file.path(system.file(package =pkgname))
   path<-file.path(basepath,"java","scala-2.12")
 
  # check if dir exists
+   print(dir.exists(path))
    if (!dir.exists(path)) {
      dir.create(path, recursive = TRUE)
    }
+
   # check if dir is not empty
    if (length(dir(path)) == 0) {
     ocapisfile<-file.path(path,"ocapis.jar")
@@ -20,28 +22,18 @@
       destfile = ocapisfile, mode = 'wb'), error = function(e) e)
 
 
-  assign.callback <- function(s) {
-    s + '
+    scalaJARs(file.path(path,"ocapis.jar"),s)
+
+  }
+   scalaLazy(function(s) s + '
       import cristinahg.ocapis.svmop._
       import cristinahg.ocapis.kdlor._
       import cristinahg.ocapis.wknn._
       import cristinahg.ocapis.MonoFSelector._
       import cristinahg.ocapis.TSS._
-    '
-  }
- scalaPackage(pkgname,assign.callback=assign.callback, JARs = file.path(path,"ocapis.jar"))
-   } else {
-     assign.callback <- function(s) {
-       s + '
-      import cristinahg.ocapis.svmop._
-      import cristinahg.ocapis.kdlor._
-      import cristinahg.ocapis.wknn._
-      import cristinahg.ocapis.MonoFSelector._
-      import cristinahg.ocapis.TSS._
-    '
-     }
-     scalaPackage(pkgname,assign.callback=assign.callback)
-  }
+    ')
+    # scalaPackage(pkgname,assign.callback=assign.callback)
+   assign("s",s,envir=parent.env(environment()))
 }
 
 .onAttach <-function(libname,pkgname) {
