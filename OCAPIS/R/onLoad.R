@@ -49,5 +49,5 @@
     packageStartupMessage("This is OCAPIS V.1.0.0")
 }
 .onUnload <- function(libpath) {
-  scalaPackageUnload()
+  close(s)
 }
