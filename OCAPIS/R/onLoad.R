@@ -19,7 +19,7 @@
     dres <- tryCatch(download.file(
       url = 'https://github.com/CristinaHG/OCAPIS/raw/master/OCAPIS/inst/java/scala-2.12/ocapis_source-assembly-0.1.jar',
       destfile = ocapisfile, mode = 'wb'), error = function(e) e)
-
+    
 
     scalaJARs(file.path(path,"ocapis.jar"),s)
 
