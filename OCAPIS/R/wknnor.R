@@ -11,6 +11,7 @@
 #'biweight, triweight, cosine, gauss and inversion.
 #' @param monotonicity Boolean param specifying whether data is monotone or not.
 #' @return Predicted labels for test data.
+#'
 #' @examples
 #' data("train_balance-scale")
 #' traindata=dattrain[,-ncol(dattrain)]

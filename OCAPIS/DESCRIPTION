@@ -15,7 +15,7 @@ URL: https://cristinahg.github.io/OCAPIS/
 Depends: 
     R (>= 3.3)
 Imports: 
-    rscala (>= 3.1.0),
+    rscala (>= 3.2.0),
     reticulate,
     methods,
     utils,

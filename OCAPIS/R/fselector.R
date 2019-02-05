@@ -8,7 +8,9 @@
 #' larger. If small, is understood as significantly larger.
 #' @param beta Regulation param for relative importance of MI between features and decision.
 #' @param nselected Number of features to select.
+#'
 #' @return nselected most important features.
+#'
 #' @examples
 #' data("train_balance-scale")
 #' trainlabels<-dattrain[,ncol(dattrain)]

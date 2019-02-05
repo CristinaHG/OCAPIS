@@ -8,6 +8,7 @@
 #' @param collisions Minimal rate of collisions permitted to stop the removal process.
 #' @param kEdition Maximum number of nearest neighborgs to consider.
 #' @return A reduced dataset with the selected instances and its labels.
+#'
 #' @examples
 #' data("train_balance-scale")
 #' trainlabels<-dattrain[,ncol(dattrain)]

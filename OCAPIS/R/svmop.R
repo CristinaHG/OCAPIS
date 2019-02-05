@@ -22,6 +22,7 @@ computeWeights<-function(p,tags) {
 #' @param cost numeric value indicating the cost parameter to train the SVM.
 #' @param gamma numeric value indicating the gamma parameter to train the SVM.
 #' @return A matrix of 1xn svm trained with weights models.
+#'
 #' @examples
 #' data("train_balance-scale")
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)
@@ -61,6 +62,7 @@ svmofit<-function(train,trainLabels,weights,cost,gamma){
 #' @param models A matrix of 1xN trained SVM models. Where N denotes the number of classes of the problem minus one.
 #' @param test Numeric test data without labels.
 #' @return A list containing the projected values per instance per class and the predicted values (the maximum probability for each data instance).
+#'
 #' @examples
 #' data("train_balance-scale")
 #' modelstrain<-svmofit(dattrain[,-ncol(dattrain)],dattrain[,ncol(dattrain)],TRUE,1,1)

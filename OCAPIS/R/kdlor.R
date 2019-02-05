@@ -39,6 +39,7 @@ setClass(Class="kdlorModel",
 #' thresholds is an array of doubles representing the model thresholds to be used in prediction.
 #'
 #'Each of these fields can be accesed with "@" (see section examples) below.
+#'
 #' @examples
 #' # read train data
 #' data("train_balance-scale")
