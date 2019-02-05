@@ -1,6 +1,6 @@
 # [OCAPIS](https://cristinahg.github.io/OCAPIS/) 
 
-R Package for ordinal data classification and preprocessing implementing algorithms in Scala
+Package for ordinal data classification and preprocessing implementing algorithms in Scala
 
 [![Issues](https://img.shields.io/github/issues/CristinaHG/OCAPIS.svg)](https://github.com/CristinaHG/OCAPIS/issues)
 [![license](https://img.shields.io/github/license/CristinaHG/OCAPIS.svg)](https://www.gnu.org/licenses/gpl.html)
@@ -46,7 +46,33 @@ In any other case just check the **Other ways to install Scala** section from th
 
 #### Installing Libsvm-weights
 
-Libsvm-weights-3.17 is required as it is used by SVMOP method. To install it, just follow the instructions in **Installation and Data Format** section from the README on [Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
+Libsvm-weights-3.17 is required as it is used by SVMOP method. **Please** , keep in mind that OCAPIS will look for the libsvm-weights in the following directories:
+
+##### If you are using MAC or Linux:
+
+- "/usr/lib/libsvm-weights-3.17/python"
+- "/usr/local/lib/libsvm-weights-3.17/python"
+
+##### If you are using Windows:
+
+- "C:\\Program Files (x86)/libsvm-weights-3.17/python"
+- "C:\\Program Files (x86)/libsvm-weights-3.17/python"
+
+So, just extract the downloaded libsvm-weights-3.17 folder in one of the above paths and compile it following the instructions in **Installation and Data Format** section from the README on [Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
+
+For example, as I am using Linux, I have:
+
+```
+cris@cris /usr/local/lib/libsvm-weights-3.17 $ ls
+ COPYRIGHT  heart_scale      libsvm.so.2  Makefile.win  python  README.weight  svm.def  svm.o          svm-scale.c  tools
+ FAQ.html   heart_scale.wgt  Makefile     matlab        README  svm.cpp        svm.h    svm-predict.c  svm-train.c
+```
+and inside `/python`, I have the .py files:
+
+```
+cris@cris /usr/local/lib/libsvm-weights-3.17/python $ ls
+ Makefile  README  README.weight  svm.py  svm.pyc  svmutil.py  svmutil.pyc
+```
 
 ### Installing OCAPIS
 After installing the external dependencies, the latest version of OCAPIS can be installed from GitHub via:
