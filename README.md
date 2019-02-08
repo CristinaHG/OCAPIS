@@ -58,7 +58,7 @@ Libsvm-weights-3.17 is required as it is used by SVMOP method. **Please** , keep
 - "C:\\Program Files (x86)/libsvm-weights-3.17/python"
 - "C:\\Program Files (x86)/libsvm-weights-3.17/python"
 
-So, just extract the downloaded libsvm-weights-3.17 folder in one of the above paths and compile it following the instructions in **Installation and Data Format** section from the README on [Libsvm-weights-3.17](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/weights/oldfiles/).
+So, just extract the downloaded libsvm-weights-3.17 folder in one of the above paths and compile it following the instructions in **Installation and Data Format** section from the README on [Libsvm-weights-3.17](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/weights/oldfiles/) or [Libsvm-weights-3.17 gitHub](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17/python).
 
 For example, as I am using Linux, I have:
 
