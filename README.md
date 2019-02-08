@@ -26,7 +26,7 @@ Included algorithms are:
 ## Installation
 
 ### Dependencies 
-Before installing OCAPIS you need to get Python (>=2.7), Scala(>=2.11) and libsvm-weights-3.17 installed on your system, if they are not yet.
+Before installing OCAPIS you need to get Python (> 2.7), Scala(>=2.11) and libsvm-weights-3.17 installed on your system, if they are not yet.
 
 #### Installing Python
 If using Linux, you can easily install Python from the command line, just typing:
@@ -58,7 +58,7 @@ Libsvm-weights-3.17 is required as it is used by SVMOP method. **Please** , keep
 - "C:\\Program Files (x86)/libsvm-weights-3.17/python"
 - "C:\\Program Files (x86)/libsvm-weights-3.17/python"
 
-So, just extract the downloaded libsvm-weights-3.17 folder in one of the above paths and compile it following the instructions in **Installation and Data Format** section from the README on [Libsvm-weights](https://github.com/claesenm/EnsembleSVM/tree/master/libsvm-weights-3.17).
+So, just extract the downloaded libsvm-weights-3.17 folder in one of the above paths and compile it following the instructions in **Installation and Data Format** section from the README on [Libsvm-weights-3.17](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/weights/oldfiles/).
 
 For example, as I am using Linux, I have:
 
