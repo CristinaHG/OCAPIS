@@ -1,4 +1,4 @@
-# [OCAPIS](https://cristinahg.github.io/OCAPIS/) 
+# [OCAPIS](https://cristinahg.github.io/OCAPIS/) [DEPRECATED]
 
 Package for ordinal data classification and preprocessing implementing algorithms in Scala
 
